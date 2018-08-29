@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper nav">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					分类中心
+				</div>
+				<div class="head-tab">
+					立即进入
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main">
+				<div class="mynav">
+					<div class="nav-tab" v-for='(val,index) in navtext' :class="navindex==index?'active':''" @click="tab(index)">
+						<div class="nav-text">{{val}}</div>
+						<div class="nav-circle"></div>
+					</div>
+				</div>
+				<div class="subnav">
+					<div class="subnav-item"  :class="subindex==0?'active':''">大衣外套</div>
+					<div class="subnav-item">上衣</div>
+					<div class="subnav-item">童装</div>
+					<div class="subnav-item">配饰</div>
+				</div>
+				<div class="shop-box">
+					<div class="shop" @click="opennew('shop-detail')">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+					<div class="shop">
+						<div class="img-box">
+							<img src="img/shop.jpg"/>
+						</div>
+						<div class="price-box">
+							<div class="name">羊毛衫</div>
+							<div class="price">￥16</div>
+						</div>
+						<div class="add-box">
+							<img src="img/Close-2 Copy 9@2x.png"/>
+							<div class="num">1</div>
+							<img src="img/Close-2 Copy 6@2x.png"/>
+						</div>
+					</div>
+				</div>
+				<div class="cart-alert" v-if="alertboo" @click="alertshow">
+					<div class="cart-inner">
+						<div class="cart-top">
+							<div class="text">清空洗衣篮</div>
+						</div>
+						<div class="cart">
+							<div class="cart-name">羊毛衫</div>
+							<div class="cart-num">￥16</div>
+							<div class="cart-setting">
+								<img src="img/Close-2 Copy 9@2x.png"/>
+								<div>1</div>
+								<img src="img/Close-2 Copy 6@2x.png"/>
+							</div>
+						</div>
+						<div class="cart">
+							<div class="cart-name">羊毛衫</div>
+							<div class="cart-num">￥16</div>
+							<div class="cart-setting">
+								<img src="img/Close-2 Copy 9@2x.png"/>
+								<div>1</div>
+								<img src="img/Close-2 Copy 6@2x.png"/>
+							</div>
+						</div>
+						<div class="cart">
+							<div class="cart-name">羊毛衫</div>
+							<div class="cart-num">￥16</div>
+							<div class="cart-setting">
+								<img src="img/Close-2 Copy 9@2x.png"/>
+								<div>1</div>
+								<img src="img/Close-2 Copy 6@2x.png"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="nav-left" @click="alertshow">
+					<img src="img/Basket@2x.png"/>
+					<div class="bprice">合计:￥60</div>
+				</div>
+				<div class="nav-right">
+					去结算
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					navtext:[
+						'上衣',
+						'裤裙',
+						'鞋类',
+						'家纺',
+						'包包'
+					],
+					navindex:0,
+					subindex:0,
+					alertboo:false
+				},
+				methods:{
+					tab:function(index){
+						this.navindex=index
+					},
+					alertshow:function(){
+						this.alertboo=!this.alertboo
+					},
+					opennew:function(target){
+						window.location.href='./shop-detail.html'
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

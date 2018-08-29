@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper dcart">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					豆豆卡
+				</div>
+				<a class="head-tab" href="dcartdetail.html">
+					明细
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="dcart-top">
+					<div class="subtitile">余额</div>
+					<div class="price">￥138</div>
+				</div>
+				<div class="title">请选择充值金额</div>
+				<div class="box">
+					<div class="box-tab" :class="priceindex==1?'active':''" @click="pricechange(1)">
+						<div class="price">充100元</div>
+						<div class="subprice">赠送100积分</div>
+					</div>
+					<div class="box-tab" :class="priceindex==2?'active':''" @click="pricechange(2)">
+						<div class="price">充200元</div>
+						<div class="subprice">赠送200积分</div>
+					</div>
+					<div class="box-tab" :class="priceindex==3?'active':''" @click="pricechange(3)">
+						<div class="price">充300元</div>
+						<div class="subprice">赠送300积分</div>
+					</div>
+					<div class="box-tab" :class="priceindex==4?'active':''" @click="pricechange(4)">
+						<div class="price">充400元</div>
+						<div class="subprice">赠送400积分</div>
+					</div>
+					<div class="box-tab" :class="priceindex==5?'active':''" @click="pricechange(5)">
+						<div class="price">充500元</div>
+						<div class="subprice">赠送500积分</div>
+					</div>
+					<div class="box-tab" :class="priceindex==6?'active':''" @click="pricechange(6)">
+						<div class="price">充600元</div>
+						<div class="subprice">赠送600积分</div>
+					</div>
+				</div>
+				<div class="title">请选择充值方式</div>
+				<div class="box box02">
+					<div class="box-tab box-tab02" :class="zndex==1?'active':''" @click="zchange(1)">
+						<img src="img/apay.png"/>
+						<div class="ztext">支付宝</div>
+					</div>
+					<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
+						<img src="img/wpay.png"/>
+						<div class="ztext">微信</div>
+					</div>
+				</div>
+				<div class="bottom-grey">
+					<div class="ctext">
+						充值即阅读并同意  <span>《充值服务协议》</span> 
+					</div>
+					<div class="pay">充值</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					priceindex:1,
+					zndex:1
+				},
+				methods:{
+					pricechange:function(index){
+						this.priceindex=index
+					},
+					zchange:function(index){
+						this.zndex=index
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

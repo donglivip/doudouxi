@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper plogin wlogin">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					找回密码
+				</div>
+				<div class="head-tab">
+					
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="main-inner">
+					<div class="input-box">
+						<input type="number" placeholder="请输入手机号"/>
+						<div class="addcode" @click="addcode">{{num}}</div>
+					</div>
+					<div class="input-box">
+						<input type="number" placeholder="请输入短信验证码"/>
+					</div>
+					<div class="input-box">
+						<input :type="ptype" placeholder="请输入新密码"/>
+						<img src="img/number (1).png" @click="changetype('text')" v-if="ptype=='password'"/>
+						<img src="img/number (2).png" @click="changetype('password')" v-if="ptype=='text'"/>
+					</div>
+					<div class="login">登录</div>
+					<div class="login-type">
+						<a href="plogin.html">手机号快捷登录</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					num:'获取验证码',
+					ptype:'password'
+				},
+				methods:{
+					addcode:function(){
+						var set
+							that=this;
+						if(this.num=='获取验证码'){
+							this.num=60
+							set=setInterval(function(){
+								if(that.num!=1){
+									that.num--
+								}else{
+									clearInterval(set)
+									that.num='获取验证码'
+								}
+							},1000)
+						}
+					},
+					changetype:function(text){
+						this.ptype=text
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

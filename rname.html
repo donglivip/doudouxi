@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper rname">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					认证中心
+				</div>
+				<a class="head-tab" href="newcenter.html">
+					
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main">
+				<div class="input-box">
+					<label for="uname">支付宝账号</label>
+					<input type="text" placeholder="请输入支付宝账号" id="uname" name="uname"/>
+				</div>
+				<div class="input-box">
+					<label for="uname">密码</label>
+					<input type="text" placeholder="请输入密码" id="uname" name="uname"/>
+				</div>
+				<div class="submit" @click="alertshow">
+					提交
+				</div>
+				<div class="alert" v-show="alertboo" @click="alertshow">
+					<div class="alert-inner">
+						<img src="img/Close-2 Copy 2@2x.png"/>
+						<div class="text">提交失败</div>
+						<div class="button">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					alertboo:false
+				},
+				methods:{
+					alertshow:function(){
+						this.alertboo=!this.alertboo
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

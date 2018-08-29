@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://webapi.amap.com/maps?v=1.4.8&key=68aa6ce0aa3da10b36c6baed4fb2bc7a"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper index">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="choiceorde.html">
+					<img src="img/index01.png"/>
+				</a>
+				<div class="head-main">
+					豆豆洗
+				</div>
+				<a class="head-tab" href="newcenter.html">
+					<img src="img/index02.png"/>
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main">
+				<div id="container"></div>
+				<div class="lately" v-show='!informbooo' @click="informshow(1)">最近云柜</div>
+				<div class="inform-inner" v-show='informbooo' @click="informshow">
+					<div class="inform">
+						<div class="title">李想家的豆豆{{gid}}号柜</div>
+						<div class="range">距您350米</div>
+						<div class="range">徐州市鼓楼区徐海路6号</div>
+						<div class="star-box">
+							<div class="star">
+								<img src="img/Group 5@2x.png"/>
+								<img src="img/Group 5@2x.png"/>
+								<img src="img/Group 5@2x.png"/>
+								<img src="img/Group 5@2x.png"/>
+								<img src="img/Group 6@2x.png"/>
+							</div>
+							<div class="join" @click="opennew('nav',001)">立即进入</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--底部-->
+			<div class="bottom">
+				<a class="bottom-tab">
+					<img src="img/bottom01-active.png"/>
+					<div class="bottom-text active">
+						首页
+					</div>
+				</a>
+				<a class="bottom-tab" href="order.html">
+					<img src="img/bottom02.png"/>
+					<div class="bottom-text">
+						订单
+					</div>
+				</a>
+				<a class="bottom-tab" href="usercenter.html">
+					<img src="img/bottom03.png"/>
+					<div class="bottom-text">
+						我的
+					</div>
+				</a>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:".wrapper",
+				data:{
+					map:'',
+					informbooo:false,
+					gid:''
+				},
+				mounted:function(){
+					var that=this
+//					// 扩展API加载完毕后调用onPlusReady回调函数 
+//					document.addEventListener('plusready', onPlusReady, false);
+//					// 扩展API加载完毕，现在可以正常调用扩展API
+//					function onPlusReady(){
+//						plus.geolocation.getCurrentPosition(function(p){
+//							that.mapinit(p.coords.latitude,p.coords.longitude)
+//						}, function(e){
+//							alert('Geolocation error: ' + e.message);
+//						} );
+//					}
+					that.mapinit(117.271321,34.269361)
+				},
+				methods:{
+					opennew:function(target){
+						window.location.href='./'+target+'.html'
+					},
+					informshow:function(){
+						this.informbooo=!this.informbooo
+					},
+					mapinit:function(lat,lng){
+						var that=this
+						this.map = new AMap.Map('container', {
+							resizeEnable: true,
+						    rotateEnable:true,
+						    pitchEnable:true,
+						    zoom: 17,
+						    pitch:50,
+						    rotation:-15,
+						    viewMode:'3D',
+						    buildingAnimation:true,
+						    center:[lat,lng],
+					        layers:[
+					            new AMap.TileLayer({}),
+					            new AMap.Buildings({zIndex:100,merge:false,sort:false,zooms:[17,20]})
+					        ]
+						});
+						//添加点标记，并使用自己的icon
+					    var marker=new AMap.Marker({
+					        map: that.map,
+							position: [lat,lng],
+					        icon: new AMap.Icon({            
+					            size: new AMap.Size(27, 33),
+					            image: "./img/pin copy.png",
+					        })        
+					    });
+					    this.addmarker(117.271461,34.268561,01)
+					    this.addmarker(117.273602,34.270144,02)
+					    this.addmarker(117.270003,34.26897,03)
+					    this.addmarker(117.271553,34.270357,04)
+					    this.addmarker(117.273002,34.27225,05)
+					},
+					addmarker:function(lat,lng,id){
+						var that=this
+						var marker = new AMap.Marker({
+						    position: new AMap.LngLat(lat,lng),
+						    offset: new AMap.Pixel(-10, -10),
+						    icon: './img/Group.png', // 添加 Icon 图标 URL
+						    title: id
+						});
+						this.map.add(marker);
+						marker.on('click',function(MapsEvent){
+							that.gid=marker.getTitle()
+							that.informshow()
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

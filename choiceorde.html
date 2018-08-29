@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper order">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					选择订单
+				</div>
+				<div class="head-tab">
+					
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="order-main" style="height: calc(100% - .2rem);">
+					<div class="order-box">
+						<img src="./img/list03.png"/>
+						<div class="order-right">
+							<div class="order-title">
+								<div class="order-h1">
+									订单编号：3756021
+								</div>
+								<div class="order-state">待存衣</div>
+							</div>
+							<div class="order-bottom">
+								<div class="bottom-left">
+									<div class="order-time">下单时间：2018-07-18 16:50</div>
+									<div class="order-price">订单价格：￥30.00</div>
+								</div>
+								<div class="bottom-right" @click="opennew()">
+									扫码开箱
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="order-box">
+						<img src="./img/list03.png"/>
+						<div class="order-right">
+							<div class="order-title">
+								<div class="order-h1">
+									订单编号：3756021
+								</div>
+								<div class="order-state">待取衣</div>
+							</div>
+							<div class="order-bottom">
+								<div class="bottom-left">
+									<div class="order-time">下单时间：2018-07-18 16:50</div>
+									<div class="order-price">订单价格：￥30.00</div>
+								</div>
+								<a class="bottom-right" href="saoyisao.html">
+									扫码开箱
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+
+				},
+				methods:{
+					opennew:function(id){
+						plus.webview.open('./saoyisao.html');
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

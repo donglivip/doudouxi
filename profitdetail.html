@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper order dcartdetail">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					收益明细
+				</div>
+				<div class="head-tab">
+					
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<!--名单筛选-->
+				<div class="order-nav" @click="navshow(typetext)">
+					<div class="nav-text">{{typetext}}</div>
+					<img src="img/Arrow_right@2x.png"/>
+				</div>
+				<div class="order-alert" v-show="navboo" @click.stop="navshow(typetext,navid)">
+					<div class="nav-tab" @click.stop="navshow(val.text,val.id)" v-for="val in navbox">
+						<div>{{val.text}}</div>
+						<img src="img/Check@2x.png" v-show="navid==val.id"/>
+					</div>
+				</div>
+				<div class="order-main">
+					<div class="order-box">
+						<div class="order-right">
+							<div class="order-title">
+								<div class="order-h1">
+									提现
+								</div>
+								<div class="order-state">-1277</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">余额:￥30.00</div>
+								<div class="order-time">2018-07-18</div>
+							</div>
+						</div>
+					</div>
+					<div class="order-box">
+						<div class="order-right">
+							<div class="order-title">
+								<div class="order-h1">
+									充值
+								</div>
+								<div class="order-state">+1277</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">余额:￥30.00</div>
+								<div class="order-time">2018-07-18</div>
+							</div>
+						</div>
+					</div>
+					<div class="order-box">
+						<div class="order-right">
+							<div class="order-title">
+								<div class="order-h1">
+									洗涤消费
+								</div>
+								<div class="order-state">-1277</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">余额:￥30.00</div>
+								<div class="order-time">2018-07-18</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					navboo:false,
+					typetext:'按时间排序',
+					navbox:[
+						{
+							'text':'按时间排序',
+							'id':01
+						},
+						{
+							'text':'按金额排序',
+							'id':02
+						},
+						{
+							'text':'按类型排序',
+							'id':03
+						}
+					],
+					navid:01
+				},
+				methods:{
+					navshow:function(text,id){
+						this.typetext=text
+						this.navid=id
+						this.navboo=!this.navboo
+					},
+					opennew:function(type){
+						if(type=='q'){
+							window.location.href='./havetype.html'
+						}else{
+							
+						}
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

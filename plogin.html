@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper plogin">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					登录
+				</div>
+				<div class="head-tab">
+					
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="main-inner">
+					<div class="titile">手机快捷登录 </div>
+					<div class="subtitle">未注册的手机号将自动创建豆豆洗账号 </div>
+					<div class="input-box">
+						<input type="number" placeholder="请输入手机号"/>
+						<div class="addcode" @click="addcode">{{num}}</div>
+					</div>
+					<div class="input-box">
+						<input type="number" placeholder="请输入短信验证码"/>
+					</div>
+					<div class="login">登录</div>
+					<div class="login-type">
+						<a href="mlogin.html">密码账户登录</a>
+					</div>
+					<div class="three">
+						<div class="thre-title">第三方登录 </div>
+						<div class="three-box">
+							<a href=""><img src="img/QQ@2x.png"/></a>
+							<a href=""><img src="img/QQ@2x.png"/></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					num:'获取验证码'
+				},
+				methods:{
+					addcode:function(){
+						var set
+							that=this;
+						if(this.num=='获取验证码'){
+							this.num=60
+							set=setInterval(function(){
+								if(that.num!=1){
+									that.num--
+								}else{
+									clearInterval(set)
+									that.num='获取验证码'
+								}
+							},1000)
+						}
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>
