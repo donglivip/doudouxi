@@ -59,7 +59,7 @@ input{border: 0;}
 .usercenter .name-box{flex: 1;display: flex;flex-direction: column;justify-content: space-between;height: 1.3rem;z-index: 66;}
 .usercenter .name{font-size: .4rem;margin-top: .15rem;}
 .usercenter .state-box{display: flex;justify-content: space-between;}
-.usercenter .state{background: #096148;border-radius: .5rem;padding: .1rem .3rem;font-size: .23rem;margin-right: .2rem;color: #FFFFFF;}
+.usercenter .state{background: #096148;border-radius: .5rem;padding: .1rem .3rem;font-size: .23rem;margin-right: .2rem;color: #FFFFFF;align-items: center;}
 .usercenter .backimg{position: absolute;top: 0;left: 0;width: 100%;filter: blur(20px);}
 .usercenter .nav{background: #FFFFFF;width: calc(100% - .4rem);height: 1.3rem;border-radius: .2rem;display: flex;margin: -.5rem auto .2rem;z-index: 66;position: relative;font-size: .2rem;}
 .usercenter .nav-tab{display: flex;flex-direction: column;align-items: center;flex: 1;}
