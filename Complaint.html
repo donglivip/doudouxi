@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper profit backorder">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					退单
+				</div>
+				<a class="head-tab" href="javascript:void(0)">
+					
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="backorder-box">
+					<div class="backorder-top bbottom">
+						订单编号：46552
+					</div>
+					<div class="backorder-top">
+						退单原因
+					</div>
+					<div class="question-box">
+						<div :class="myindex==index?'active':''" v-for="(val,index) in mynav" @click="typechange(index)">{{val.text}}</div>
+					</div>
+					<textarea placeholder="请输入退单原因" v-if="myindex==mynav.length-1"></textarea>
+					<div class="backorder-top bbottom">
+						上传图片
+					</div>
+					<div class="img-box">
+						<img src="img/upload.png"/>
+					</div>
+				</div>
+				<a class="withdraw" href="javascript:void(0)">提交</a>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					myindex:0,
+					mynav:[
+						{
+							text:'下单错误',
+							id:0
+						},{
+							text:'地址选错了',
+							id:1
+						},{
+							text:'联系人信息错误',
+							id:2
+						},{
+							text:'我不洗了',
+							id:3
+						},{
+							text:'选错分类了',
+							id:4
+						},{
+							text:'其他',
+							id:5
+						}
+					]
+				},
+				methods:{
+					typechange:function(index){
+						this.myindex=index
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -9,14 +9,14 @@
 		<title></title>
 	</head>
 	<body>
-		<div class="wrapper new neworder">
+		<div class="wrapper havetype">
 			<!--头部-->
 			<div class="header">
 				<a class="head-tab" href="javascript:history.back()">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</a>
 				<div class="head-main">
-					订单状态
+					存衣方式
 				</div>
 				<a class="head-tab" href="javascript:void(0)">
 					
@@ -24,46 +24,45 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
-						</div>
-						<div class="text">您的订单366497 已成功存衣， 取送员即将把您的衣物送至洗涤店。</div>
+				<div class="inner">
+					<div class="havetype-title">
+						一、扫描屏幕二维码开箱
 					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
-						</div>
-						<div class="text">您的订单366497 已成功存衣， 取送员即将把您的衣物送至洗涤店。</div>
+					<img src="img/ewma.png"/>
+					<div class="havetype-title" style="border-top: 1px solid #F4F4F4;">
+						二、输入存衣码进行开箱
 					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
-						</div>
-						<div class="text">您的订单366497 已超时，暂无空箱， 请等待空箱或取消订单。</div>
+					<div class="havetype-title">
+						<div class="left">您的存衣码：</div>
+						<div class="num">964578</div>
+						<div class="clone" data-clipboard-action="copy" data-clipboard-target=".num">复制存衣码</div>
+					</div>
+					<div class="havetype-title">
+						存衣码有效期是24小时，请您尽快使用
 					</div>
 				</div>
 			</div>
 		</div>
+		<script src="js/clipboard.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					
+
 				},
 				methods:{
 					
 				},
 				mounted:function(){
-					
+					var clipboard = new ClipboardJS('.clone');
+				    clipboard.on('success', function(e) {
+				        console.log(e);
+				        plus.nativeUI.toast('已复制到剪切板')
+				    });
+				
+				    clipboard.on('error', function(e) {
+				        console.log(e);
+				    });
 				}
 			})
 		</script>

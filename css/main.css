@@ -14,7 +14,7 @@ body,html,.wrapper{width: 100%;height: 100%;position: relative;overflow: hidden;
 .big-main{height: calc(100% - .8rem);}
 .header .back{width: .16rem;float: left;}
 .alert{width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: rgba(0,0,0,.5);display: flex;align-items: center;justify-content: center;}
-.alert .alert-inner{background: #FFFFFF;width: 5rem;height: 3.5rem;border-radius: .5rem;overflow: hidden;}
+.alert .alert-inner{background: #FFFFFF;width: 5rem;height: 3.5rem;border-radius: .2rem;overflow: hidden;}
 .alert .button{background: #096148;color: #FFFFFF;height: 1rem;display: flex;align-items: center;justify-content: center;font-size: .3rem;}
 .alert img{width: 1rem;height: 1rem;margin: .6rem auto 0;display: block;}
 .alert .text{color: #096148;font-size: .3rem;margin: .2rem auto .4rem;text-align: center;}
@@ -231,3 +231,68 @@ input{border: 0;}
 .share .share-top{height: 4rem;width: 100%;background: #FFFFFF;display: flex;align-items: center;justify-content: center;flex-direction: column;margin-bottom: .2rem;}
 .share .share-top img{height: 2.5rem;margin: .2rem 0;}
 .share .share-top p{font-size: .2rem;}
+/*分享明细*/
+.sharedetail .order-bottom{height: .4rem;}
+.sharedetail .sharedetail-top{height: 1.5rem;display: flex;align-items: center;justify-content: space-around;background: #FFFFFF;margin-bottom: .2rem;}
+.sharedetail .sharedetail-item{display: flex;flex-direction: column;align-items: center;justify-content: center;}
+.sharedetail .order-main{height: calc(100% - 2.3rem);margin: 0;border-top: 1px solid #F4F4F4;}
+.sharedetail p:first-of-type{font-size: .26rem;margin-bottom: .1rem;font-weight: 600;}
+.sharedetail .order-alert{top: 3.3rem!important;}
+/*挖宝*/
+.luck .luck-top{background: #9FB62E;color: #FFFFFF;width: 100%;height: 8rem;overflow: hidden;}
+.luck .gonggao{margin: .2rem .3rem;background: rgba(0,0,0,.6);color: #FFFFFF;border-radius: .3rem;height: .5rem;display: flex;align-items: center;overflow: hidden;}
+.luck .gonggao img{width: .3rem;margin: 0 .2rem;}
+.luck .luck-box{background: #FFFFFF;width:.7rem;height: .7rem;border-radius: .1rem;display: flex;align-items: center;justify-content: center;font-size: .2rem;margin: .1rem;color: #4F220A;text-align: center;}
+.luck .luck-main{display: flex;align-items: center;justify-content: center;}
+.luck .luck-middle img{width: 3rem;margin: 1rem 0 .5rem;}
+.luck .luckm-top{display: flex;}
+.luck .luck-middle{height: 6.5rem;display: flex;flex-direction: column;justify-content: space-between;align-items: center;}
+.luck .price{color: #4F220A;font-size: .25rem;}
+.luck .go{border: 5px solid #4F220A;width: 1.5rem;height: 1.5rem;border-radius: .1rem;background: #FEB922;color: #4F220A;display: flex;align-items: center;justify-content: center;flex-direction: column;margin: .2rem 0 .3rem;}
+.luck .go p:first-of-type{font-size: .3rem;margin-bottom: .1rem;}
+.luck .active{background: #FEB922;color: #4F220A;border: 2px solid #4F220A;box-sizing: border-box;}
+.luck h2{font-size: .26rem;margin: .3rem .2rem .2rem;}
+.luck li{margin: .1rem .3rem;list-style-type:decimal-leading-zero ; list-style-position:inside;}
+/*我的奖品*/
+.myluck .input-box{justify-content: space-between;}
+.myluck .input-box div{margin-right: .3rem;}
+.myluck img{width: .4rem;margin-right: .15rem;}
+/*取衣方式*/
+.havetype .havetype-title{display: flex;align-items: center;height: .6rem;margin: 0 .3rem;}
+.havetype img{width: 3.5rem;margin: .3rem auto;display: block;}
+.havetype .left{flex: 1;}
+.havetype .clone{border: 1px solid #096148;color: #096148;border-radius: .2rem;padding: .1rem .2rem;font-size: .2rem;margin-left: .2rem;}
+.havetype{background: #F4F4F4;}
+.havetype .inner{background: #FFFFFF;}
+/*订单详情*/
+.orderdetail{background: #F4F4F4;}
+.orderdetail .help-item{background: #FFFFFF;}
+.orderdetail .red{color: red!important;}
+.orderdetail .shop-main{height: 4.4rem;overflow: hidden;position: relative;background: #FFFFFF;}
+.orderdetail .shop-item{display: flex;align-items: center;height: 1.3rem;background: #FFFFFF;}
+.orderdetail .shop-item img{width: .9rem;height: .9rem;margin: 0 .25rem;}
+.orderdetail .name-box{height: .6rem;display: flex;flex-direction: column;justify-content: space-between;flex: 1;}
+.orderdetail .num-box{display: flex;justify-content: space-between;}
+.orderdetail .num{color: #999999;}
+.orderdetail .price{font-size: .3rem;margin-right: .25rem;}
+.orderdetail .shop-main{border-bottom: 1px solid #F4F4F4;}
+.orderdetail .more{height: .5rem;display: flex;align-items: center;justify-content: center;position: absolute;bottom: 0;left: 0;width: 100%;background: #FFFFFF;}
+.orderdetail .more img{width: .25rem;height: .25rem;margin-left: .1rem;}
+.orderdetail .active{height: auto;padding-bottom: .3rem;}
+.orderdetail .line{text-decoration: line-through;font-size: .2rem;color: #999999;}
+.orderdetail .hji{color: #333333!important;font-size: .26rem;}
+.orderdetail .detailtop{margin-top: .2rem;border-bottom: 1px solid #F4F4F4;font-weight: 600;}
+.orderdetail .inner div{margin: 0 .3rem;}
+.orderdetail textarea{width: calc(100% - .6rem);height: 1rem;margin: .3rem auto;border: 1px solid #999999;color: #999999;border-radius: .1rem;padding: .1rem;}
+.orderdetail .btn{border: 1px solid #999999;color: #999999;border-radius: .3rem;padding: .1rem .3rem;margin:0 .1rem;font-size: .25rem;line-height: .25rem;}
+.orderdetail  .bleft{flex: 1;display: flex;}
+/*退单*/
+.backorder .backorder-box{background: #FFFFFF;padding-bottom: .3rem;margin-bottom:1rem;}
+.backorder .backorder-top{display: flex;align-items: center;height: .8rem;text-indent: .25rem;}
+.backorder .bbottom{border-bottom: 1px solid #F4F4F4;}
+.backorder .question-box{display: flex;flex-wrap: wrap;margin: 0 .2rem;}
+.backorder .question-box div{border: 1px solid gainsboro;border-radius: .3rem;padding: .1rem .3rem;color: gainsboro;margin: .2rem .1rem;}
+.backorder .question-box .active{border: 1px solid #096148;color: #096148;}
+.backorder textarea{border: 1px solid #096148;color: #096148;margin: .3rem;padding: .1rem;height: .9rem;border-radius: .1rem;width: calc(100% - .8rem);}
+.backorder .img-box{width: 1.2rem;height: 1.2rem;border-radius: .1rem;display: flex;align-items: center;justify-content: center;border: 1px solid #8a8a8a;margin: .2rem;}
+.backorder .img-box img{width: .7rem;height: .7rem;}

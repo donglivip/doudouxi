@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="order-main">
-					<div class="order-box">
+					<div class="order-box" @click="opennew('d')">
 						<img src="./img/list03.png"/>
 						<div class="order-right">
 							<div class="order-title">
@@ -50,13 +50,13 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<div class="bottom-right" @click="opennew('c')">
+								<div class="bottom-right" @click.stop="opennew('c')">
 									查看存衣码
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="order-box">
+					<div class="order-box" @click="opennew('d')">
 						<img src="./img/list03.png"/>
 						<div class="order-right">
 							<div class="order-title">
@@ -70,7 +70,7 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<div class="bottom-right" @click="opennew('q')">
+								<div class="bottom-right" @click.stop="opennew('q')">
 									查看取衣码
 								</div>
 							</div>
@@ -160,8 +160,10 @@
 					opennew:function(type){
 						if(type=='q'){
 							window.location.href='./havetype.html'
+						}else if(type=='c'){
+							window.location.href='./givetype.html'
 						}else{
-							
+							window.location.href='./orderdetail.html'
 						}
 						
 					}

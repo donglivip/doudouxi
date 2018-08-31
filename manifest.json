@@ -150,7 +150,8 @@
 			"order.html": {
 				"resources": [],
 				"refer": [
-					"index.html"
+					"index.html",
+					"havetype.html"
 				],
 				"priority": 0
 			},
@@ -166,6 +167,13 @@
 				"resources": [],
 				"refer": [
 					"choiceorde.html"
+				],
+				"priority": 0
+			},
+			"havetype.html": {
+				"resources": [],
+				"refer": [
+					"order.html"
 				],
 				"priority": 0
 			}

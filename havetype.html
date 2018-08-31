@@ -9,7 +9,7 @@
 		<title></title>
 	</head>
 	<body>
-		<div class="wrapper order">
+		<div class="wrapper havetype">
 			<!--头部-->
 			<div class="header">
 				<a class="head-tab" href="javascript:history.back()">
@@ -18,15 +18,32 @@
 				<div class="head-main">
 					取衣方式
 				</div>
-				<div class="head-tab">
+				<a class="head-tab" href="javascript:void(0)">
 					
-				</div>
+				</a>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-
+				<div class="inner">
+					<div class="havetype-title">
+						一、扫描屏幕二维码开箱
+					</div>
+					<img src="img/ewma.png"/>
+					<div class="havetype-title" style="border-top: 1px solid #F4F4F4;">
+						二、输入取衣码进行开箱
+					</div>
+					<div class="havetype-title">
+						<div class="left">您的取衣码：</div>
+						<div class="num">964578</div>
+						<div class="clone" data-clipboard-action="copy" data-clipboard-target=".num">复制取衣码</div>
+					</div>
+					<div class="havetype-title">
+						取衣码有效期是24小时，请您尽快使用
+					</div>
+				</div>
 			</div>
 		</div>
+		<script src="js/clipboard.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -37,7 +54,15 @@
 					
 				},
 				mounted:function(){
-					
+					var clipboard = new ClipboardJS('.clone');
+				    clipboard.on('success', function(e) {
+				        console.log(e);
+				        plus.nativeUI.toast('已复制到剪切板')
+				    });
+				
+				    clipboard.on('error', function(e) {
+				        console.log(e);
+				    });
 				}
 			})
 		</script>

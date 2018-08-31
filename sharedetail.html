@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper order dcartdetail">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</a>
+				<div class="head-main">
+					分享明细
+				</div>
+				<a class="head-tab" href="javascript:void(0)">
+					
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main sharedetail">
+				<div class="sharedetail-top">
+					<div class="sharedetail-item">
+						<p>成功推荐人数</p>
+						<p>30</p>
+					</div>
+					<div class="sharedetail-item">
+						<p>好友消费人数</p>
+						<p>20</p>
+					</div>
+					<div class="sharedetail-item">
+						<p>奖励总金额</p>
+						<p>￥200</p>
+					</div>
+				</div>
+				<!--名单筛选-->
+				<div class="order-nav" @click="navshow(typetext)">
+					<div class="nav-text">{{typetext}}</div>
+					<img src="img/Arrow_right@2x.png"/>
+				</div>
+				<div class="order-alert" v-show="navboo" @click.stop="navshow(typetext,navid)">
+					<div class="nav-tab" @click.stop="navshow(val.text,val.id)" v-for="val in navbox">
+						<div>{{val.text}}</div>
+						<img src="img/Check@2x.png" v-show="navid==val.id"/>
+					</div>
+				</div>
+				<div class="order-main">
+					<div class="order-box">
+						<div class="order-right">
+							<div class="order-bottom">
+								<div class="order-price">受邀好友</div>
+								<div class="order-time">李豆豆</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">好友状态</div>
+								<div class="order-time">已消费</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">推荐奖励金额</div>
+								<div class="order-time">￥30</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">推荐时间</div>
+								<div class="order-time">2018-07-25</div>
+							</div>
+						</div>
+					</div>
+					<div class="order-box">
+						<div class="order-right">
+							<div class="order-bottom">
+								<div class="order-price">受邀好友</div>
+								<div class="order-time">李豆豆</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">好友状态</div>
+								<div class="order-time">已消费</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">推荐奖励金额</div>
+								<div class="order-time">￥30</div>
+							</div>
+							<div class="order-bottom">
+								<div class="order-price">推荐时间</div>
+								<div class="order-time">2018-07-25</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+					navboo:false,
+					typetext:'按时间排序',
+					navbox:[
+						{
+							'text':'按时间排序',
+							'id':01
+						},
+						{
+							'text':'按金额排序',
+							'id':02
+						},
+						{
+							'text':'按类型排序',
+							'id':03
+						}
+					],
+					navid:01
+				},
+				methods:{
+					navshow:function(text,id){
+						this.typetext=text
+						this.navid=id
+						this.navboo=!this.navboo
+					},
+					opennew:function(type){
+						if(type=='q'){
+							window.location.href='./havetype.html'
+						}else{
+							
+						}
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>
