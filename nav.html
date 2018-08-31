@@ -262,7 +262,7 @@
 					<img src="img/Basket@2x.png"/>
 					<div class="bprice">合计:￥60</div>
 				</div>
-				<div class="nav-right">
+				<div class="nav-right" @click="pay">
 					去结算
 				</div>
 			</div>
@@ -291,6 +291,9 @@
 					},
 					opennew:function(target){
 						window.location.href='./shop-detail.html'
+					},
+					pay:function(){
+						window.location.href='./pay.html'
 					}
 				},
 				mounted:function(){
