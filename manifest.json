@@ -143,7 +143,8 @@
 				"refer": [
 					"order.html",
 					"choiceorde.html",
-					"nav.html"
+					"nav.html",
+					"usercenter.html"
 				],
 				"priority": 0
 			},
@@ -151,7 +152,8 @@
 				"resources": [],
 				"refer": [
 					"index.html",
-					"havetype.html"
+					"havetype.html",
+					"usercenter.html"
 				],
 				"priority": 0
 			},
@@ -171,6 +173,13 @@
 				"priority": 0
 			},
 			"havetype.html": {
+				"resources": [],
+				"refer": [
+					"order.html"
+				],
+				"priority": 0
+			},
+			"usercenter.html": {
 				"resources": [],
 				"refer": [
 					"order.html"

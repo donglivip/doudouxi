@@ -1,31 +1,38 @@
 {
-  "index.html": {
-    "refer": [
-      "order.html",
-      "choiceorde.html",
-      "nav.html"
-    ]
-  },
-  "order.html": {
-    "refer": [
-      "index.html",
-      "havetype.html"
-    ]
-  },
-  "choiceorde.html": {
-    "refer": [
-      "saoyisao.html",
-      "index.html"
-    ]
-  },
-  "saoyisao.html": {
-    "refer": [
-      "choiceorde.html"
-    ]
-  },
-  "havetype.html": {
-    "refer": [
-      "order.html"
-    ]
-  }
+	"index.html": {
+		"refer": [
+			"order.html",
+			"choiceorde.html",
+			"nav.html",
+			"usercenter.html"
+		]
+	},
+	"order.html": {
+		"refer": [
+			"index.html",
+			"havetype.html",
+			"usercenter.html"
+		]
+	},
+	"choiceorde.html": {
+		"refer": [
+			"saoyisao.html",
+			"index.html"
+		]
+	},
+	"saoyisao.html": {
+		"refer": [
+			"choiceorde.html"
+		]
+	},
+	"havetype.html": {
+		"refer": [
+			"order.html"
+		]
+	},
+	"usercenter.html": {
+		"refer": [
+			"order.html"
+		]
+	}
 }
