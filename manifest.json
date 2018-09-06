@@ -144,7 +144,8 @@
 					"order.html",
 					"choiceorde.html",
 					"nav.html",
-					"usercenter.html"
+					"usercenter.html",
+					"newcenter.html"
 				],
 				"priority": 0
 			},
@@ -153,7 +154,9 @@
 				"refer": [
 					"index.html",
 					"havetype.html",
-					"usercenter.html"
+					"usercenter.html",
+					"orderdetail.html",
+					"givetype.html"
 				],
 				"priority": 0
 			},
@@ -182,7 +185,113 @@
 			"usercenter.html": {
 				"resources": [],
 				"refer": [
-					"order.html"
+					"order.html",
+					"dcart.html",
+					"profit.html",
+					"integral.html",
+					"discount.html",
+					"rname.html",
+					"luck.html",
+					"share.html",
+					"setting.html",
+					"aboutus.html",
+					"help.html",
+					"newcenter.html"
+				],
+				"priority": 0
+			},
+			"dcart.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"profit.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"integral.html": {
+				"resources": [],
+				"refer": [
+					"integraldetail.html",
+					"integralecchange.html",
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"integraldetail.html": {
+				"resources": [],
+				"refer": [
+					"integral.html"
+				],
+				"priority": 0
+			},
+			"integralecchange.html": {
+				"resources": [],
+				"refer": [
+					"integral.html"
+				],
+				"priority": 0
+			},
+			"discount.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"rname.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"share.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"luck.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"aboutus.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"help.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [],
+				"refer": [
+					"usercenter.html"
+				],
+				"priority": 0
+			},
+			"newcenter.html": {
+				"resources": [],
+				"refer": [
+					"new-gonggao.html",
+					"new-order.html",
+					"usercenter.html"
 				],
 				"priority": 0
 			}

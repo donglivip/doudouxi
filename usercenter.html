@@ -18,9 +18,9 @@
 				<div class="head-main">
 					个人中心
 				</div>
-				<a class="head-tab" href="newcenter.html">
-					<img src="img/index02.png"/>
-				</a>
+				<div class="head-tab" @click="opennew('newcenter')">
+					<img src="img/Mail Copy@2x.png"/>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
@@ -91,26 +91,27 @@
 			</div>
 			<!--底部-->
 			<div class="bottom">
-				<a class="bottom-tab" href="index.html">
+				<div class="bottom-tab" @click="opennew('index')">
 					<img src="img/bottom01.png"/>
 					<div class="bottom-text">
 						首页
 					</div>
-				</a>
-				<a class="bottom-tab" href="order.html">
+				</div>
+				<div class="bottom-tab" @click="opennew('order')">
 					<img src="img/bottom02.png"/>
 					<div class="bottom-text">
 						订单
 					</div>
-				</a>
-				<a class="bottom-tab">
+				</div>
+				<div class="bottom-tab myanm">
 					<img src="img/bottom03-active.png"/>
 					<div class="bottom-text active">
 						我的
 					</div>
-				</a>
+				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -118,7 +119,12 @@
 
 				},
 				methods:{
-					
+					opennew:function(target){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
+					}
 				},
 				mounted:function(){
 					

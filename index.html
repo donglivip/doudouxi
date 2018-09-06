@@ -13,15 +13,15 @@
 		<div class="wrapper index">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="choiceorde.html">
+				<div class="head-tab" @click="opennew('choiceorde')">
 					<img src="img/index01.png"/>
-				</a>
+				</div>
 				<div class="head-main">
 					豆豆洗
 				</div>
-				<a class="head-tab" href="newcenter.html">
+				<div class="head-tab" @click="opennew('newcenter')">
 					<img src="img/index02.png"/>
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
@@ -44,54 +44,63 @@
 						</div>
 					</div>
 				</div>
+				<img src="img/go.png" @click="gocenter" class="gocenter"/>
 			</div>
 			<!--底部-->
 			<div class="bottom">
-				<a class="bottom-tab">
+				<div class="bottom-tab myanm">
 					<img src="img/bottom01-active.png"/>
 					<div class="bottom-text active">
 						首页
 					</div>
-				</a>
-				<a class="bottom-tab" href="order.html">
+				</div>
+				<div class="bottom-tab" @click="opennew('order')">
 					<img src="img/bottom02.png"/>
 					<div class="bottom-text">
 						订单
 					</div>
-				</a>
-				<a class="bottom-tab" href="usercenter.html">
+				</div>
+				<div class="bottom-tab" @click="opennew('usercenter')">
 					<img src="img/bottom03.png"/>
 					<div class="bottom-text">
 						我的
 					</div>
-				</a>
+				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:".wrapper",
 				data:{
 					map:'',
 					informbooo:false,
-					gid:''
+					gid:'',
 				},
 				mounted:function(){
 					var that=this
 //					// 扩展API加载完毕后调用onPlusReady回调函数 
-//					document.addEventListener('plusready', onPlusReady, false);
-//					// 扩展API加载完毕，现在可以正常调用扩展API
-//					function onPlusReady(){
-//						plus.geolocation.getCurrentPosition(function(p){
+					document.addEventListener('plusready', onPlusReady, false);
+					// 扩展API加载完毕，现在可以正常调用扩展API
+					function onPlusReady(){
+						plus.geolocation.getCurrentPosition(function(p){
+//							alert(p.coords.latitude+p.coords.longitude)
 //							that.mapinit(p.coords.latitude,p.coords.longitude)
-//						}, function(e){
-//							alert('Geolocation error: ' + e.message);
-//						} );
-//					}
+						}, function(e){
+							alert('Geolocation error: ' + e.message);
+						} );
+					}
 					that.mapinit(117.271321,34.269361)
 				},
 				methods:{
-					opennew:function(target){
-						window.location.href='./'+target+'.html'
+					gocenter:function(){
+						this.map.setZoomAndCenter(17, [117.271321,34.269361]);
+					},
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					},
 					informshow:function(){
 						this.informbooo=!this.informbooo

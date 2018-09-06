@@ -4,14 +4,17 @@
 			"order.html",
 			"choiceorde.html",
 			"nav.html",
-			"usercenter.html"
+			"usercenter.html",
+			"newcenter.html"
 		]
 	},
 	"order.html": {
 		"refer": [
 			"index.html",
 			"havetype.html",
-			"usercenter.html"
+			"usercenter.html",
+			"orderdetail.html",
+			"givetype.html"
 		]
 	},
 	"choiceorde.html": {
@@ -32,7 +35,87 @@
 	},
 	"usercenter.html": {
 		"refer": [
-			"order.html"
+			"order.html",
+			"dcart.html",
+			"profit.html",
+			"integral.html",
+			"discount.html",
+			"rname.html",
+			"luck.html",
+			"share.html",
+			"setting.html",
+			"aboutus.html",
+			"help.html",
+			"newcenter.html"
+		]
+	},
+	"dcart.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"profit.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"integral.html": {
+		"refer": [
+			"integraldetail.html",
+			"integralecchange.html",
+			"usercenter.html"
+		]
+	},
+	"integraldetail.html": {
+		"refer": [
+			"integral.html"
+		]
+	},
+	"integralecchange.html": {
+		"refer": [
+			"integral.html"
+		]
+	},
+	"discount.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"rname.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"share.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"luck.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"aboutus.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"help.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"setting.html": {
+		"refer": [
+			"usercenter.html"
+		]
+	},
+	"newcenter.html": {
+		"refer": [
+			"new-gonggao.html",
+			"new-order.html",
+			"usercenter.html"
 		]
 	}
 }

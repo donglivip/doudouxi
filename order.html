@@ -36,7 +36,7 @@
 					</div>
 				</div>
 				<div class="order-main">
-					<div class="order-box" @click="opennew('d')">
+					<div class="order-box" @click="opennew('orderdetail')">
 						<img src="./img/list03.png"/>
 						<div class="order-right">
 							<div class="order-title">
@@ -50,13 +50,13 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<div class="bottom-right" @click.stop="opennew('c')">
+								<div class="bottom-right" @click.stop="opennew('givetype')">
 									查看存衣码
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="order-box" @click="opennew('d')">
+					<div class="order-box" @click="opennew('orderdetail')">
 						<img src="./img/list03.png"/>
 						<div class="order-right">
 							<div class="order-title">
@@ -70,7 +70,7 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<div class="bottom-right" @click.stop="opennew('q')">
+								<div class="bottom-right" @click.stop="opennew('havetype')">
 									查看取衣码
 								</div>
 							</div>
@@ -97,26 +97,27 @@
 			</div>
 			<!--底部-->
 			<div class="bottom">
-				<a class="bottom-tab" href="index.html">
+				<div class="bottom-tab"  @click="opennew('index')">
 					<img src="img/bottom01.png"/>
 					<div class="bottom-text">
 						首页
 					</div>
-				</a>
-				<a class="bottom-tab">
+				</div>
+				<div class="bottom-tab myanm">
 					<img src="img/bottom02-acitve.png"/>
 					<div class="bottom-text active">
 						订单
 					</div>
-				</a>
-				<a class="bottom-tab" href="usercenter.html">
+				</div>
+				<div class="bottom-tab" @click="opennew('usercenter')">
 					<img src="img/bottom03.png"/>
 					<div class="bottom-text">
 						我的
 					</div>
-				</a>
+				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -157,15 +158,11 @@
 						this.navid=id
 						this.navboo=!this.navboo
 					},
-					opennew:function(type){
-						if(type=='q'){
-							window.location.href='./havetype.html'
-						}else if(type=='c'){
-							window.location.href='./givetype.html'
-						}else{
-							window.location.href='./orderdetail.html'
-						}
-						
+					opennew:function(target){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){
