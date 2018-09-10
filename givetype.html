@@ -28,7 +28,7 @@
 					<div class="havetype-title">
 						一、扫描屏幕二维码开箱
 					</div>
-					<img src="img/ewma.png"/>
+					<img src="img/ewma.png" @click="opennew('saoyisao')"/>
 					<div class="havetype-title" style="border-top: 1px solid #F4F4F4;">
 						二、输入存衣码进行开箱
 					</div>
@@ -52,7 +52,12 @@
 
 				},
 				methods:{
-					
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
+					}
 				},
 				mounted:function(){
 					var clipboard = new ClipboardJS('.clone');

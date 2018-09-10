@@ -12,15 +12,15 @@
 		<div class="wrapper profit">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					收益
 				</div>
-				<a class="head-tab" href="profitdetail.html">
+				<div class="head-tab" href="profitdetail.html">
 					明细
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
@@ -29,10 +29,11 @@
 					<div class="subtitile">金额大于5元即可提现</div>
 				</div>
 				<div class="proce">提现扣除6％的手续费</div>
-				<a class="withdraw" href="profitgo.html">提现</a>
+				<div class="withdraw" @click="opennew('profitgo')">提现</div>
 				<div class="proce proce02">点击提现，即代表您已同意  <a href="">《提现说明》</a> </div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -40,7 +41,12 @@
 
 				},
 				methods:{
-					
+					opennew:function(target){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
+					}
 				},
 				mounted:function(){
 					

@@ -156,7 +156,8 @@
 					"havetype.html",
 					"usercenter.html",
 					"orderdetail.html",
-					"givetype.html"
+					"givetype.html",
+					"newcenter.html"
 				],
 				"priority": 0
 			},
@@ -196,21 +197,24 @@
 					"setting.html",
 					"aboutus.html",
 					"help.html",
-					"newcenter.html"
+					"newcenter.html",
+					"index.html"
 				],
 				"priority": 0
 			},
 			"dcart.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"dcartdetail.html"
 				],
 				"priority": 0
 			},
 			"profit.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"profitgo.html"
 				],
 				"priority": 0
 			},
@@ -240,7 +244,9 @@
 			"discount.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"index.html",
+					"discount-history.html"
 				],
 				"priority": 0
 			},
@@ -254,14 +260,16 @@
 			"share.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"sharedetail.html"
 				],
 				"priority": 0
 			},
 			"luck.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"luck-my.html"
 				],
 				"priority": 0
 			},
@@ -275,14 +283,18 @@
 			"help.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"question.html"
 				],
 				"priority": 0
 			},
 			"setting.html": {
 				"resources": [],
 				"refer": [
-					"usercenter.html"
+					"usercenter.html",
+					"pchange.html",
+					"wlogin.html",
+					"namechange.html"
 				],
 				"priority": 0
 			},
@@ -291,7 +303,44 @@
 				"refer": [
 					"new-gonggao.html",
 					"new-order.html",
-					"usercenter.html"
+					"usercenter.html",
+					"order.html"
+				],
+				"priority": 0
+			},
+			"pchange.html": {
+				"resources": [],
+				"refer": [
+					"setting.html"
+				],
+				"priority": 0
+			},
+			"wlogin.html": {
+				"resources": [],
+				"refer": [
+					"setting.html"
+				],
+				"priority": 0
+			},
+			"question-detail.html": {
+				"resources": [],
+				"refer": [
+					"question.html"
+				],
+				"priority": 0
+			},
+			"namechange.html": {
+				"resources": [],
+				"refer": [
+					"setting.html"
+				],
+				"priority": 0
+			},
+			"question.html": {
+				"resources": [],
+				"refer": [
+					"question-detail.html",
+					"help.html"
 				],
 				"priority": 0
 			}

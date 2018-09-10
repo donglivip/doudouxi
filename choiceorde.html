@@ -39,7 +39,7 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<div class="bottom-right" @click="opennew()">
+								<div class="bottom-right" @click="opennew('saoyisao')">
 									扫码开箱
 								</div>
 							</div>
@@ -59,9 +59,9 @@
 									<div class="order-time">下单时间：2018-07-18 16:50</div>
 									<div class="order-price">订单价格：￥30.00</div>
 								</div>
-								<a class="bottom-right" href="saoyisao.html">
+								<div class="bottom-right" @click="opennew('saoyisao')">
 									扫码开箱
-								</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -76,8 +76,11 @@
 
 				},
 				methods:{
-					opennew:function(id){
-						plus.webview.open('./saoyisao.html');
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){

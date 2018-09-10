@@ -20,6 +20,7 @@ body,html,.wrapper{width: 100%;height: 100%;position: relative;overflow: hidden;
 .alert .button{background: #096148;color: #FFFFFF;height: 1rem;display: flex;align-items: center;justify-content: center;font-size: .3rem;}
 .alert img{width: 1rem;height: 1rem;margin: .6rem auto 0;display: block;}
 .alert .text{color: #096148;font-size: .3rem;margin: .2rem auto .4rem;text-align: center;}
+
 input{border: 0;}
 /*主页*/
 .index #container{width: 100%;height: calc(100% + .4rem);}
@@ -47,7 +48,7 @@ input{border: 0;}
 .order .bottom-right{background: #096148;color: #FFFFFF;border-radius:.4rem ;line-height: .5rem;font-size: .2rem;width: 1.5rem;height: .5rem;text-align: center;}
 .order .order-state{color: #096148;}
 .order .bottom-left{flex: 1;}
-.order .order-price{margin-top: .1rem;}
+.order .order-price,.order .order-time{font-size: .24rem;color: #666666;}
 .order .order-alert{position: absolute;width: 100%;height: calc(100% - 2.6rem);top:1.6rem;left: 0;background: rgba(0,0,0,.5);z-index: 999;}
 .order .nav-tab{width: 100%;background: #FFFFFF;height: .8rem;border-bottom: 1px solid #F4F4F4;text-indent: .2rem;line-height: .8rem;display: flex;align-items: center;justify-content: space-between;}
 .order .nav-tab img{width: .34rem;height: .22rem;margin-right: .2rem;}
@@ -74,7 +75,7 @@ input{border: 0;}
 .profit{background: #F4F4F4;}
 .profit .profit-top{background: #FFFFFF;height: 3rem;width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: center;margin-bottom: .5rem;}
 .profit .price{font-size: .7rem;}
-.profit .subtitile{font-size: .3rem;color: #758B85;margin-top: .15rem;}
+.profit .subtitile{font-size: .3rem;color: #999999;margin-top: .15rem;}
 .profit .proce{margin: .2rem;color: #758B85;}
 .profit .withdraw{margin: 0 .2rem;background: #096148;color: #FFFFFF;height: 1rem;border-radius: .5rem;display: flex;align-items: center;justify-content: center;}
 .profit .proce02{position: absolute;bottom: .3rem;width: 100%;text-align: center;}
@@ -105,7 +106,7 @@ input{border: 0;}
 .plogin .subtitle{font-size: .24rem;margin: .2rem 0;}
 .plogin .input-box{border-bottom: 1px solid #F4F4F4;display: flex;align-items: center;height: .8rem;margin-bottom: .3rem;}
 .plogin .input-box input{height: .35rem;flex: 1;border-left: 1px solid gainsboro;text-indent: .2rem;}
-.plogin .addcode{color: #B8B8B8;border: 1px solid #B8B8B8;border-radius: .3rem;width: 1.5rem;height: .5rem;display: flex;align-items: center;justify-content: center;}
+.plogin .addcode{color: #B8B8B8;border: 1px solid #B8B8B8;border-radius: .3rem;width: 1.5rem;height: .5rem;display: flex;align-items: center;justify-content: center;font-size: .2rem;}
 .plogin .login{height: 1rem;border-radius: .5rem;color: #FFFFFF;font-size: .34rem;display: flex;align-items: center;justify-content: center;margin-top: 1.3rem;background: #096148;}
 .plogin .login-type{display: flex;justify-content: flex-end;margin-top: .2rem;margin-right: .1rem;}
 .plogin .three{flex: 1;display: flex;flex-direction: column;justify-content: flex-end;align-items: center;}
@@ -126,6 +127,7 @@ input{border: 0;}
 .new .new-title{display: flex;justify-content: space-between;}
 .new .title{color: #021A13;font-size:.28rem;}
 .new .time{color: #B8B8B8;}
+.new .text{color: #B6B6B6;font-size: .22rem;}
 /*订单状态*/
 .neworder .nav-tab{margin:0 .2rem;padding: .3rem;}
 .neworder .new-title{font-size: .35rem;margin-bottom: .2rem;}
@@ -151,8 +153,8 @@ input{border: 0;}
 .nav .shop .img-box img{max-height: 100%;max-width: 100%;margin: 0 auto;}
 .nav .price-box{display: flex;align-items: center;justify-content: space-between;font-size: .24rem;height: .7rem;margin: 0 .2rem;}
 .nav .price{color: #F6403A;}
-.nav .add-box{display: flex;align-items: center;justify-content: center;}
-.nav .add-box img{width: .4rem;height: .4rem;}
+.nav .add-box{display: flex;align-items: center;justify-content: center;margin-top: .2rem;}
+.nav .add-box img{width: .3rem;height: .3rem;}
 .nav .num{width: .5rem;text-align: center;}
 .nav .cart-alert{width: 100%;height: calc(100% - 1rem);position: absolute;top: 0;left: 0;background: rgba(0,0,0,.5);display: flex;flex-direction: column;justify-content: flex-end;}
 .nav .cart-inner{background: #FFFFFF;}
@@ -188,7 +190,7 @@ input{border: 0;}
 .dcartdetail .order-right{margin-left: .2rem;}
 /*去提现*/
 .profitgo .profit-top{align-items: flex-start;padding-left: .3rem;height: auto;}
-.profitgo .profit-top input{font-size: .5rem;height: .5rem;color: #096148;margin: .8rem 0 .3rem;}
+.profitgo .profit-top input{font-size: .5rem;height: .5rem;color: #096148;margin: .3rem 0 .3rem;}
 .profitgo .profit-top input::-webkit-input-placeholder{color: #096148;font-size: .35rem;}
 .profitgo .profit-type{width: calc(100% - .6rem);display: flex;align-items: center;justify-content: space-between;height: .8rem;border-top: 1px solid #F4F4F4;margin-top: .2rem;color: #04271D;font-size: .25rem;}
 /*我的积分*/
