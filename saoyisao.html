@@ -25,6 +25,7 @@
 			</div>
 		</div>
 	</body>
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 		document.addEventListener("plusready", function() {
@@ -43,7 +44,23 @@
 						text = 'EAN8: ';
 						break;
 				}
-				alert('柜子号为' + result);
+//				alert('柜子号为' + result);
+				$.ajax({
+					type:"get",
+					url:"http://192.168.0.41:8080/openlock?devicename=YC58b3fc8e2997&lockid=3&sign=940079EEE3B1D7E9E6C2A4BFC1AFE37C",
+					success:function(res){
+						if (res.code==0) {
+							alert('箱子已打开！')
+						} else if(res.code==-1){
+							alert('柜门打开失败')
+						}else{
+							alert('系统暂时故障，请稍候再试...')
+						}
+					},
+					error:function(err){
+						alert('失败'+JSON.stringify(err))
+					}
+				});
 			}
 			if(!barcode) {
 				barcode = plus.barcode.create('barcode', [plus.barcode.QR], {
