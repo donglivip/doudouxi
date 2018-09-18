@@ -12,7 +12,7 @@
 		<div class="wrapper help orderdetail nav">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<a class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</a>
 				<div class="head-main">
@@ -124,11 +124,12 @@
 					<img src="img/Basket@2x.png"/>
 					<div class="bprice">合计:￥60</div>
 				</div>
-				<div class="nav-right">
+				<div class="nav-right" @click="opennew('choiceorde')">
 					去结算
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -139,8 +140,11 @@
 					moreboo:function(){
 						this.more=!this.more
 					},
-					opennew:function(id,target){
-						window.location.href='./'+target+'.html'
+					opennew:function(target){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){

@@ -37,221 +37,32 @@
 					<div class="subnav-item">配饰</div>
 				</div>
 				<div class="shop-box">
-					<div class="shop" @click="opennew('shop-detail')">
-						<div class="img-box">
+					<div class="shop" v-for="(val,index) in mydata">
+						<div class="img-box" @click="opennew('shop-detail')">
 							<img src="img/shop.jpg"/>
 						</div>
 						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
+							<div class="name">{{val.name}}</div>
+							<div class="price">￥{{val.price}}</div>
 						</div>
 						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
-						</div>
-					</div>
-					<div class="shop">
-						<div class="img-box">
-							<img src="img/shop.jpg"/>
-						</div>
-						<div class="price-box">
-							<div class="name">羊毛衫</div>
-							<div class="price">￥16</div>
-						</div>
-						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png"/>
-							<div class="num">1</div>
-							<img src="img/Close-2 Copy 6@2x.png"/>
+							<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)"/>
+							<div class="num">{{val.num}}</div>
+							<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)"/>
 						</div>
 					</div>
 				</div>
 				<div class="cart-alert" v-if="alertboo" @click="alertshow">
 					<div class="cart-inner">
 						<div class="cart-top">
-							<img src="img/Trash@2x.png"/>
-							<div class="text">清空洗衣篮</div>
+							<img src="img/Trash@2x.png" @click.stop="clear"/>
+							<div class="text" @click.stop="clear">清空洗衣篮</div>
 						</div>
-						<div class="cart">
-							<div class="cart-name">羊毛衫</div>
-							<div class="cart-num">￥16</div>
+						<div class="cart" v-for="val in cartdata">
+							<div class="cart-name">{{val.name}}</div>
+							<div class="cart-num">￥{{val.price}}</div>
 							<div class="cart-setting">
-								<img src="img/Close-2 Copy 9@2x.png"/>
-								<div>1</div>
-								<img src="img/Close-2 Copy 6@2x.png"/>
-							</div>
-						</div>
-						<div class="cart">
-							<div class="cart-name">羊毛衫</div>
-							<div class="cart-num">￥16</div>
-							<div class="cart-setting">
-								<img src="img/Close-2 Copy 9@2x.png"/>
-								<div>1</div>
-								<img src="img/Close-2 Copy 6@2x.png"/>
-							</div>
-						</div>
-						<div class="cart">
-							<div class="cart-name">羊毛衫</div>
-							<div class="cart-num">￥16</div>
-							<div class="cart-setting">
-								<img src="img/Close-2 Copy 9@2x.png"/>
-								<div>1</div>
-								<img src="img/Close-2 Copy 6@2x.png"/>
+								<div>x{{val.num}}</div>
 							</div>
 						</div>
 					</div>
@@ -262,7 +73,7 @@
 					<img src="img/Basket@2x.png"/>
 					<div class="bprice">合计:￥60</div>
 				</div>
-				<div class="nav-right" @click="pay">
+				<div class="nav-right" @click="opennew('pay')">
 					去结算
 				</div>
 			</div>
@@ -281,20 +92,79 @@
 					],
 					navindex:0,
 					subindex:0,
-					alertboo:false
+					alertboo:false,
+					mydata:[
+						{
+							name:'羊毛衫',
+							num:0,
+							price:16
+						},
+						{
+							name:'衬衫',
+							num:0,
+							price:10
+						},
+						{
+							name:'羽绒服',
+							num:0,
+							price:20
+						},
+						{
+							name:'T恤',
+							num:0,
+							price:10
+						},
+						{
+							name:'短裤',
+							num:0,
+							price:10
+						},
+						{
+							name:'长裤',
+							num:0,
+							price:12
+						},
+						{
+							name:'夹克',
+							num:0,
+							price:15
+						}
+					],
+					cartdata:[]
 				},
 				methods:{
+					clear:function(){
+						this.cartdata=[]
+					},
+					addnum:function(type,index){
+						if(type=='j'){
+							if(this.mydata[index].num>0){
+								this.mydata[index].num--
+							}
+						}else{
+							this.mydata[index].num++
+						}
+					},
 					tab:function(index){
 						this.navindex=index
 					},
 					alertshow:function(){
+						var that=this
+						if(!that.alertboo){
+							that.cartdata=[]
+							for (var i=0;i<that.mydata.length;i++) {
+								if(that.mydata[i].num>0){
+									that.cartdata.push(that.mydata[i])
+								}
+							}
+						}
 						this.alertboo=!this.alertboo
 					},
 					opennew:function(target){
-						window.location.href='./shop-detail.html'
-					},
-					pay:function(){
-						window.location.href='./pay.html'
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){

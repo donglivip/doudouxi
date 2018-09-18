@@ -56,6 +56,9 @@
 						}else{
 							alert('系统暂时故障，请稍候再试...')
 						}
+						mui.openWindow({
+							url:'./index.html'
+						})
 					},
 					error:function(err){
 						alert('失败'+JSON.stringify(err))

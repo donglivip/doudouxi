@@ -6,7 +6,7 @@ body,html,.wrapper{width: 100%;height: 100%;position: relative;overflow: hidden;
 .bottom-text {margin-bottom: .15rem;}
 .head-tab:first-of-type img{float: left;}
 .head-tab:last-of-type img{float: right;}
-.head-tab{width: 1.6rem;margin: 0 .2rem;font-size: .25rem;font-weight: 500;white-space: nowrap;text-align: right;}
+.head-tab{width: 1.6rem;margin: 0 .2rem;font-size: .25rem;font-weight: 500;white-space: nowrap;text-align: right;height: 100%;display: flex;align-items: center;}
 .head-main{flex: 1;text-align: center;}
 .bottom{width:100%;height: 1rem;position: absolute;bottom: 0;left: 0;display: flex;align-items: center;border-top: 1px solid #f4f4f4;background: #FFFFFF;}
 .bottom-tab{flex: 1;display: flex;flex-direction: column;align-items: center;justify-content: center;}
