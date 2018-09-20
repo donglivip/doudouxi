@@ -172,7 +172,8 @@
 			"saoyisao.html": {
 				"resources": [],
 				"refer": [
-					"choiceorde.html"
+					"choiceorde.html",
+					"index.html"
 				],
 				"priority": 0
 			},

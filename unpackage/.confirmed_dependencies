@@ -26,7 +26,8 @@
 	},
 	"saoyisao.html": {
 		"refer": [
-			"choiceorde.html"
+			"choiceorde.html",
+			"index.html"
 		]
 	},
 	"havetype.html": {
