@@ -23,95 +23,220 @@
 
 				</div>
 			</div>
+			<div class="alert">
+				<div class="alert-inner">
+					<div class="alert-top">
+						豆豆洗
+					</div>
+					<div class="text">
+						乔治太可爱,超出运算量
+					</div>
+					<div class="button">
+						<div style="border: 0;" id="true">确定</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		document.addEventListener("plusready", function() {
+		$(function() {
 			var barcode = null;
-			// 扫码成功回调
-			function onmarked(type, result) {
-				var text = '未知: ';
-				switch(type) {
-					case plus.barcode.QR:
-						text = 'QR: ';
-						break;
-					case plus.barcode.EAN13:
-						text = 'EAN13: ';
-						break;
-					case plus.barcode.EAN8:
-						text = 'EAN8: ';
-						break;
+			$('.alert').hide()
+			function alertboo(text) {
+				$('.text').html(text)
+				if($('.alert').css('display') == 'none') {
+					plus.webview.currentWebview().remove(barcode);
+					barcode.close()
+					$('.alert').css('display', 'flex')
+				} else {
+					var prePage = plus.webview.currentWebview();
+					prePage.reload(true);
+					$('.alert').css('display', 'none')
 				}
-//				alert('柜子号为' + result);
-				var myjson=[
-					{"lockid":"1","sign":"C065B9970188EFBF9956C9D2E8F27B42","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"2","sign":"A65C1B28791BC1CDF0A8C186D7746532","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"3","sign":"940079EEE3B1D7E9E6C2A4BFC1AFE37C","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"4","sign":"8819DBE69691401BCDC75D4D65244E25","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"5","sign":"77C34754C0D232463F58A8F5EFF1E69A","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"6","sign":"0FB6CE316F3064D583BB58AD281430D3","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"7","sign":"888619AE52723E41888BD8505F429C70","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"8","sign":"C04870BDB7AE6682F32183D8E441215D","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"9","sign":"C0D1E9FF50555E8112D04DB97769CE3A","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"10","sign":"67A8B15871F45B03EF051633C4B4C65C","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"11","sign":"C54B578C8625710B02C90AB62934AAD0","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"12","sign":"563D478BDDD6862D37365FE84977A187","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"13","sign":"259D9ED821B21472D5DCF60B54BE6420","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"14","sign":"1EB2F7E87F2055EBDDC15438A2CE829A","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"15","sign":"6B653B3CC814022D0C86311FC3E3C37C","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"16","sign":"34223446A1AB8EA962789220B0976ECF","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"17","sign":"754C5D9EBA80D737198DC5E6C10B8A67","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"18","sign":"574BC8A5E1BB48383340817ECFD714F3","action":"openlock","devicename":"YC58b3fc8e2997"},
-					{"lockid":"19","sign":"5A2F51B1BE8D0E040B8BD5ECDDB94304","action":"openlock","devicename":"YC58b3fc8e2997"}
-				]
-				var index=Math.floor(Math.random()*19)
-				plus.nativeUI.showWaiting('扫描结果识别中')
-				alert("即将访问"+(index+1)+"号柜子:"+"http://192.168.0.241:8080/openlock?devicename="+myjson[index].devicename+"&lockid="+(index+1)+"&sign="+myjson[index].sign+"")
-				$.ajax({
-					type:"get",
-					url:"http://192.168.0.241:8080/openlock?devicename="+myjson[index].devicename+"&lockid="+(index+1)+"&sign="+myjson[index].sign+"",
-					dataType:'json',
-					success:function(res){
-						plus.nativeUI.closeWaiting()
-						if (res.code==0) {
-							alert('箱子已打开！')
-							mui.openWindow({
-								url:'./index.html'
-							})
-						} else if(res.code==-1){
-							alert('柜门打开失败')
-							var prePage = plus.webview.currentWebview();
-							prePage.reload(true);
-						}else{
-							alert('系统暂时故障，请稍候再试...')
+			}
+			function create(){
+				if(!barcode) {
+					barcode = plus.barcode.create('barcode', [plus.barcode.QR], {
+						top: '0',
+						left: '0px',
+						width: '100%',
+						height: '100%',
+						frameColor: '#096148'
+					});
+					barcode.onmarked = onmarked;
+					plus.webview.currentWebview().append(barcode);
+				}
+				barcode.start();
+			}
+			function onmarked(type, result) {
+					var text = '未知: ';
+					switch(type) {
+						case plus.barcode.QR:
+							text = 'QR: ';
+							break;
+						case plus.barcode.EAN13:
+							text = 'EAN13: ';
+							break;
+						case plus.barcode.EAN8:
+							text = 'EAN8: ';
+							break;
+					}
+					var myjson = [{
+							"lockid": "1",
+							"sign": "C065B9970188EFBF9956C9D2E8F27B42",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "2",
+							"sign": "A65C1B28791BC1CDF0A8C186D7746532",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "3",
+							"sign": "940079EEE3B1D7E9E6C2A4BFC1AFE37C",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "4",
+							"sign": "8819DBE69691401BCDC75D4D65244E25",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "5",
+							"sign": "77C34754C0D232463F58A8F5EFF1E69A",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "6",
+							"sign": "0FB6CE316F3064D583BB58AD281430D3",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "7",
+							"sign": "888619AE52723E41888BD8505F429C70",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "8",
+							"sign": "C04870BDB7AE6682F32183D8E441215D",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "9",
+							"sign": "C0D1E9FF50555E8112D04DB97769CE3A",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "10",
+							"sign": "67A8B15871F45B03EF051633C4B4C65C",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "11",
+							"sign": "C54B578C8625710B02C90AB62934AAD0",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "12",
+							"sign": "563D478BDDD6862D37365FE84977A187",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "13",
+							"sign": "259D9ED821B21472D5DCF60B54BE6420",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "14",
+							"sign": "1EB2F7E87F2055EBDDC15438A2CE829A",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "15",
+							"sign": "6B653B3CC814022D0C86311FC3E3C37C",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "16",
+							"sign": "34223446A1AB8EA962789220B0976ECF",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "17",
+							"sign": "754C5D9EBA80D737198DC5E6C10B8A67",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "18",
+							"sign": "574BC8A5E1BB48383340817ECFD714F3",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						},
+						{
+							"lockid": "19",
+							"sign": "5A2F51B1BE8D0E040B8BD5ECDDB94304",
+							"action": "openlock",
+							"devicename": "YC58b3fc8e2997"
+						}
+					]
+					var index = Math.floor(Math.random() * 19)
+					plus.nativeUI.showWaiting('扫描结果识别中')
+					$.ajax({
+						type: "get",
+						url: "http://192.168.0.241:8080/openlock?devicename=" + myjson[index].devicename + "&lockid=" + (index + 1) + "&sign=" + myjson[index].sign + "",
+						dataType: 'json',
+						success: function(res) {
+							plus.nativeUI.closeWaiting()
+							if(res.code == 0) {
+								alertboo((index + 1) + '箱子已打开！')
+								mui.openWindow({
+									url: './index.html'
+								})
+							} else if(res.code == -1) {
+								alertboo('柜门打开失败')
+								var prePage = plus.webview.currentWebview();
+								prePage.reload(true);
+							} else {
+								alertboo('系统暂时故障，请稍候再试...')
+								var prePage = plus.webview.currentWebview();
+								prePage.reload(true);
+							}
+
+						},
+						error: function(err) {
+							plus.nativeUI.closeWaiting()
+							alertboo('失败' + JSON.stringify(err))
 							var prePage = plus.webview.currentWebview();
 							prePage.reload(true);
 						}
-						
-					},
-					error:function(err){
-						plus.nativeUI.closeWaiting()
-						alert('失败'+JSON.stringify(err))
-						var prePage = plus.webview.currentWebview();
-						prePage.reload(true);
-					}
-				});
-			}
-			if(!barcode) {
-				barcode = plus.barcode.create('barcode', [plus.barcode.QR], {
-					top: '0',
-					left: '0px',
-					width: '100%',
-					height: '100%',
-					frameColor: '#096148'
-				});
-				barcode.onmarked = onmarked;
-				plus.webview.currentWebview().append(barcode);
-			}
-			barcode.start();
-		}, false);
+					});
+				}
+			$('#true').click(function(){
+				alertboo('')
+			})
+			document.addEventListener("plusready", function() {
+				create()
+			}, false);
+		})
 	</script>
 
 </html>
