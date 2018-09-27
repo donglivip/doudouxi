@@ -34,11 +34,15 @@
 						<img src="img/number (1).png" @click="changetype('text')" v-if="ptype=='password'"/>
 						<img src="img/number (2).png" @click="changetype('password')" v-if="ptype=='text'"/>
 					</div>
-					<div class="login">登录</div>
 					<div class="login-type" style="justify-content: space-between;">
 						<a href="wlogin.html">忘记密码?</a>
 						<a href="plogin.html">手机快捷登录</a>
 					</div>
+					<div class="login">登录</div>
+					<div class="login-type">
+						<div @click="opennew">登陆即视为同意 	<strong>《登陆即视为同意豆豆洗注册协议》</strong></div>
+					</div>
+					
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
@@ -49,6 +53,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -58,6 +63,13 @@
 				methods:{
 					changetype:function(text){
 						this.ptype=text
+					},
+					opennew:function(){
+						var that=this
+						mui.openWindow({
+							url:'./Agreement.html',
+							id:'Agreement'
+						})
 					}
 				},
 				mounted:function(){
