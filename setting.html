@@ -47,7 +47,8 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					avatar:'img/avatar.jpg'
+					avatar:'img/avatar.jpg',
+					files:[]
 				},
 				methods:{
 					imgclick: function(imid, inid) {
@@ -115,7 +116,7 @@
 							path: p
 						});
 						//开始上传
-						that.start_upload();
+//						that.start_upload();
 					},
 					start_upload: function() {
 						var that = this

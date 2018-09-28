@@ -29,26 +29,35 @@
 					<img src="img/erweima.png"/>
 					<p>长按二维码可保存图片</p>
 				</div>
-				<div class="help-item">
+				<div class="help-item" @click="share">
 					<img src="img/qq (2).png"/>
 					<div>qq分享</div>
 				</div>
-				<div class="help-item">
+				<div class="help-item" @click="share">
 					<img src="img/wpay.png"/>
 					<div>微信分享</div>
 				</div>
-				<div class="help-item">
+				<div class="help-item" @click="share">
 					<img src="img/wquan.png"/>
 					<div>朋友圈分享</div>
 				</div>
 			</div>
+			<div class="alert" v-show="alertboo" @click="alertshow">
+					<div class="alert-inner">
+						<img src="img/yes.png"/>
+						<div class="text">分享成功！</div>
+						<div class="button">
+							<div style="border: 0;">确定</div>
+						</div>
+					</div>
+				</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					alertboo:false
 				},
 				methods:{
 					opennew:function(target,id){
@@ -56,6 +65,13 @@
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					alertshow:function(){
+						this.alertboo=!this.alertboo
+					},
+					share:function(){
+						var that=this
+						that.alertshow()
 					}
 				},
 				mounted:function(){

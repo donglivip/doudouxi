@@ -207,7 +207,8 @@
 				"resources": [],
 				"refer": [
 					"usercenter.html",
-					"dcartdetail.html"
+					"dcartdetail.html",
+					"Agreement.html"
 				],
 				"priority": 0
 			},
@@ -342,6 +343,36 @@
 				"refer": [
 					"question-detail.html",
 					"help.html"
+				],
+				"priority": 0
+			},
+			"mlogin.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"nav.html": {
+				"resources": [],
+				"refer": [
+					"share.html",
+					"pay.html"
+				],
+				"priority": 0
+			},
+			"pay.html": {
+				"resources": [],
+				"refer": [
+					"choiceorde.html",
+					"userdiscount.html"
+				],
+				"priority": 0
+			},
+			"luck-my.html": {
+				"resources": [],
+				"refer": [
+					"share.html"
 				],
 				"priority": 0
 			}

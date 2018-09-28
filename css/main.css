@@ -218,7 +218,7 @@ input{border: 0;}
 .discounthistory .discount-right{background: #999999;}
 /*关于我们*/
 .aboutus h4{font-size: .3rem;margin: .2rem .2rem .1rem;}
-.aboutus p{margin: 0 .25rem;font-size: .25rem;}
+.aboutus p{margin-left: .25rem;font-size: .25rem;line-height: .5rem;}
 .aboutus .main img{width: calc(100% - .6rem);margin: .3rem;}
 /*帮助*/
 .help .help-item{height: .8rem;border-bottom: 1px solid #F4F4F4;display: flex;align-items: center;justify-content: space-between;}
