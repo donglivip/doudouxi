@@ -66,11 +66,17 @@
 						<div class="ztext">微信</div>
 					</div>
 				</div>
-				<div class="bottom-grey">
-					<div class="ctext">
+				<div class="bottom-grey" >
+					<div class="ctext" @click="opennew('Agreement')">
 						充值即阅读并同意  <span>《充值服务协议》</span> 
 					</div>
-					<div class="pay">充值</div>
+					<div class="pay" @click="pay">充值</div>
+				</div>
+				<div class="alert" v-show="alertboo" @click="alertshow">
+					<div class="alert-inner">
+						<img src="img/yes.png"/>
+						<div class="text">充值成功, {{time}}s后返回豆豆卡</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -80,7 +86,9 @@
 				el:'.wrapper',
 				data:{
 					priceindex:1,
-					zndex:1
+					zndex:1,
+					alertboo:false,
+					time:3
 				},
 				methods:{
 					pricechange:function(index){
@@ -94,6 +102,22 @@
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					pay:function(){
+						var that=this
+						this.alertshow()
+						var set=setInterval(function(){
+							if(that.time==1){
+								clearInterval(set)
+								that.alertshow()
+								that.time=3
+							}else{
+								that.time--
+							}
+						},1000)
+					},
+					alertshow:function(){
+						this.alertboo=!this.alertboo
 					}
 				},
 				mounted:function(){

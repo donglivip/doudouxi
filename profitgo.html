@@ -33,7 +33,16 @@
 						<div>支付宝</div>
 					</div>
 				</div>
-				<div class="withdraw">确认提现</div>
+				<div class="withdraw" @click="submit">确认提现</div>
+				<div class="alert" v-show="alertboo" @click="alertshow">
+					<div class="alert-inner">
+						<img src="img/yes.png"/>
+						<div class="text">提现完成</div>
+						<div class="button">
+							确定
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -41,10 +50,15 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					alertboo:false
 				},
 				methods:{
-					
+					alertshow:function(){
+						this.alertboo=!this.alertboo
+					},
+					submit:function(){
+						this.alertshow()
+					}
 				},
 				mounted:function(){
 					

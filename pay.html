@@ -98,7 +98,7 @@
 						<img src="img/up.png"/>
 					</div>
 				</div>
-				<div class="help-item">
+				<div class="help-item" @click="opennew('userdiscount')">
 					<div style="flex: 1;">优惠卷</div>
 					<div>一张可用</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" style="width: .1rem;"/>
@@ -124,8 +124,22 @@
 					<img src="img/Basket@2x.png"/>
 					<div class="bprice">合计:￥60</div>
 				</div>
-				<div class="nav-right" @click="opennew('choiceorde')">
+				<div class="nav-right" @click="alertshow">
 					去结算
+				</div>
+			</div>
+			<div class="alert" v-show='alertboo'>
+				<div class="alert-inner">
+					<div class="alert-top">
+						豆豆洗
+					</div>
+					<div class="text">
+						请选择您的支付方式
+					</div>
+					<div class="button">
+						<div id="true" @click="opennew('choiceorde')">支付宝</div>
+						<div style="border: 0;" id="true" @click="opennew('choiceorde')">微信</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -134,7 +148,8 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					more:false
+					more:false,
+					alertboo:false
 				},
 				methods:{
 					moreboo:function(){
@@ -145,6 +160,9 @@
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					alertshow:function(){
+						this.alertboo=!this.alertboo
 					}
 				},
 				mounted:function(){

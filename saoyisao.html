@@ -29,7 +29,7 @@
 						豆豆洗
 					</div>
 					<div class="text">
-						乔治太可爱,超出运算量
+						错误
 					</div>
 					<div class="button">
 						<div style="border: 0;" id="true">确定</div>
@@ -371,35 +371,33 @@
 							"devicename": "YC58b3fc8e2997"
 						}
 					]
-					var index = Math.floor(Math.random() * 19)
+					var index = Math.floor(Math.random() * 45)
 					plus.nativeUI.showWaiting('扫描结果识别中')
 					$.ajax({
 						type: "get",
-						url: "http://192.168.0.241:8080/openlock?devicename=" + myjson[index].devicename + "&lockid=" + (index + 1) + "&sign=" + myjson[index].sign + "",
+						url: "http://192.168.0.241:8080/openlock?devicename=" + myjson[index].devicename + "&lockid=" + (index) + "&sign=" + myjson[index].sign + "",
 						dataType: 'json',
+						timeout:2000,
 						success: function(res) {
 							plus.nativeUI.closeWaiting()
 							if(res.code == 0) {
-								alertboo((index + 1) + '箱子已打开！')
-								mui.openWindow({
-									url: './index.html'
-								})
+								mui.back()
 							} else if(res.code == -1) {
 								alertboo('柜门打开失败')
-								var prePage = plus.webview.currentWebview();
-								prePage.reload(true);
 							} else {
 								alertboo('系统暂时故障，请稍候再试...')
-								var prePage = plus.webview.currentWebview();
-								prePage.reload(true);
 							}
 
 						},
 						error: function(err) {
 							plus.nativeUI.closeWaiting()
-							alertboo('失败' + JSON.stringify(err))
-							var prePage = plus.webview.currentWebview();
-							prePage.reload(true);
+							alertboo('数据获取失败')
+							var wvs=plus.webview.all();
+							for(var i=0;i<wvs.length;i++){
+								if(wvs[i].getURL().indexOf('index')==-1){
+									plus.webview.close(wvs[i])
+								}
+							}
 						}
 					});
 				}

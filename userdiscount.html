@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="wrapper discount">
+			<!--头部-->
+			<div class="header">
+				<div class="head-tab mui-action-back">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				</div>
+				<div class="head-main">
+					选择优惠卷
+				</div>
+				<div class="head-tab">
+					
+				</div>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="discount-tab">
+					<div class="discount-left">
+						<div class="price">
+							￥<strong>16</strong>
+						</div>
+						<div class="type">
+							优惠券
+						</div>
+					</div>
+					<div class="discount-middle">
+						<div class="middle-title">
+							10元通用优惠券
+						</div>
+						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
+						<div class="middle-sub">有效期到:2018-08-29</div>
+					</div>
+					<div class="discount-right" @click="back">
+						立即使用
+					</div>
+				</div>
+				<div class="discount-tab">
+					<div class="discount-left">
+						<div class="price">
+							￥<strong>16</strong>
+						</div>
+						<div class="type">
+							优惠券
+						</div>
+					</div>
+					<div class="discount-middle">
+						<div class="middle-title">
+							10元通用优惠券
+						</div>
+						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
+						<div class="middle-sub">有效期到:2018-08-29</div>
+					</div>
+					<div class="discount-right" @click="back">
+						立即使用
+					</div>
+				</div>
+				<div class="discount-tab">
+					<div class="discount-left">
+						<div class="price">
+							￥<strong>16</strong>
+						</div>
+						<div class="type">
+							优惠券
+						</div>
+					</div>
+					<div class="discount-middle">
+						<div class="middle-title">
+							10元通用优惠券
+						</div>
+						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
+						<div class="middle-sub">有效期到:2018-08-29</div>
+					</div>
+					<div class="discount-right" @click="back">
+						立即使用
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue=new Vue({
+				el:'.wrapper',
+				data:{
+
+				},
+				methods:{
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
+					},
+					back:function(){
+						mui.back()
+					}
+				},
+				mounted:function(){
+					
+				}
+			})
+		</script>
+	</body>
+</html>

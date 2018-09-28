@@ -37,9 +37,9 @@
 					<div class="login-type">
 						<a href="mlogin.html">密码账户登录</a>
 					</div>
-					<div class="login">登录</div>
+					<div class="login" @click="opennew('index','')">登录</div>
 					<div class="login-type">
-						<div @click="opennew">登陆即视为同意 	<strong>《登陆即视为同意豆豆洗注册协议》</strong></div>
+						<div @click="opennew('Agreement','')">登陆即视为同意 	<strong>《豆豆洗注册协议》</strong></div>
 					</div>
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
@@ -74,11 +74,10 @@
 							},1000)
 						}
 					},
-					opennew:function(){
-						var that=this
+					opennew:function(target,id){
 						mui.openWindow({
-							url:'./Agreement.html',
-							id:'Agreement'
+							url:'./'+target+'.html',
+							id:target
 						})
 					}
 				},

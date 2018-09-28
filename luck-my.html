@@ -32,9 +32,9 @@
 					<label for="uname">分享人数</label>
 					<div>5人</div>
 				</div>
-				<div class="submit">
+				<div class="submit" @click="opennew('share')">
 					<img src="./img/Share@3x.png"/>
-					<span>分享</span>
+					<span>激活开箱码</span>
 				</div>
 				<!--<div class="submit" @click="alertshow">
 					立即领取
@@ -60,6 +60,12 @@
 				methods:{
 					alertshow:function(){
 						this.alertboo=!this.alertboo
+					},
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){

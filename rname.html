@@ -12,15 +12,15 @@
 		<div class="wrapper rname">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					认证中心
 				</div>
-				<a class="head-tab" href="newcenter.html">
+				<div class="head-tab">
 					
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
@@ -37,8 +37,8 @@
 				</div>
 				<div class="alert" v-show="alertboo" @click="alertshow">
 					<div class="alert-inner">
-						<img src="img/Close-2 Copy 2@2x.png"/>
-						<div class="text">提交失败</div>
+						<img src="img/yes.png"/>
+						<div class="text">提交完成</div>
 						<div class="button">
 							确定
 						</div>
@@ -46,6 +46,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',

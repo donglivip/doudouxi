@@ -25,13 +25,13 @@
 			<!--中间主体-->
 			<div class="main">
 				<div class="center-top">
-					<img src="img/avatar.jpg" class="backimg"/>
-					<img src="img/avatar.jpg" class="avatar"/>
+					<img :src="avatar" class="backimg"/>
+					<img :src="avatar" class="avatar" @click="imgclick"/>
 					<div class="name-box">
 						<div class="name">雨雪霏霏</div>
 						<div class="state-box">
 							<div class="phone">手机号：135465255566</div>
-							<a class="state" href="rname.html">未认证</a>
+							<div class="state" @click="opennew('rname')">未认证</div>
 						</div>
 					</div>
 				</div>
@@ -116,7 +116,7 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					avatar:'img/avatar.jpg'
 				},
 				methods:{
 					opennew:function(target){
@@ -124,6 +124,111 @@
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					imgclick: function(imid, inid) {
+						var that = this
+						var btnArray = [{
+							title: "照相机"
+						}, {
+							title: "相册"
+						}]; //选择按钮  1 2 3
+						plus.nativeUI.actionSheet({
+								title: "请选择",
+								cancel: "取消", // 0
+								buttons: btnArray
+							},
+							function(e) {
+								var index = e.index; // 
+								switch(index) {
+									case 1:
+										//写自己的逻辑
+										that.camera();
+										break;
+									case 2:
+										that.album();
+										break;
+								}
+							});
+					},
+					camera: function() {
+						var that = this
+						var cmr = plus.camera.getCamera();
+						cmr.captureImage(function(p) {
+							//成功
+							plus.io.resolveLocalFileSystemURL(p, function(entry) {
+								var img_name = entry.name; //获得图片名称
+								var img_path = entry.toLocalURL(); //获得图片路径
+								that.avatar=img_path
+								that.upload_img(img_path);
+							}, function(e) {
+								alert("读取拍照文件错误：" + e.message);
+							});
+
+						}, function(e) {
+							alert("失败：" + e.message);
+						}, {
+							filename: '_doc/camera/',
+							index: 1
+						});
+					},
+					album: function() {
+						var that = this
+						plus.gallery.pick(function(path) {
+							that.upload_img(path);
+							that.avatar=path
+						}, function(e) {
+							alert("取消选择图片");
+						}, {
+							filter: "image"
+						});
+					},
+					upload_img: function(p) {
+						var that = this
+						var n = p.substr(p.lastIndexOf('/') + 1);
+						that.files.push({
+							name: "uploadkey",
+							path: p
+						});
+						//开始上传
+						that.start_upload();
+					},
+					start_upload: function() {
+						var that = this
+						if(that.files.length <= 0) {
+							plus.nativeUI.alert("没有添加上传文件！");
+							return;
+						}
+						//原生的转圈等待框
+						var wt = plus.nativeUI.showWaiting();
+						var task = plus.uploader.createUpload(that.server, {
+								method: "POST"
+							},
+							function(t, status) { //上传完成
+								if(status == 200) {
+									//资源
+									var responseText = t.responseText;
+									//转换成json
+									var json = eval('(' + responseText + ')');
+									//上传文件的信息
+									var files = json.data;
+									wt.close();
+								} else {
+									alert("上传失败：" + status);
+									//关闭原生的转圈等待框
+									wt.close();
+								}
+							});
+						task.addData("uid", that.getUid());
+						for(var i = 0; i < that.files.length; i++) {
+							var f = that.files[i];
+							task.addFile(f.path, {
+								key: f.name
+							});
+						}
+						task.start();
+					},
+					getUid: function() {
+						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
 				mounted:function(){

@@ -1,161 +1,161 @@
 {
-	"index.html": {
-		"refer": [
-			"order.html",
-			"choiceorde.html",
-			"nav.html",
-			"usercenter.html",
-			"newcenter.html"
-		]
-	},
-	"order.html": {
-		"refer": [
-			"index.html",
-			"havetype.html",
-			"usercenter.html",
-			"orderdetail.html",
-			"givetype.html",
-			"newcenter.html"
-		]
-	},
-	"choiceorde.html": {
-		"refer": [
-			"saoyisao.html",
-			"index.html"
-		]
-	},
-	"saoyisao.html": {
-		"refer": [
-			"choiceorde.html",
-			"index.html"
-		]
-	},
-	"havetype.html": {
-		"refer": [
-			"order.html"
-		]
-	},
-	"usercenter.html": {
-		"refer": [
-			"order.html",
-			"dcart.html",
-			"profit.html",
-			"integral.html",
-			"discount.html",
-			"rname.html",
-			"luck.html",
-			"share.html",
-			"setting.html",
-			"aboutus.html",
-			"help.html",
-			"newcenter.html",
-			"index.html"
-		]
-	},
-	"dcart.html": {
-		"refer": [
-			"usercenter.html",
-			"dcartdetail.html"
-		]
-	},
-	"profit.html": {
-		"refer": [
-			"usercenter.html",
-			"profitgo.html"
-		]
-	},
-	"integral.html": {
-		"refer": [
-			"integraldetail.html",
-			"integralecchange.html",
-			"usercenter.html"
-		]
-	},
-	"integraldetail.html": {
-		"refer": [
-			"integral.html"
-		]
-	},
-	"integralecchange.html": {
-		"refer": [
-			"integral.html"
-		]
-	},
-	"discount.html": {
-		"refer": [
-			"usercenter.html",
-			"index.html",
-			"discount-history.html"
-		]
-	},
-	"rname.html": {
-		"refer": [
-			"usercenter.html"
-		]
-	},
-	"share.html": {
-		"refer": [
-			"usercenter.html",
-			"sharedetail.html"
-		]
-	},
-	"luck.html": {
-		"refer": [
-			"usercenter.html",
-			"luck-my.html"
-		]
-	},
-	"aboutus.html": {
-		"refer": [
-			"usercenter.html"
-		]
-	},
-	"help.html": {
-		"refer": [
-			"usercenter.html",
-			"question.html"
-		]
-	},
-	"setting.html": {
-		"refer": [
-			"usercenter.html",
-			"pchange.html",
-			"wlogin.html",
-			"namechange.html"
-		]
-	},
-	"newcenter.html": {
-		"refer": [
-			"new-gonggao.html",
-			"new-order.html",
-			"usercenter.html",
-			"order.html"
-		]
-	},
-	"pchange.html": {
-		"refer": [
-			"setting.html"
-		]
-	},
-	"wlogin.html": {
-		"refer": [
-			"setting.html"
-		]
-	},
-	"question-detail.html": {
-		"refer": [
-			"question.html"
-		]
-	},
-	"namechange.html": {
-		"refer": [
-			"setting.html"
-		]
-	},
-	"question.html": {
-		"refer": [
-			"question-detail.html",
-			"help.html"
-		]
-	}
+  "index.html": {
+    "refer": [
+      "order.html",
+      "choiceorde.html",
+      "nav.html",
+      "usercenter.html",
+      "newcenter.html"
+    ]
+  },
+  "order.html": {
+    "refer": [
+      "index.html",
+      "havetype.html",
+      "usercenter.html",
+      "orderdetail.html",
+      "givetype.html",
+      "newcenter.html"
+    ]
+  },
+  "choiceorde.html": {
+    "refer": [
+      "saoyisao.html",
+      "index.html"
+    ]
+  },
+  "saoyisao.html": {
+    "refer": [
+      "choiceorde.html",
+      "index.html"
+    ]
+  },
+  "havetype.html": {
+    "refer": [
+      "order.html"
+    ]
+  },
+  "usercenter.html": {
+    "refer": [
+      "order.html",
+      "dcart.html",
+      "profit.html",
+      "integral.html",
+      "discount.html",
+      "rname.html",
+      "luck.html",
+      "share.html",
+      "setting.html",
+      "aboutus.html",
+      "help.html",
+      "newcenter.html",
+      "index.html"
+    ]
+  },
+  "dcart.html": {
+    "refer": [
+      "usercenter.html",
+      "dcartdetail.html"
+    ]
+  },
+  "profit.html": {
+    "refer": [
+      "usercenter.html",
+      "profitgo.html"
+    ]
+  },
+  "integral.html": {
+    "refer": [
+      "integraldetail.html",
+      "integralecchange.html",
+      "usercenter.html"
+    ]
+  },
+  "integraldetail.html": {
+    "refer": [
+      "integral.html"
+    ]
+  },
+  "integralecchange.html": {
+    "refer": [
+      "integral.html"
+    ]
+  },
+  "discount.html": {
+    "refer": [
+      "usercenter.html",
+      "index.html",
+      "discount-history.html"
+    ]
+  },
+  "rname.html": {
+    "refer": [
+      "usercenter.html"
+    ]
+  },
+  "share.html": {
+    "refer": [
+      "usercenter.html",
+      "sharedetail.html"
+    ]
+  },
+  "luck.html": {
+    "refer": [
+      "usercenter.html",
+      "luck-my.html"
+    ]
+  },
+  "aboutus.html": {
+    "refer": [
+      "usercenter.html"
+    ]
+  },
+  "help.html": {
+    "refer": [
+      "usercenter.html",
+      "question.html"
+    ]
+  },
+  "setting.html": {
+    "refer": [
+      "usercenter.html",
+      "pchange.html",
+      "wlogin.html",
+      "namechange.html"
+    ]
+  },
+  "newcenter.html": {
+    "refer": [
+      "new-gonggao.html",
+      "new-order.html",
+      "usercenter.html",
+      "order.html"
+    ]
+  },
+  "pchange.html": {
+    "refer": [
+      "setting.html"
+    ]
+  },
+  "wlogin.html": {
+    "refer": [
+      "setting.html"
+    ]
+  },
+  "question-detail.html": {
+    "refer": [
+      "question.html"
+    ]
+  },
+  "namechange.html": {
+    "refer": [
+      "setting.html"
+    ]
+  },
+  "question.html": {
+    "refer": [
+      "question-detail.html",
+      "help.html"
+    ]
+  }
 }

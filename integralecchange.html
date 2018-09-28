@@ -41,7 +41,7 @@
 						<div class="middle-sub">有效期到:2018-08-29</div>
 						<div class="middle-sub">兑换价格:100积分</div>
 					</div>
-					<div class="discount-right">
+					<div class="discount-right" @click="pay">
 						立即兑换
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 						<div class="middle-sub">有效期到:2018-08-29</div>
 						<div class="middle-sub">兑换价格:100积分</div>
 					</div>
-					<div class="discount-right">
+					<div class="discount-right" @click="pay">
 						立即兑换
 					</div>
 				</div>
@@ -83,8 +83,14 @@
 						<div class="middle-sub">有效期到:2018-08-29</div>
 						<div class="middle-sub">兑换价格:100积分</div>
 					</div>
-					<div class="discount-right">
+					<div class="discount-right" @click="pay">
 						立即兑换
+					</div>
+				</div>
+				<div class="alert" v-show="alertboo" @click="alertshow">
+					<div class="alert-inner">
+						<img src="img/yes.png"/>
+						<div class="text">兑换成功, {{time}}s后返回</div>
 					</div>
 				</div>
 			</div>
@@ -93,10 +99,26 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					alertboo:false,
+					time:3
 				},
 				methods:{
-					
+					pay:function(){
+						var that=this
+						this.alertshow()
+						var set=setInterval(function(){
+							if(that.time==1){
+								clearInterval(set)
+								that.alertshow()
+								that.time=3
+							}else{
+								that.time--
+							}
+						},1000)
+					},
+					alertshow:function(){
+						this.alertboo=!this.alertboo
+					}
 				},
 				mounted:function(){
 					
