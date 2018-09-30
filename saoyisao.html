@@ -392,12 +392,6 @@
 						error: function(err) {
 							plus.nativeUI.closeWaiting()
 							alertboo('数据获取失败')
-							var wvs=plus.webview.all();
-							for(var i=0;i<wvs.length;i++){
-								if(wvs[i].getURL().indexOf('index')==-1){
-									plus.webview.close(wvs[i])
-								}
-							}
 						}
 					});
 				}
