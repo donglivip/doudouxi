@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,43 +9,86 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper help setting">
 			<!--头部-->
 			<div class="header">
 				<a class="head-tab" href="javascript:history.back()">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</a>
 				<div class="head-main">
 					昵称修改
 				</div>
 				<a class="head-tab" href="javascript:void(0)">
-					
+
 				</a>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="help-item">
-					<input type="text" name="" id="" value="" placeholder="请输入新的昵称"/>
+					<input type="text" placeholder="请输入新的昵称" v-model="usNickName" />
 				</div>
-				<div class="submit">
+				<div class="submit" @click="submit">
 					确认修改
 				</div>
 			</div>
+			<div class="alert" v-show="alertboo" @click="alertshow">
+				<div class="alert-inner">
+					<img src="img/yes.png" />
+					<div class="text">{{alerttext}}</div>
+					<div class="button">
+						确定
+					</div>
+				</div>
+			</div>
 		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					alerttext: '',
+					alertboo: false,
+					usNickName: ''
+				},
+				methods: {
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
+					},
+					submit: function() {
+						var that = this
+						if(this.usNickName == '') {
+							that.alertshow('信息输入有误')
+							return false;
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/updateUser",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('usUserId'),
+								usNickName:that.usNickName
+							},
+							success: function(res) {
+								if(res.status == 200) {
+									that.alertshow('信息提交成功')
+									localStorage.setItem('usNickName', that.usNickName)
+								} else {
+									that.alertshow('信息提交失败')
+								}
 
+								console.log(res)
+							}
+						});
+					}
 				},
-				methods:{
-					
-				},
-				mounted:function(){
-					
+				mounted: function() {
+
 				}
 			})
 		</script>
 	</body>
+
 </html>

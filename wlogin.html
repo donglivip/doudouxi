@@ -9,7 +9,7 @@
 		<title></title>
 	</head>
 	<body>
-		<div class="wrapper plogin wlogin">
+		<div class="wrapper plogin">
 			<!--头部-->
 			<div class="header">
 				<a class="head-tab" href="javascript:history.back()">
@@ -26,49 +26,101 @@
 			<div class="main big-main">
 				<div class="main-inner">
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号"/>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone"/>
 						<div class="addcode" @click="addcode">{{num}}</div>
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入短信验证码"/>
+						<input type="number" placeholder="请输入短信验证码" v-model="code"/>
 					</div>
 					<div class="input-box">
-						<input :type="ptype" placeholder="请输入新密码"/>
-						<img src="img/number (1).png" @click="changetype('text')" v-if="ptype=='password'"/>
-						<img src="img/number (2).png" @click="changetype('password')" v-if="ptype=='text'"/>
+						<input type="number" placeholder="请输入新密码" v-model="pwd"/>
 					</div>
-					<div class="login">立即找回</div>
 					<div class="login-type">
-						<a href="plogin.html">手机号快捷登录</a>
+						<a href="mlogin.html">密码账户登录</a>
 					</div>
+					<div class="login" @click="login()">登录</div>
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
 					num:'获取验证码',
-					ptype:'password'
+					usCpPhone:'',
+					code:'',
+					mycode:'',
+					pwd:''
 				},
 				methods:{
+					login:function(){
+						var that=this
+						if(that.usCpPhone==''||that.code==''||that.code!=that.mycode||that.pwd==''){
+							that.alertshow('账号或验证码不正确！')
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/updateUserPwd",
+							dataType:'json',
+							data:{
+								usPassword:that.pwd,
+								usPhone:that.usCpPhone
+							},
+							success:function(res){
+								console.log(res)
+								if(res.status==200){
+									window.location.href='./mlogin.html'
+								}else{
+									that.alertshow(res.msg)
+								}
+							}
+						});
+					},
 					addcode:function(){
 						var set
 							that=this;
 						if(this.num=='获取验证码'){
-							this.num=60
-							set=setInterval(function(){
-								if(that.num!=1){
-									that.num--
-								}else{
-									clearInterval(set)
-									that.num='获取验证码'
+							var that=this
+							$.ajax({
+								type:"post",
+								url:localStorage.getItem('myurl')+"/usCityPartner/usCityGetShortCode",
+								dataType:'json',
+								data:{
+									usCpPhone:that.usCpPhone
+								},
+								success:function(res){
+									function plusReady(){
+										// 显示自动消失的提示消息
+										plus.nativeUI.toast( "验证码已发送！");
+									}
+									if(window.plus){
+										plusReady();
+									}else{
+										document.addEventListener("plusready",plusReady,false);
+									}
+									that.mycode=res.data
+									that.num=60
+									set=setInterval(function(){
+										if(that.num!=1){
+											that.num--
+										}else{
+											clearInterval(set)
+											that.num='获取验证码'
+										}
+									},1000)
 								}
-							},1000)
+							});
+							
 						}
 					},
-					changetype:function(text){
-						this.ptype=text
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
 					}
 				},
 				mounted:function(){

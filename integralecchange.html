@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,122 +9,148 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper discount">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				<div class="head-tab mui-action-back">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
+				</div>
 				<div class="head-main">
 					积分兑换
 				</div>
-				<a class="head-tab" href="javascript:void(0)">
-					
-				</a>
+				<div class="head-tab" href="javascript:void(0)">
+
+				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main big-main">
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
+			<div class="main big-main" @scroll="myscroll">
+				<div class="main-inner">
+					<div class="discount-tab" v-for="val in mydata">
+						<div class="discount-left">
+							<div class="price">
+								￥<strong>{{val.pbCoPrice}}</strong>
+							</div>
+							<div class="type">
+								优惠券
+							</div>
 						</div>
-						<div class="type">
-							优惠券
+						<div class="discount-middle">
+							<div class="middle-title">
+								{{val.pbCoName}}
+							</div>
+							<div class="middle-sub">满{{val.pbCoLimitPrice}}元可用,不与其他优惠共享</div>
+							<div class="middle-sub">有效期到:{{val.pbCoEndTime}}</div>
+							<div class="middle-sub">兑换价格:{{val.pbCoExchange}}积分</div>
 						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
+						<div class="discount-right" @click="pay(val.pbCouponId,val.pbCoExchange,val.pbCoEndTime)">
+							立即兑换
 						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-						<div class="middle-sub">兑换价格:100积分</div>
-					</div>
-					<div class="discount-right" @click="pay">
-						立即兑换
 					</div>
 				</div>
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
-						</div>
-						<div class="type">
-							优惠券
-						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
-						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-						<div class="middle-sub">兑换价格:100积分</div>
-					</div>
-					<div class="discount-right" @click="pay">
-						立即兑换
-					</div>
-				</div>
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
-						</div>
-						<div class="type">
-							优惠券
-						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
-						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-						<div class="middle-sub">兑换价格:100积分</div>
-					</div>
-					<div class="discount-right" @click="pay">
-						立即兑换
-					</div>
-				</div>
-				<div class="alert" v-show="alertboo" @click="alertshow">
-					<div class="alert-inner">
-						<img src="img/yes.png"/>
-						<div class="text">兑换成功, {{time}}s后返回</div>
-					</div>
+			</div>
+			<div class="alert" v-show="alertboo" @click="alertshow">
+				<div class="alert-inner">
+					<img src="img/yes.png" />
+					<div class="text">兑换成功, {{time}}s后返回</div>
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					alertboo:false,
-					time:3
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					alertboo: false,
+					time: 3,
+					pages: 0,
+					pageNum: 0,
+					mydata: []
 				},
-				methods:{
-					pay:function(){
-						var that=this
-						this.alertshow()
-						var set=setInterval(function(){
-							if(that.time==1){
-								clearInterval(set)
-								that.alertshow()
-								that.time=3
-							}else{
-								that.time--
+				methods: {
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages > that.pageNum) {
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
 							}
-						},1000)
+						}
 					},
-					alertshow:function(){
-						this.alertboo=!this.alertboo
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/getDiscounts",
+							dataType: 'json',
+							data: {
+								pageNum: that.pageNum
+							},
+							success: function(res) {
+								console.log(res)
+								that.pages = res.data.pages
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.mydata.push(res.data.list[i])
+								}
+							}
+						});
+					},
+					pay: function(pbCouponId, pbCoExchange, pbCoEndTime) {
+						var that = this
+						if(localStorage.getItem('usUwIntegral')>=parseInt(pbCoExchange)){
+							var ajaxjson = {
+								couponId: pbCouponId,
+								userId: localStorage.getItem('usUserId'),
+								endTime: pbCoEndTime,
+								integralId: localStorage.getItem('usUserIntegralId'),
+								integral: parseInt(pbCoExchange)
+							}
+							console.log(ajaxjson)
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/exchangeUser",
+								dataType: 'json',
+								data: ajaxjson,
+								success: function(res) {
+									console.log(res)
+									localStorage.setItem('usUwIntegral',localStorage.getItem('usUwIntegral')-parseInt(pbCoExchange))
+									that.alertshow()
+									var set = setInterval(function() {
+										if(that.time == 1) {
+											clearInterval(set)
+											that.alertshow()
+											that.time = 3
+										} else {
+											that.time--
+										}
+									}, 1000)
+								}
+							});
+						}else{
+							alert('余额不足')
+						}
+						
+
+					},
+					alertshow: function() {
+						this.alertboo = !this.alertboo
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
 				}
 			})
 		</script>
 	</body>
+
 </html>

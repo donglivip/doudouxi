@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,122 +9,157 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper usercenter">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab">
-					
+
 				</div>
 				<div class="head-main">
 					个人中心
 				</div>
 				<div class="head-tab" @click="opennew('newcenter')">
-					<img src="img/Mail Copy@2x.png"/>
+					<img src="img/Mail Copy@2x.png" />
 				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
 				<div class="center-top">
-					<img :src="avatar" class="backimg"/>
-					<img :src="avatar" class="avatar" @click="imgclick"/>
+					<img :src="avatar" class="backimg" />
+					<img :src="avatar" class="avatar" @click="imgclick" />
 					<div class="name-box">
-						<div class="name">雨雪霏霏</div>
+						<div class="name">{{usNickName=='undefined'?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
-							<div class="phone">手机号：135465255566</div>
-							<div class="state" @click="opennew('rname')">未认证</div>
+							<div class="phone">手机号：{{usPhone}}</div>
+							<div class="state" @click="opennew('rname')">{{usCardId=='undefined'?'未认证':'已认证'}}</div>
 						</div>
 					</div>
 				</div>
 				<div class="nav">
 					<div class="nav-tab" @click="opennew('dcart')">
-						<img src="img/wallet@2x.png"/>
+						<img src="img/wallet@2x.png" />
 						<div class="text">
-							豆豆卡余额<br />
-							￥1866
+							豆豆卡余额<br /> ￥{{mydata[0]}}
 						</div>
 					</div>
 					<div class="nav-tab" @click="opennew('profit')">
-						<img src="img/wallet@2x.png"/>
+						<img src="img/wallet@2x.png" />
 						<div class="text">
-							收益<br />
-							￥100
+							收益<br /> ￥{{mydata[1]}}
 						</div>
 					</div>
 					<div class="nav-tab" @click="opennew('integral')">
-						<img src="img/tag@2x.png"/>
+						<img src="img/tag@2x.png" />
 						<div class="text">
 							我的积分
 						</div>
 					</div>
 					<div class="nav-tab" @click="opennew('discount')">
-						<img src="img/ticket@3x.png"/>
+						<img src="img/ticket@3x.png" />
 						<div class="text">
 							优惠券
 						</div>
 					</div>
 				</div>
 				<div class="user-tab" @click="opennew('share')">
-					<img src="img/Share-2 Copy@2x.png" class="logo"/>
+					<img src="img/Share-2 Copy@2x.png" class="logo" />
 					<div class="tab-text">分享赚钱</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</div>
 				<div class="user-tab" @click="opennew('luck')">
-					<img src="img/Gift Copy@2x.png" class="logo"/>
+					<img src="img/Gift Copy@2x.png" class="logo" />
 					<div class="tab-text">活动中心</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</div>
 				<div class="user-tab" @click="opennew('setting')">
-					<img src="img/Settings-2 Copy@2x.png" class="logo"/>
+					<img src="img/Settings-2 Copy@2x.png" class="logo" />
 					<div class="tab-text">设置</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</div>
 				<div class="user-tab" @click="opennew('help')">
-					<img src="img/Group 2@2x.png" class="logo"/>
+					<img src="img/Group 2@2x.png" class="logo" />
 					<div class="tab-text">帮助</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</div>
 				<a class="user-tab" href="aboutus.html">
-					<img src="img/Alert@2x.png" class="logo"/>
+					<img src="img/Alert@2x.png" class="logo" />
 					<div class="tab-text">关于豆豆洗</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</a>
 			</div>
 			<!--底部-->
 			<div class="bottom">
 				<div class="bottom-tab" @click="opennew('index')">
-					<img src="img/bottom01.png"/>
+					<img src="img/bottom01.png" />
 					<div class="bottom-text">
 						首页
 					</div>
 				</div>
 				<div class="bottom-tab" @click="opennew('order')">
-					<img src="img/bottom02.png"/>
+					<img src="img/bottom02.png" />
 					<div class="bottom-text">
 						订单
 					</div>
 				</div>
 				<div class="bottom-tab myanm">
-					<img src="img/bottom03-active.png"/>
+					<img src="img/bottom03-active.png" />
 					<div class="bottom-text active">
 						我的
 					</div>
 				</div>
 			</div>
+			<div class="alert" v-show="alertboo" @click="alertshow">
+				<div class="alert-inner">
+					<img src="img/yes.png" />
+					<div class="text">{{alerttext}}</div>
+					<div class="button">
+						确定
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					avatar:'img/avatar.jpg',
-					files:[]
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					avatar: 'img/avatar.jpg',
+					files: [],
+					usPhone: localStorage.getItem('usPhone'),
+					usNickName: localStorage.getItem('usNickName'),
+					usCardId: localStorage.getItem('usCardId'),
+					server: localStorage.getItem('myurl') + '/user/uploadUserImg',
+					alerttext: '',
+					alertboo: false,
+					mydata:''
 				},
-				methods:{
-					opennew:function(target){
+				methods: {
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findBalance",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId')
+							},
+							success:function(res){
+								console.log(res)
+								that.mydata=res.data
+							}
+						});
+					},
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
+					},
+					opennew: function(target) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					},
 					imgclick: function(imid, inid) {
@@ -159,7 +195,7 @@
 							plus.io.resolveLocalFileSystemURL(p, function(entry) {
 								var img_name = entry.name; //获得图片名称
 								var img_path = entry.toLocalURL(); //获得图片路径
-								that.avatar=img_path
+								that.avatar = img_path
 								that.upload_img(img_path);
 							}, function(e) {
 								alert("读取拍照文件错误：" + e.message);
@@ -176,7 +212,7 @@
 						var that = this
 						plus.gallery.pick(function(path) {
 							that.upload_img(path);
-							that.avatar=path
+							that.avatar = path
 						}, function(e) {
 							alert("取消选择图片");
 						}, {
@@ -191,7 +227,7 @@
 							path: p
 						});
 						//开始上传
-//						that.start_upload();
+						that.start_upload();
 					},
 					start_upload: function() {
 						var that = this
@@ -212,6 +248,25 @@
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
 									var files = json.data;
+									$.ajax({
+										type: "post",
+										url: localStorage.getItem('myurl') + "/user/updateUser",
+										dataType: 'json',
+										data: {
+											usUserId: localStorage.getItem('usUserId'),
+											usHeadImg: json.data
+										},
+										success: function(res) {
+											if(res.status == 200) {
+												that.alertshow('信息提交成功')
+												localStorage.setItem('usHeadImg', json.data)
+											} else {
+												that.alertshow('信息提交失败')
+											}
+
+											console.log(res)
+										}
+									});
 									wt.close();
 								} else {
 									alert("上传失败：" + status);
@@ -232,10 +287,16 @@
 						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
+					if(localStorage.getItem('usHeadImg') == 'undefined') {
+						this.avatar = 'img/Group 10@2x.png'
+					} else {
+						this.avatar = localStorage.getItem('usHeadImg')
+					}
 				}
 			})
 		</script>
 	</body>
+
 </html>

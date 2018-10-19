@@ -18,7 +18,7 @@
 				<div class="head-main">
 					我的积分
 				</div>
-				<div class="head-tab" href="javascript:void(0)">
+				<div class="head-tab">
 					
 				</div>
 			</div>
@@ -26,34 +26,60 @@
 			<div class="main big-main">
 				<div class="profit-top">
 					<div class="subtitile">剩余积分</div>
-					<div class="price">10000</div>
+					<div class="price">{{mydata.usUwIntegral}}</div>
 				</div>
-				<a class="integral-tab" href="integralecchange.html">
+				<div class="integral-tab" @click="opennew('integralecchange')">
 					<div>
 						积分兑换
 					</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
-				<a class="integral-tab" href="integraldetail.html">
+				</div>
+				<div class="integral-tab" @click="opennew('integraldetail')">
 					<div>
 						明细
 					</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
+				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					mydata:''
 				},
 				methods:{
-					
+					opennew:function(target,id){
+						mui.openWindow({
+							url:'./'+target+'.html',
+							id:target
+						})
+					},
+					myajax:function(){
+						var that=this
+						that.pageNum++
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findIntegral",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId'),
+								status:2,
+								pageNum:that.pageNum
+							},
+							success:function(res){
+								console.log(res)
+								localStorage.setItem('usUserIntegralId',res.data.usUserIntegralId)
+								localStorage.setItem('usUwIntegral',res.data.usUwIntegral)
+								that.mydata=res.data
+							}
+						});
+					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

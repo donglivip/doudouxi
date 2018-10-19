@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,12 +9,13 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper luck">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					挖宝
@@ -26,45 +28,45 @@
 			<div class="main big-main">
 				<div class="alert" v-show="alertboo" @click="alertshow">
 					<div class="alert-inner">
-						<img src="img/Group 10@2x.png"/>
-						<div class="text">恭喜你抽到{{jname}}</div>
-						<div class="button" @click.stop="opennew('luck-my')">
-							立即查看
+						<img src="img/Group 10@2x.png" />
+						<div class="text">{{jname}}</div>
+						<div class="button" @click.stop="discount()">
+							{{jname=='很遗憾,您未中奖！'?'确定':'立即查看'}}
 						</div>
 					</div>
 				</div>
 				<div class="luck-top">
 					<div class="gonggao">
-						<img src="img/Share@3x.png"/>
+						<img src="img/Share@3x.png" />
 						<div>尾号6011的用户获得奖励金10元</div>
 					</div>
 					<div class="luck-main">
 						<div class="luck-left">
-							<div class="luck-box" :class="myindex==val.id?'active':''" v-for="(val,index) in jdata" v-if="index<8">
-								{{val.text}}
+							<div class="luck-box" :class="myindex==val.pbCouponId?'active':''" v-for="(val,index) in jdata" v-if="index<8">
+								<img src="img/Group 10@2x.png" />
 							</div>
 						</div>
 						<div class="luck-middle">
 							<div class="luckm-top">
-								<div class="luck-box" :class="myindex==val.id?'active':''" v-for="(val,index) in jdata" v-if="index<26&index>20">
-									{{val.text}}
+								<div class="luck-box" :class="myindex==val.pbCouponId?'active':''" v-for="(val,index) in jdata" v-if="index<26&index>20">
+									<img src="img/Group 10@2x.png" />
 								</div>
 							</div>
-							<img src="img/Group 8@2x.png"/>
-							<div class="price">剩余积分：100</div>
+							<img src="img/Group 8@2x.png" />
+							<div class="price">剩余积分：{{usUwIntegral}}</div>
 							<div class="go" @click="go">
 								<p>开始挖宝</p>
-								<p>10积分一次</p>
+								<p>{{mydata.pbLdrIntegral}}积分一次</p>
 							</div>
 							<div class="luckm-top">
-								<div class="luck-box" :class="myindex==val.id?'active':''" v-for="(val,index) in jdata" v-if="index<13&index>7">
-									{{val.text}}
+								<div class="luck-box" :class="myindex==val.pbCouponId?'active':''" v-for="(val,index) in jdata" v-if="index<13&index>7">
+									<img src="img/Group 10@2x.png" />
 								</div>
 							</div>
 						</div>
 						<div class="luck-left">
-							<div class="luck-box" :class="myindex==val.id?'active':''" v-for="(val,index) in jdata" v-if="index<21&index>12">
-									{{val.text}}
+							<div class="luck-box" :class="myindex==val.pbCouponId?'active':''" v-for="(val,index) in jdata" v-if="index<21&index>12">
+								<img src="img/Group 10@2x.png" />
 							</div>
 						</div>
 					</div>
@@ -73,136 +75,144 @@
 					活动规则
 				</h2>
 				<ul>
-					<li>活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则</li>
-					<li>活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则</li>
-					<li>活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则活动规则</li>
-					<li>活动规则活动规则活动规则活动规则活动规则活动规则</li>
-					<li>活动规则活动规则活动规则活动规则活动规则活动规则活动规则</li>
-					<li>活动规则活动规则</li>
+					<li>挖宝所得奖品需要分享{{mydata.pbLdrShareNum}}次，才可以使用。</li>
+					<li>挖宝所得奖品有效期是{{mydata.pbLdrTime}}天。</li>
+					<li>奖品最终解释权归本公司所有。</li>
 				</ul>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					myindex:0,
-					time:0,
-					jdata:[
-						{
-							text:'奖品00',
-							id:'0'
-						},{
-							text:'奖品01',
-							id:'1'
-						},{
-							text:'奖品02',
-							id:'2'
-						},{
-							text:'奖品03',
-							id:'3'
-						},{
-							text:'奖品04',
-							id:'4'
-						},{
-							text:'奖品05',
-							id:'5'
-						},{
-							text:'奖品06',
-							id:'6'
-						},{
-							text:'奖品07',
-							id:'7'
-						},{
-							text:'奖品08',
-							id:'8'
-						},{
-							text:'奖品09',
-							id:'9'
-						},{
-							text:'奖品10',
-							id:'10'
-						},{
-							text:'奖品11',
-							id:'11'
-						},{
-							text:'奖品12',
-							id:'12'
-						},{
-							text:'奖品13',
-							id:'13'
-						},{
-							text:'奖品14',
-							id:'14'
-						},{
-							text:'奖品15',
-							id:'15'
-						},{
-							text:'奖品16',
-							id:'16'
-						},{
-							text:'奖品17',
-							id:'17'
-						},{
-							text:'奖品18',
-							id:'18'
-						},{
-							text:'奖品19',
-							id:'19'
-						},{
-							text:'奖品20',
-							id:'20'
-						},{
-							text:'奖品21',
-							id:'21'
-						},{
-							text:'奖品22',
-							id:'22'
-						},{
-							text:'奖品23',
-							id:'23'
-						},{
-							text:'奖品24',
-							id:'24'
-						},{
-							text:'奖品25',
-							id:'25'
-						}
-					],
-					jname:'',
-					alertboo:false
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					myindex: '',
+					time: 0,
+					jdata: [],
+					jname: '',
+					alertboo: false,
+					mydata: '',
+					usUwIntegral: localStorage.getItem('usUwIntegral')
 				},
-				methods:{
-					go:function(){
-						var that=this
-						var myset=setInterval(function(){
-							if(that.time<30){
-								that.myindex=Math.floor(Math.random()*25)
+				methods: {
+					myajax: function() {
+						var that = this
+						//						查询活动规则
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/deduction",
+							dataType: 'json',
+							data: {
+								status: 2
+							},
+							success: function(res) {
+								that.mydata = res.data
+							}
+						});
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/getDiscounts",
+							dataType: 'json',
+							data: {
+								pageNum: 1
+							},
+							success: function(res) {
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.jdata.push(res.data.list[i])
+								}
+								that.myindex = that.jdata[0].pbCouponId
+								var index = 26 - that.jdata.length
+								if(that.jdata.length < 26) {
+									for(var i = 0; i < index; i++) {
+										that.jdata.push({
+											pbCouponId: i + that.jdata.length
+										})
+									}
+								}
+								console.log(that.jdata)
+							}
+						});
+					},
+					discount: function() {
+						if(this.jname == '很遗憾,您未中奖！' || this.jname == '您的积分不足！') {
+							this.alertshow()
+						} else {
+							this.opennew('discount')
+						}
+					},
+					go: function() {
+						var that = this
+						//						if(localStorage.getItem('usUwIntegral') < that.mydata.pbLdrIntegral) {
+						//							this.jname = '您的积分不足！'
+						//							this.alertshow()
+						//							return false;
+						//						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/useIntegral",
+							dataType: 'json',
+							data: {
+								status: 2,
+								userId: localStorage.getItem('usUserId'),
+								integral: that.mydata.pbLdrIntegral
+							},
+							success: function(res) {
+								localStorage.setItem('usUwIntegral', localStorage.getItem('usUwIntegral') - that.mydata.pbLdrIntegral)
+							}
+						});
+						var myset = setInterval(function() {
+							if(that.time < 30) {
+								that.myindex = that.jdata[Math.floor(Math.random() * 25)].pbCouponId
 								that.time++
-							}else{
-								that.time=0
+							} else {
+								that.time = 0
 								clearInterval(myset)
-								that.jname=that.jdata[that.myindex].text
-								that.myindex=26
+								if(that.jdata[Math.floor(Math.random() * 25)].pbCoName == undefined||that.jdata[Math.floor(Math.random() * 25)].pbCoName == 'undefined') {
+									that.jname = '很遗憾,您未中奖！'
+								} else {
+									that.jname = '恭喜您，抽到' + that.jdata[Math.floor(Math.random() * 25)].pbCoName
+									var ajaxjson = {
+										userId: localStorage.getItem('usUserId'),
+										couponId: that.jdata[Math.floor(Math.random() * 25)].pbCouponId
+									}
+									console.log(ajaxjson)
+									$.ajax({
+										type: "post",
+										url: localStorage.getItem('myurl') + "/user/setUserCoupon",
+										dataType: 'json',
+										data: ajaxjson,
+										success: function(res) {
+											console.log(res)
+										}
+									});
+								}
+								that.myindex = 26
 								that.alertshow()
 							}
-						},150)
+						}, 150)
 					},
-					alertshow:function(){
-						this.alertboo=!this.alertboo
+					alertshow: function() {
+						this.alertboo = !this.alertboo
 					},
-					opennew:function(target){
+					opennew: function(target) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
 				}
 			})
 		</script>
 	</body>
+	<style type="text/css">
+		.luck-box img {
+			width: 80%!important;
+			margin: 0!important;
+		}
+	</style>
+
 </html>

@@ -27,10 +27,10 @@
 				<div class="main-inner">
 					<div class="titile">账号密码登录 </div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号"/>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone"/>
 					</div>
 					<div class="input-box">
-						<input :type="ptype" placeholder="请输入密码"/>
+						<input :type="ptype" placeholder="请输入密码" v-model="usCpPassword"/>
 						<img src="img/number (1).png" @click="changetype('text')" v-if="ptype=='password'"/>
 						<img src="img/number (2).png" @click="changetype('password')" v-if="ptype=='text'"/>
 					</div>
@@ -38,7 +38,7 @@
 						<a href="wlogin.html">忘记密码?</a>
 						<a href="plogin.html">手机快捷登录</a>
 					</div>
-					<div class="login" @click="opennew('index','')">登录</div>
+					<div class="login" @click="login">登录</div>
 					<div class="login-type">
 						<div @click="opennew('Agreement','')">登陆即视为同意 	<strong>《豆豆洗注册协议》</strong></div>
 					</div>
@@ -51,16 +51,71 @@
 						</div>
 					</div>
 				</div>
+				<div class="alert" v-if="alertboo" @click="alertshow('')">
+					<div class="alert-inner">
+						<div class="alert-top">豆豆洗</div>
+						<div class="text alert-text">{{alerttext}}</div>
+						<div class="button">确定</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					ptype:'password'
+					ptype:'password',
+					usCpPassword:'',
+					usCpPhone:'',
+					alertboo :false,
+					alerttext:''
 				},
 				methods:{
+					alertshow:function(text){
+						this.alerttext=text
+						this.alertboo=!this.alertboo
+					},
+					login:function(){
+						var that=this
+//						15805204773//  123456//
+						if(that.usCpPhone==''||that.usCpPassword==''){
+							that.alertshow('账号和密码都不能为空！')
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/registerUser",
+							dataType:'json',
+							data:{
+								index:4,
+								code:that.usCpPhone,
+								password:that.usCpPassword
+							},
+							success:function(res){
+								console.log(res)
+								if(res.status==200){
+									if(res.data.usStatus==1){
+										localStorage.setItem('usPhone',res.data.usPhone)
+										localStorage.setItem('usShareCode',res.data.usShareCode)
+										localStorage.setItem('usUserId',res.data.usUserId)
+										localStorage.setItem('usHeadImg',res.data.usHeadImg)
+										localStorage.setItem('usNickName',res.data.usNickName)
+										localStorage.setItem('usCardId',res.data.usCardId)
+										localStorage.setItem('usPayPassword', that.usPayPassword)
+										localStorage.setItem('usAliPayCode', that.usAliPayCode)
+										localStorage.setItem('usWeChatPayCode', that.usWeChatPayCode)
+										that.opennew('index')
+									}else{
+										that.alertshow('您的账户已被冻结！')
+									}
+								}else{
+									that.alertshow(res.msg)
+								}
+							}
+						});
+					},
 					changetype:function(text){
 						this.ptype=text
 					},
@@ -72,7 +127,7 @@
 					}
 				},
 				mounted:function(){
-					
+					localStorage.setItem('myurl','http://27.54.248.14:8080')
 				}
 			})
 		</script>

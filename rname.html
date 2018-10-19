@@ -25,20 +25,28 @@
 			<!--中间主体-->
 			<div class="main">
 				<div class="input-box">
-					<label for="uname">支付宝账号</label>
-					<input type="text" placeholder="请输入支付宝账号" id="uname" name="uname"/>
+					<label for="uname">姓名</label>
+					<input type="text" placeholder="请输入姓名" v-model="usName"/>
 				</div>
 				<div class="input-box">
-					<label for="uname">密码</label>
-					<input type="text" placeholder="请输入密码" id="uname" name="uname"/>
+					<label for="uname">身份证号</label>
+					<input type="text" placeholder="请输入身份证号" v-model="usCardId"/>
 				</div>
-				<div class="submit" @click="alertshow">
+				<div class="input-box">
+					<label for="uname">微信号</label>
+					<input type="text" placeholder="请输入微信号" v-model="usWeChatPayCode"/>
+				</div>
+				<div class="input-box">
+					<label for="uname">支付宝账号</label>
+					<input type="text" placeholder="请输入支付宝账号" v-model="usAliPayCode"/>
+				</div>
+				<div class="submit" @click="rname">
 					提交
 				</div>
 				<div class="alert" v-show="alertboo" @click="alertshow">
 					<div class="alert-inner">
 						<img src="img/yes.png"/>
-						<div class="text">提交完成</div>
+						<div class="text">{{alerttext}}</div>
 						<div class="button">
 							确定
 						</div>
@@ -47,15 +55,53 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					alertboo:false
+					alertboo:false,
+					usName:'',
+					usCardId:'',
+					usWeChatPayCode:'',
+					usAliPayCode:'',
+					alerttext:''
 				},
 				methods:{
-					alertshow:function(){
+					alertshow:function(text){
+						this.alerttext=text
 						this.alertboo=!this.alertboo
+					},
+					rname:function(){
+						var that=this
+						if(this.usName==''||this.usCardId==''||this.usWeChatPayCode==''||this.usAliPayCode==''){
+							that.alertshow('信息输入有误')
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/updateUser",
+							dataType:'json',
+							data:{
+								usName:that.usName,
+								usCardId:that.usCardId,
+								usWeChatPayCode:that.usWeChatPayCode,
+								usAliPayCode:that.usAliPayCode,
+								usUserId:localStorage.getItem('usUserId')
+							},
+							success:function(res){
+								if(res.status==200){
+									that.alertshow('信息提交成功')
+									localStorage.setItem('usCardId',that.usCardId)
+									localStorage.setItem('usAliPayCode',that.usAliPayCode)
+									localStorage.setItem('usWeChatPayCode',that.usWeChatPayCode)
+								}else{
+									that.alertshow('信息提交失败')
+								}
+								
+								console.log(res)
+							}
+						});
 					}
 				},
 				mounted:function(){

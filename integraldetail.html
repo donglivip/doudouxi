@@ -12,67 +12,89 @@
 		<div class="wrapper order dcartdetail">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					积分明细
 				</div>
-				<a class="head-tab" href="javascript:void(0)">
+				<div class="head-tab" href="javascript:void(0)">
 					
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="order-main" style="height: calc(100% - .2rem);">
-					<div class="order-box">
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									挖宝
+				<div class="order-main" style="height: calc(100% - .2rem);" @scroll="myscroll">
+					<div class="main-inner">
+						<div class="order-box" v-for="val in mydata">
+							<div class="order-right">
+								<div class="order-title">
+									<div class="order-h1">
+										{{val.usUfdReason}}
+									</div>
+									<div class="order-state">{{val.usUfdIntegral}}</div>
 								</div>
-								<div class="order-state">+1277</div>
-							</div>
-							<div class="order-bottom">
-								<div class="order-price">余额:￥30.00</div>
-								<div class="order-time">2018-07-18</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box">
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									兑换
+								<div class="order-bottom">
+									<div class="order-price">余额:￥{{val.usUfdBalance}}</div>
+									<div class="order-time">{{val.usUfdCreateTime}}</div>
 								</div>
-								<div class="order-state">-1277</div>
-							</div>
-							<div class="order-bottom">
-								<div class="order-price">余额:￥30.00</div>
-								<div class="order-time">2018-07-18</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					
+					mydata:[],
+					pages:0,
+					pageNum:0
 				},
 				methods:{
-					opennew:function(type){
-						if(type=='q'){
-							window.location.href='./havetype.html'
-						}else{
+					myajax:function(){
+						var that=this
+						that.pageNum++
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findIntegralDetails",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId')
+							},
+							success:function(res){
+								console.log(res)
+								that.pages=res.data.pages
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.mydata.push(res.data.list[i])
+								}
+							}
+						});
+					},
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
 							
 						}
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

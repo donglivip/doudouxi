@@ -18,38 +18,83 @@
 				<div class="head-main">
 					收益
 				</div>
-				<div class="head-tab" href="profitdetail.html">
+				<div class="head-tab" @click="opennew('profitdetail')">
 					明细
 				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="profit-top">
-					<div class="price">￥55</div>
-					<div class="subtitile">金额大于5元即可提现</div>
+					<div class="price">￥{{mydata[1]}}</div>
+					<div class="subtitile">金额大于{{mydata01.pbPfInitialAmount}}元即可提现</div>
 				</div>
-				<div class="proce">提现扣除6％的手续费</div>
+				<div class="proce">提现扣除{{mydata01.pbPfPercentage}}％的手续费</div>
 				<div class="withdraw" @click="opennew('profitgo')">提现</div>
-				<div class="proce proce02">点击提现，即代表您已同意  <a href="">《提现说明》</a> </div>
+				<div class="proce proce02">点击提现，即代表您已同意  <a href="javascript:void(0)">《提现说明》</a> </div>
 			</div>
+			<div class="alert" v-if="alertboo" @click="alertshow('')">
+					<div class="alert-inner">
+						<div class="alert-top">豆豆洗</div>
+						<div class="text alert-text">{{alerttext}}</div>
+						<div class="button">确定</div>
+					</div>
+				</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					mydata:'',
+					mydata01:'',
+					alertboo :false,
+					alerttext:''
 				},
 				methods:{
+					alertshow:function(text){
+						this.alerttext=text
+						this.alertboo=!this.alertboo
+					},
 					opennew:function(target){
+						if(this.mydata[1]<this.mydata01.pbPfInitialAmount){
+							this.alertshow('余额不足')
+							return false;
+						}
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findBalance",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId')
+							},
+							success:function(res){
+								that.mydata=res.data
+							}
+						});
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/share/findPresentation",
+							dataType:'json',
+							data:{
+								userRole:1
+							},
+							success:function(res){
+								console.log(res)
+								that.mydata01=res.data
+							}
+						});
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

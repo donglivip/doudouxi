@@ -24,47 +24,48 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
+				<bloack v-for='val in navdata'>
+					<div class="nav-title">{{val.changeCreateTime}}</div>
+					<div class="nav-tab">
+						<div class="new-main">
+							<div class="new-title">
+								{{val.pbNsName}}
+							</div>
+							<div class="text">{{val.pbNwContent}}</div>
 						</div>
-						<div class="text">您的订单366497 已成功存衣， 取送员即将把您的衣物送至洗涤店。</div>
 					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
-						</div>
-						<div class="text">您的订单366497 已成功存衣， 取送员即将把您的衣物送至洗涤店。</div>
-					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							订单状态
-						</div>
-						<div class="text">您的订单366497 已超时，暂无空箱， 请等待空箱或取消订单。</div>
-					</div>
-				</div>
+				</bloack>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					
+					navdata:''
 				},
 				methods:{
-					
+					myajax:function(){
+						var that=this
+	//					公告消息
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findNewsStyle",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usCityPartnerId'),
+								roleId:1
+							},
+							success:function(res){
+								console.log(res)
+								that.navdata=res.data
+							}
+						});
+					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

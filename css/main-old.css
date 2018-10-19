@@ -35,7 +35,7 @@ input{border: 0;}
 .index .star-box{display: flex;align-items: center;}
 .index .star-box img{width: .28rem;height: .28rem;margin-right: .05rem;}
 .index .join{background: #096148;color: #FFFFFF;padding: .15rem .3rem;border-radius: .5rem;}
-.index .star{margin-right: 3rem;}
+.index .star{margin-right: 3rem;width: 1.7rem;}
 .index .inform-inner{width: 100%;height: 100%;background: rgba(0,0,0,.5);position: absolute;bottom: 1rem;left: 0;}
 /*订单中心*/
 .order {background: #F4F4F4;}
@@ -151,7 +151,7 @@ input{border: 0;}
 .nav .nav-left img{width: .5rem;margin: 0 .2rem;}
 .nav .bprice{font-size: .35rem;color: #021A13;font-weight: 600;}
 .nav .shop-box{height: calc(100% - 1.4rem);overflow-y: scroll;display: flex;flex-wrap: wrap;}
-.nav .shop{width: 33%;padding: .3rem 0;border-bottom: 1px solid #F4F4F4;border-right: 1px solid #F4F4F4;}
+.nav .shop{width: 33%;padding: .3rem 0;border-bottom: 1px solid #F4F4F4;border-right: 1px solid #F4F4F4;height: 3rem;}
 .nav .shop:nth-of-type(3n){border-right: 0;}
 .nav .shop .img-box{width:100%;height: 1.6rem;display: flex;align-items: center;justify-content: center;}
 .nav .shop .img-box img{max-height: 100%;max-width: 100%;margin: 0 auto;}
@@ -258,7 +258,7 @@ input{border: 0;}
 .luck .luck-middle{height: 6.5rem;display: flex;flex-direction: column;justify-content: space-between;align-items: center;}
 .luck .price{color: #4F220A;font-size: .25rem;}
 .luck .go{border: 5px solid #4F220A;width: 1.5rem;height: 1.5rem;border-radius: .1rem;background: #FEB922;color: #4F220A;display: flex;align-items: center;justify-content: center;flex-direction: column;margin: .2rem 0 .3rem;}
-.luck .go p:first-of-type{font-size: .3rem;margin-bottom: .1rem;}
+.luck .go p:first-of-type{font-size: .3rem;margin-bottom: .1rem;text-align: center;}
 .luck .active{background: #FEB922;color: #4F220A;border: 2px solid #4F220A;box-sizing: border-box;}
 .luck h2{font-size: .26rem;margin: .3rem .2rem .2rem;}
 .luck li{margin: .1rem .3rem;list-style-type:decimal-leading-zero ; list-style-position:inside;}

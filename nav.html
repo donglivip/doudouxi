@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,12 +9,16 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
-		<div class="wrapper nav">
+		<div class="wrapper nav shopdetail">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+				<div class="head-tab mui-action-back" v-if="!detailboo">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
+				</div>
+				<div class="head-tab" v-if="detailboo" @click="back">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					分类中心
@@ -23,157 +28,240 @@
 				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main">
+			<div class="main" style="background: #FFFFFF;" v-if="!detailboo">
 				<div class="mynav">
-					<div class="nav-tab" v-for='(val,index) in navtext' :class="navindex==index?'active':''" @click="tab(index)">
-						<div class="nav-text">{{val}}</div>
+					<div class="nav-tab" v-for='(val,index) in onedata' :class="navindex==index?'active':''" @click="tab(index.val.pbClothesOneId)">
+						<div class="nav-text">{{val.pbCoName}}</div>
 						<div class="nav-circle"></div>
 					</div>
 				</div>
 				<div class="subnav">
-					<div class="subnav-item"  :class="subindex==0?'active':''" @click="subindexchange(0)">大衣外套</div>
-					<div class="subnav-item"  :class="subindex==1?'active':''" @click="subindexchange(1)">上衣</div>
-					<div class="subnav-item"  :class="subindex==2?'active':''" @click="subindexchange(2)">童装</div>
-					<div class="subnav-item"  :class="subindex==3?'active':''" @click="subindexchange(3)">配饰</div>
+					<div class="subnav-item" :class="subindex==index?'active':''" @click="subindexchange(index)" v-for="(val,index) in twodata">{{val.pbCtName}}</div>
 				</div>
 				<div class="shop-box">
-					<div class="shop" v-for="(val,index) in mydata">
-						<div class="img-box" @click="opennew('shop-detail')">
-							<img src="img/shop.jpg"/>
+					<div class="shop" v-for="(val,index) in threedata">
+						<div class="img-box" @click="usCommunityPartnerSaleId(val.usCommunityPartnerSaleId,index)">
+							<img :src="val.pbCdImg" />
 						</div>
 						<div class="price-box">
-							<div class="name">{{val.name}}</div>
-							<div class="price">￥{{val.price}}</div>
+							<div class="name">{{val.pbCdName}}</div>
+							<div class="price">￥{{val.usCpsSalePrice}}</div>
 						</div>
 						<div class="add-box">
-							<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)"/>
-							<div class="num">{{val.num}}</div>
-							<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)"/>
+							<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)" />
+							<div class="num">{{val.pbRdNum}}</div>
+							<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)" />
 						</div>
 					</div>
 				</div>
-				<div class="cart-alert" v-if="alertboo" @click="alertshow">
-					<div class="cart-inner">
-						<div class="cart-top">
-							<img src="img/Trash@2x.png" @click.stop="clear"/>
-							<div class="text" @click.stop="clear">清空洗衣篮</div>
+			</div>
+			<!--购物车弹出层-->
+			<div class="cart-alert" v-if="alertboo" @click="alertshow">
+				<div class="cart-inner">
+					<div class="cart-top">
+						<img src="img/Trash@2x.png" @click.stop="clear" />
+						<div class="text" @click.stop="clear">清空洗衣篮</div>
+					</div>
+					<div class="cart" v-for="val in cartdata">
+						<div class="cart-name">{{val.pbCdName}}</div>
+						<div class="cart-num">￥{{val.usCpsSalePrice}}</div>
+						<div class="cart-setting">
+							<div>x{{val.pbRdNum}}</div>
 						</div>
-						<div class="cart" v-for="val in cartdata">
-							<div class="cart-name">{{val.name}}</div>
-							<div class="cart-num">￥{{val.price}}</div>
-							<div class="cart-setting">
-								<div>x{{val.num}}</div>
-							</div>
-						</div>
+					</div>
+				</div>
+			</div>
+			<!--详情弹出层-->
+			<div class="main" v-if='detailboo'>
+				<div class="img-box">
+					<img :src="mydata.pbCdImg" />
+				</div>
+				<div class="detail-inner">
+					<div class="name">
+						{{mydata.pbCdName}}
+					</div>
+					<div class="price">
+						￥{{mydata.usCpsSalePrice}}
+					</div>
+					<div class="setting">
+						<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)" />
+						<div>{{threedata[index].pbRdNum}}</div>
+						<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)" />
+					</div>
+				</div>
+				<div class="process">
+					<div class="process-title">清洗流程</div>
+					<div class="process-title" style="margin: 0 .3rem;">
+						{{mydata.pbCcpContent==0?'暂无流程':mydata.pbCcpContent}}
 					</div>
 				</div>
 			</div>
 			<div class="bottom">
 				<div class="nav-left" @click="alertshow">
-					<img src="img/Basket@2x.png"/>
-					<div class="bprice">合计:￥60</div>
+					<img src="img/Basket@2x.png" />
+					<div class="bprice">合计:￥{{allnum}}</div>
 				</div>
-				<div class="nav-right" @click="opennew('pay')">
+				<div class="nav-right" @click="pay()">
 					去结算
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					navtext:[
-						'上衣',
-						'裤裙',
-						'鞋类',
-						'家纺',
-						'包包'
-					],
-					navindex:0,
-					subindex:0,
-					alertboo:false,
-					mydata:[
-						{
-							name:'羊毛衫',
-							num:0,
-							price:16
-						},
-						{
-							name:'衬衫',
-							num:0,
-							price:10
-						},
-						{
-							name:'羽绒服',
-							num:0,
-							price:20
-						},
-						{
-							name:'T恤',
-							num:0,
-							price:10
-						},
-						{
-							name:'短裤',
-							num:0,
-							price:10
-						},
-						{
-							name:'长裤',
-							num:0,
-							price:12
-						},
-						{
-							name:'夹克',
-							num:0,
-							price:15
-						}
-					],
-					cartdata:[]
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					onedata: [],
+					twodata: [],
+					threedata: [],
+					navindex: 0,
+					subindex: 0,
+					alertboo: false,
+					cartdata: [],
+					allnum: 0,
+					detailboo: false,
+					index: 0,
+					mydata: ''
 				},
-				methods:{
-					clear:function(){
-						this.cartdata=[]
+				methods: {
+					pay:function(){
+						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
+						this.opennew('pay')
 					},
-					addnum:function(type,index){
-						if(type=='j'){
-							if(this.mydata[index].num>0){
-								this.mydata[index].num--
+					back: function() {
+						var that = this
+						that.detailboo = !that.detailboo
+					},
+					usCommunityPartnerSaleId: function(id, index) {
+						var that = this
+						that.index = index
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getClotheDetails",
+							dataType: 'json',
+							data: {
+								saleId: '1'
+							},
+							success: function(res) {
+								console.log(res)
+								that.mydata = res.data
+								that.detailboo = !that.detailboo
 							}
-						}else{
-							this.mydata[index].num++
+						});
+					},
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getClothes",
+							dataType: 'json',
+							data: {
+								deviceId: localStorage.getItem('pbPartnerDeviceId')
+							},
+							success: function(res) {
+								console.log(res)
+								that.onedata = res.data
+								that.havetwo(res.data[0].pbClothesOneId)
+							}
+						});
+					},
+					havetwo: function(id) {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getClotheTwo",
+							dataType: 'json',
+							data: {
+								deviceId: localStorage.getItem('pbPartnerDeviceId'),
+								oneId: id
+							},
+							success: function(res) {
+								console.log(res)
+								that.twodata = res.data
+								that.havethree(res.data[0].pbClothesTwoId)
+							}
+						});
+					},
+					havethree: function(id) {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getClotheTwo",
+							dataType: 'json',
+							data: {
+								deviceId: localStorage.getItem('pbPartnerDeviceId'),
+								twoId: id
+							},
+							success: function(res) {
+								console.log(res)
+								for(var i = 0; i < res.data.length; i++) {
+									res.data[i].pbRdNum = 0
+								}
+								that.threedata = res.data
+							}
+						});
+					},
+					clear: function() {
+						var that = this
+						this.cartdata = []
+						for(var i = 0; i < that.threedata.length; i++) {
+							that.threedata[i].pbRdNum = 0
+						}
+						that.allnum = 0
+						this.alertboo = !this.alertboo
+					},
+					addnum: function(type, index) {
+						var that = this
+						if(type == 'j') {
+							if(this.threedata[index].pbRdNum > 0) {
+								this.threedata[index].pbRdNum--
+							}
+						} else {
+							console.log(this.threedata[index].pbRdNum)
+							this.threedata[index].pbRdNum++
+						}
+						that.allnum = 0
+						that.cartdata=[]
+						for(var i = 0; i < that.threedata.length; i++) {
+							if(that.threedata[i].pbRdNum > 0) {
+								that.cartdata.push(that.threedata[i])
+								that.allnum += that.threedata[i].pbRdNum * that.threedata[i].usCpsSalePrice
+							}
 						}
 					},
-					tab:function(index){
-						this.navindex=index
+					tab: function(index, id) {
+						this.navindex = index
+						this.havetwo(id)
 					},
-					alertshow:function(){
-						var that=this
-						if(!that.alertboo){
-							that.cartdata=[]
-							for (var i=0;i<that.mydata.length;i++) {
-								if(that.mydata[i].num>0){
-									that.cartdata.push(that.mydata[i])
+					alertshow: function() {
+						var that = this
+						if(!that.alertboo) {
+							that.cartdata = []
+							for(var i = 0; i < that.threedata.length; i++) {
+								if(that.threedata[i].pbRdNum > 0) {
+									that.cartdata.push(that.threedata[i])
 								}
 							}
 						}
-						this.alertboo=!this.alertboo
+						this.alertboo = !this.alertboo
 					},
-					opennew:function(target){
+					opennew: function(target) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					},
-					subindexchange:function(index){
-						this.subindex=index
+					subindexchange: function(index) {
+						this.subindex = index
+						this.havethree()
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
 				}
 			})
 		</script>
 	</body>
+
 </html>

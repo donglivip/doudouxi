@@ -28,16 +28,16 @@
 					<div class="titile">手机快捷登录 </div>
 					<div class="subtitle">未注册的手机号将自动创建豆豆洗账号 </div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号"/>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone"/>
 						<div class="addcode" @click="addcode">{{num}}</div>
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入短信验证码"/>
+						<input type="number" placeholder="请输入短信验证码" v-model="code"/>
 					</div>
 					<div class="login-type">
 						<a href="mlogin.html">密码账户登录</a>
 					</div>
-					<div class="login" @click="opennew('index','')">登录</div>
+					<div class="login" @click="login()">登录</div>
 					<div class="login-type">
 						<div @click="opennew('Agreement','')">登陆即视为同意 	<strong>《豆豆洗注册协议》</strong></div>
 					</div>
@@ -52,26 +52,80 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					num:'获取验证码'
+					num:'获取验证码',
+					usCpPhone:'',
+					code:'',
+					mycode:''
 				},
 				methods:{
+					login:function(){
+						var that=this
+//						15805204773//  123456//
+						if(that.usCpPassword==''||that.code==''||that.code!=that.mycode){
+							that.alertshow('账号或验证码不正确！')
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/registerUser",
+							dataType:'json',
+							data:{
+								index:1,
+								code:that.usCpPhone
+							},
+							success:function(res){
+								console.log(res)
+								if(res.status==200){
+									if(res.data.usStatus==1){
+										localStorage.setItem('usPhone',res.data.usPhone)
+										localStorage.setItem('usShareCode',res.data.usShareCode)
+										localStorage.setItem('usUserId',res.data.usUserId)
+										localStorage.setItem('usHeadImg',res.data.usHeadImg)
+										localStorage.setItem('usNickName',res.data.usNickName)
+										localStorage.setItem('usCardId',res.data.usCardId)
+										localStorage.setItem('usPayPassword', that.usPayPassword)
+										that.opennew('index')
+									}else{
+										that.alertshow('您的账户已被冻结！')
+									}
+									
+								}else{
+									that.alertshow(res.msg)
+								}
+							}
+						});
+					},
 					addcode:function(){
 						var set
 							that=this;
 						if(this.num=='获取验证码'){
-							this.num=60
-							set=setInterval(function(){
-								if(that.num!=1){
-									that.num--
-								}else{
-									clearInterval(set)
-									that.num='获取验证码'
+							var that=this
+							$.ajax({
+								type:"post",
+								url:localStorage.getItem('myurl')+"/usCityPartner/usCityGetShortCode",
+								dataType:'json',
+								data:{
+									usCpPhone:that.usCpPhone
+								},
+								success:function(res){
+									that.mycode=res.data
+									that.num=60
+									set=setInterval(function(){
+										if(that.num!=1){
+											that.num--
+										}else{
+											clearInterval(set)
+											that.num='获取验证码'
+										}
+									},1000)
 								}
-							},1000)
+							});
+							
 						}
 					},
 					opennew:function(target,id){

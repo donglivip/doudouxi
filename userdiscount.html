@@ -16,96 +16,102 @@
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</div>
 				<div class="head-main">
-					选择优惠卷
+					选择优惠券
 				</div>
 				<div class="head-tab">
 					
 				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main big-main">
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
+			<div class="main big-main" @scroll="myscroll">
+				<div class="main-inner">
+					<div class="discount-tab" v-for="val in mydata">
+						<div class="discount-left">
+							<div class="price">
+								￥<strong>{{val.pbCoPrice}}</strong>
+							</div>
+							<div class="type">
+								优惠券
+							</div>
 						</div>
-						<div class="type">
-							优惠券
+						<div class="discount-middle">
+							<div class="middle-title">
+								{{val.pbCoName}}
+							</div>
+							<div class="middle-sub">满{{val.pbCoLimitPrice}}元可用,线上用户专享</div>
+							<div class="middle-sub">有效期到:{{val.changeEndTime}}</div>
 						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
+						<div class="discount-right" @click="change(val.pbCouponId,val.pbCoName)">
+							立即使用
 						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-					</div>
-					<div class="discount-right" @click="back">
-						立即使用
-					</div>
-				</div>
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
-						</div>
-						<div class="type">
-							优惠券
-						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
-						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-					</div>
-					<div class="discount-right" @click="back">
-						立即使用
-					</div>
-				</div>
-				<div class="discount-tab">
-					<div class="discount-left">
-						<div class="price">
-							￥<strong>16</strong>
-						</div>
-						<div class="type">
-							优惠券
-						</div>
-					</div>
-					<div class="discount-middle">
-						<div class="middle-title">
-							10元通用优惠券
-						</div>
-						<div class="middle-sub">满30元可用,不与其他优惠共享</div>
-						<div class="middle-sub">有效期到:2018-08-29</div>
-					</div>
-					<div class="discount-right" @click="back">
-						立即使用
 					</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					pageNum:0,
+					mydata:[],
+					pages:0
 				},
 				methods:{
+					change:function(id,pbCoName){
+						localStorage.setItem('pbCouponUserId',id)
+						localStorage.setItem('pbCoName',pbCoName)
+						mui.back()
+					},
 					opennew:function(target,id){
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
 						})
 					},
-					back:function(){
-						mui.back()
+					myajax:function(){
+						var that=this
+						that.pageNum++
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findDiscount",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId'),
+								status:2,
+								pageNum:that.pageNum
+							},
+							success:function(res){
+								console.log(res)
+								that.pages=res.data.pages
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.mydata.push(res.data.list[i])
+								}
+							}
+						});
+					},
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
+							
+						}
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

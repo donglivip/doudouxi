@@ -35,46 +35,20 @@
 						<img src="img/Check@2x.png" v-show="navid==val.id"/>
 					</div>
 				</div>
-				<div class="order-main">
-					<div class="order-box">
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									提现
+				<div class="order-main" @scroll="myscroll">
+					<div class="main-inner">
+						<div class="order-box" v-for="val in mydata">
+							<div class="order-right">
+								<div class="order-title">
+									<div class="order-h1">
+										{{val.usUfdCreateName}}
+									</div>
+									<div class="order-state">{{val.usUfdPrice}}</div>
 								</div>
-								<div class="order-state">-1277</div>
-							</div>
-							<div class="order-bottom">
-								<div class="order-price">余额:￥30.00</div>
-								<div class="order-time">2018-07-18</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box">
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									充值
+								<div class="order-bottom">
+									<div class="order-price">余额:￥{{val.usUfdBalance}}</div>
+									<div class="order-time">{{val.usUfdCreateTime}}</div>
 								</div>
-								<div class="order-state">+1277</div>
-							</div>
-							<div class="order-bottom">
-								<div class="order-price">余额:￥30.00</div>
-								<div class="order-time">2018-07-18</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box">
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									洗涤消费
-								</div>
-								<div class="order-state">-1277</div>
-							</div>
-							<div class="order-bottom">
-								<div class="order-price">余额:￥30.00</div>
-								<div class="order-time">2018-07-18</div>
 							</div>
 						</div>
 					</div>
@@ -82,6 +56,7 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
@@ -91,23 +66,28 @@
 					navbox:[
 						{
 							'text':'按时间排序',
-							'id':01
+							'id':1
 						},
 						{
 							'text':'按金额排序',
-							'id':02
+							'id':2
 						},
 						{
 							'text':'按类型排序',
-							'id':03
+							'id':3
 						}
 					],
-					navid:01
+					navid:1,
+					pageNum:0,
+					mydata:[],
+					pages:0
 				},
 				methods:{
 					navshow:function(text,id){
 						this.typetext=text
 						this.navid=id
+						this.pageNum=0
+						this.mydata=[]
 						this.navboo=!this.navboo
 					},
 					opennew:function(type){
@@ -116,10 +96,49 @@
 						}else{
 							
 						}
-					}
+					},
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.order-main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
+							
+						}
+					},
+					myajax:function(){
+						var that=this
+						that.pageNum++
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findFinanceDetailes",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usUserId'),
+								status:that.navid,
+								pageNum:that.pageNum
+							},
+							success:function(res){
+								console.log(res)
+								that.pages=res.data.pages
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.mydata.push(res.data.list[i])
+								}
+							}
+						});
+					},
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

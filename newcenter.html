@@ -12,7 +12,7 @@
 		<div class="wrapper new">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab  mui-action-back">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</div>
 				<div class="head-main">
@@ -24,49 +24,80 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="nav-tab" @click="opennew('new-order')">
+				<div class="nav-tab" @click="opennew('new-order')" v-if="navdata!=''">
 					<div class="img-box type01" >
 						<img src="img/hanger-1@3x.png"/>
 					</div>
 					<div class="new-main" style="height: .8rem;">
 						<div class="new-title">
 							<div class="title">订单状态</div>
-							<div class="time">15:30</div>
+							<div class="time">{{navdata[0].pbNmCreateTime}}</div>
 						</div>
-						<div class="text">您的洗涤订单1358665状态已改变</div>
+						<div class="text">{{navdata[0].pbNwContent}}</div>
 					</div>
 				</div>
-				<div class="nav-tab" @click="opennew('new-gonggao')">
+				<div class="nav-tab" @click="opennew('new-gonggao')" v-if="navdata01!=''">
 					<div class="img-box type02" >
 						<img src="img/Share@3x.png"/>
 					</div>
 					<div class="new-main" style="height: .8rem;">
 						<div class="new-title">
 							<div class="title">公告 </div>
-							<div class="time">15:30</div>
+							<div class="time">{{navdata01[0].pbNwCreateTime}}</div>
 						</div>
-						<div class="text">您的洗涤订单1358665状态已改变</div>
+						<div class="text">{{navdata01[0].pbNwContent}}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					
+					navdata:'',
+					navdata01:''
 				},
 				methods:{
-					opennew:function(target){
+					opennew:function(target,id){
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					myajax:function(){
+						var that=this
+	//					公告消息
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/findNewsStyle",
+							dataType:'json',
+							data:{
+								userId:localStorage.getItem('usCityPartnerId'),
+								roleId:1
+							},
+							success:function(res){
+								console.log(res)
+								that.navdata=res.data
+							}
+						});
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/usCityPartner/queryMesMiddle",
+							dataType:'json',
+							data:{
+								usCityPartnerId:localStorage.getItem('usCityPartnerId')
+							},
+							success:function(res){
+								console.log(res)
+								that.navdata01=res.data
+							}
+						});
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,87 +9,53 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper order">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab" @click="opennew('choiceorde')">
-					<img src="img/index01.png"/>
+					<img src="img/index01.png" />
 				</div>
 				<div class="head-main">
 					订单
 				</div>
 				<div class="head-tab" @click="opennew('newcenter')">
-					<img src="img/index02.png"/>
+					<img src="img/index02.png" />
 				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
 				<!--名单筛选-->
-				<div class="order-nav" @click="navshow(typetext)">
+				<div class="order-nav" @click="navshow(typetext,navid)">
 					<div class="nav-text">{{typetext}}</div>
-					<img src="img/Arrow_right@2x.png"/>
+					<img src="img/Arrow_right@2x.png" />
 				</div>
-				<div class="order-alert" v-show="navboo" @click.stop="navshow(typetext,navid)">
+				<div class="order-alert" v-show="navboo">
 					<div class="nav-tab" @click.stop="navshow(val.text,val.id)" v-for="val in navbox">
 						<div>{{val.text}}</div>
-						<img src="img/Check@2x.png" v-show="navid==val.id"/>
+						<img src="img/Check@2x.png" v-show="navid==val.id" />
 					</div>
 				</div>
-				<div class="order-main">
-					<div class="order-box" @click="opennew('orderdetail')">
-						<img src="./img/shop.jpg"/>
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									订单编号：3756021
+				<div class="order-main" @scroll="myscroll">
+					<div class="main-inner">
+						<div class="order-box" @click="opennew('orderdetail')" v-for="val in mydata">
+							<img :src="val.pbOrComplainImg" />
+							<div class="order-right">
+								<div class="order-title">
+									<div class="order-h1">
+										订单编号：{{val.pbOrderId}}
+									</div>
+									<div class="order-state">{{val | status}}</div>
 								</div>
-								<div class="order-state">待存衣</div>
-							</div>
-							<div class="order-bottom">
-								<div class="bottom-left">
-									<div class="order-time">下单时间：2018-07-18 16:50</div>
-									<div class="order-price">订单价格：￥30.00</div>
-								</div>
-								<div class="bottom-right" @click.stop="opennew('givetype')">
-									查看存衣码
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box" @click="opennew('orderdetail')">
-						<img src="./img/shop.jpg"/>
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									订单编号：3756021
-								</div>
-								<div class="order-state">待取衣</div>
-							</div>
-							<div class="order-bottom">
-								<div class="bottom-left">
-									<div class="order-time">下单时间：2018-07-18 16:50</div>
-									<div class="order-price">订单价格：￥30.00</div>
-								</div>
-								<div class="bottom-right" @click.stop="opennew('havetype')">
-									查看取衣码
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box">
-						<img src="./img/shop.jpg"/>
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									订单编号：3756021
-								</div>
-								<div class="order-state">已完成</div>
-							</div>
-							<div class="order-bottom">
-								<div class="bottom-left">
-									<div class="order-time">下单时间：2018-07-18 16:50</div>
-									<div class="order-price">订单价格：￥30.00</div>
+								<div class="order-bottom">
+									<div class="bottom-left">
+										<div class="order-price">订单价格:￥{{val.pbOrCountPrice}}</div>
+										<div class="order-time">下单时间:{{val.changeCreateTime}}</div>
+									</div>
+									<div class="bottom-right" @click.stop="opennew('givetype')" v-if="val.pbOrStatus==2||val.pbOrStatus==6">
+										查看存衣码
+									</div>
 								</div>
 							</div>
 						</div>
@@ -97,20 +64,20 @@
 			</div>
 			<!--底部-->
 			<div class="bottom">
-				<div class="bottom-tab"  @click="opennew('index')">
-					<img src="img/bottom01.png"/>
+				<div class="bottom-tab" @click="opennew('index')">
+					<img src="img/bottom01.png" />
 					<div class="bottom-text">
 						首页
 					</div>
 				</div>
 				<div class="bottom-tab myanm">
-					<img src="img/bottom02-acitve.png"/>
+					<img src="img/bottom02-acitve.png" />
 					<div class="bottom-text active">
 						订单
 					</div>
 				</div>
 				<div class="bottom-tab" @click="opennew('usercenter')">
-					<img src="img/bottom03.png"/>
+					<img src="img/bottom03.png" />
 					<div class="bottom-text">
 						我的
 					</div>
@@ -118,57 +85,136 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					navboo:false,
-					typetext:'全部',
-					navbox:[
-						{
-							'text':'待存衣/待取衣',
-							'id':01
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					navboo: false,
+					typetext: '全部',
+					navbox: [{
+							'text': '全部',
+							'id': 1
 						},
 						{
-							'text':'待评价/已完成',
-							'id':02
+							'text': '待存衣/待取衣',
+							'id': 2
 						},
 						{
-							'text':'洗涤中',
-							'id':03
+							'text': '待评价/已完成',
+							'id': 3
 						},
 						{
-							'text':'退单/售后',
-							'id':04
+							'text': '洗涤中',
+							'id': 4
 						},
 						{
-							'text':'全部',
-							'id':05
+							'text': '退单/售后',
+							'id': 5
 						},
 						{
-							'text':'异常订单',
-							'id':06
+							'text': '全部',
+							'id': 6
+						},
+						{
+							'text': '异常订单',
+							'id': 7
 						}
 					],
-					navid:01
+					navid: 1,
+					mydata: [],
+					pages:0,
+					pageNum:0
 				},
-				methods:{
-					navshow:function(text,id){
-						this.typetext=text
-						this.navid=id
-						this.navboo=!this.navboo
+				methods: {
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.order-main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
+							
+						}
 					},
-					opennew:function(target){
+					navshow: function(text, id) {
+						this.typetext = text
+						this.navid = id
+						this.navboo = !this.navboo
+						this.myajax()
+					},
+					opennew: function(target) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
+					},
+					myajax: function() {
+						var that = this
+						var ajaxjson = {
+							userId: localStorage.getItem('usUserId'),
+							status: that.navid
+						}
+						console.log(ajaxjson)
+						that.mydata=[]
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getOrders",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								if(res.data.list!=null){
+									that.pages=res.data.pages
+									for(var i = 0; i < res.data.list.length; i++) {
+										that.mydata.push(res.data.list[i])
+									}
+								}
+							}
+						});
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
+				},
+				filters:{
+					status:function(value){
+						if(value.pbOrStatus==1){
+							if(value.pbOrAssessStatus==1){
+								return '已完成'
+							}else{
+								return '待评价'
+							}
+						}else if(value.pbOrStatus==2){
+							return '待存衣'
+						}else if(value.pbOrStatus==6){
+							return '待取衣'
+						}else if(value.pbOrStatus==7){
+							if(value.pbOrProblemStatus==3){
+								return '待退单'
+							}else if(value.pbOrProblemStatus==2){
+								return '调整订单'
+							}else{
+								return '投诉订单'
+							}
+							
+						}else if(value.pbOrStatus==13||value.pbOrStatus==14||value.pbOrStatus==15||value.pbOrStatus==16){
+							return '滞留中'
+						}else{
+							return '洗涤中'
+						}
+					}
 				}
 			})
 		</script>
 	</body>
+
 </html>

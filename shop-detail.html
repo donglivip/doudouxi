@@ -25,14 +25,14 @@
 			<!--中间主体-->
 			<div class="main">
 				<div class="img-box">
-					<img src="img/shop.jpg"/>
+					<img :src="mydata.pbCdImg"/>
 				</div>
 				<div class="detail-inner">	
 					<div class="name">
-						羊绒衫
+						{{mydata.pbCdName}}
 					</div>
 					<div class="price">
-						￥16
+						￥{{mydata.usCpsSalePrice}}
 					</div>
 					<div class="setting">
 						<img src="img/Close-2 Copy 9@2x.png"/>
@@ -43,7 +43,7 @@
 				<div class="process">
 					<div class="process-title">清洗流程</div>
 					<div class="process-title" style="margin: 0 .3rem;">
-						清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程清洗流程
+						{{mydata.pbCcpContent==0?'暂无流程':mydata.pbCcpContent}}
 					</div>
 				</div>
 			</div>
@@ -58,20 +58,15 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					navtext:[
-						'上衣',
-						'裤裙',
-						'鞋类',
-						'家纺',
-						'包包'
-					],
 					navindex:0,
 					subindex:0,
-					alertboo:false
+					alertboo:false,
+					mydata:''
 				},
 				methods:{
 					tab:function(index){
@@ -79,10 +74,25 @@
 					},
 					alertshow:function(){
 						this.alertboo=!this.alertboo
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/getClotheDetails",
+							dataType:'json',
+							data:{
+								saleId:localStorage.getItem('usCommunityPartnerSaleId')
+							},
+							success:function(res){
+								console.log(res)
+								that.mydata=res.data
+							}
+						});
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

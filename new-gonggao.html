@@ -24,47 +24,47 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							系统公告 
+				<block v-for='val in navdata'>
+					<div class="nav-title">{{val.pbNwCreateTime}}</div>
+					<div class="nav-tab">
+						<div class="new-main">
+							<div class="new-title">
+								{{val.pbNsName}} 
+							</div>
+							<div class="text">{{val.pbNwContent}}</div>
 						</div>
-						<div class="text">豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！</div>
 					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							系统公告 
-						</div>
-						<div class="text">豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！</div>
-					</div>
-				</div>
-				<div class="nav-title">2018-7-18 15:30</div>
-				<div class="nav-tab">
-					<div class="new-main">
-						<div class="new-title">
-							系统公告 
-						</div>
-						<div class="text">豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！豆豆洗挖宝活动开始啦！</div>
-					</div>
-				</div>
+				</block>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					
+					navdata:''
 				},
 				methods:{
-					
+					myajax:function(){
+						var that=this
+	//					公告消息
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/usCityPartner/queryMesMiddle",
+							dataType:'json',
+							data:{
+								usCityPartnerId:localStorage.getItem('usCityPartnerId')
+							},
+							success:function(res){
+								console.log(res)
+								that.navdata=res.data
+							}
+						});
+					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

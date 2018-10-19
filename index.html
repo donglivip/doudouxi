@@ -7,8 +7,8 @@
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://webapi.amap.com/maps?v=1.4.8&key=68aa6ce0aa3da10b36c6baed4fb2bc7a"></script>
-		<script type="text/javascript" crossorigin="anonymous" src="https://mirror.testin.cn/testin-sdk-latest.min.js"></script>
-		<script>testinSDK.enable('data','2651500bcca2788527aa9a395cb38e67');testinSDK.enable('bug');</script>
+		<!--<script type="text/javascript" crossorigin="anonymous" src="https://mirror.testin.cn/testin-sdk-latest.min.js"></script>
+		<script>testinSDK.enable('data','2651500bcca2788527aa9a395cb38e67');testinSDK.enable('bug');</script>-->
 		<title></title>
 	</head>
 	<body>
@@ -29,20 +29,16 @@
 			<div class="main">
 				<div id="container"></div>
 				<div class="lately" v-show='!informbooo' @click="informshow(1)">最近云柜</div>
-				<div class="inform-inner" v-show='informbooo' @click="informshow">
+				<div class="inform-inner" v-if='informbooo' @click="informshow">
 					<div class="inform">
-						<div class="title">李想家的豆豆{{gid}}号柜</div>
-						<div class="range">距您350米</div>
-						<div class="range">徐州市鼓楼区徐海路6号</div>
+						<div class="title">{{mydata[gid].pbPdName}}</div>
+						<div class="range">距您约{{mydata[gid].pbPdAddress | myadress}}米</div>
+						<div class="range">{{adress}}</div>
 						<div class="star-box">
 							<div class="star">
-								<img src="img/Group 5@2x.png"/>
-								<img src="img/Group 5@2x.png"/>
-								<img src="img/Group 5@2x.png"/>
-								<img src="img/Group 5@2x.png"/>
-								<img src="img/Group 6@2x.png"/>
+								<img src="img/Group 5@2x.png" v-for="mydata[gid].pbLeLevel"/>
 							</div>
-							<div class="join" @click="opennew('nav',001)">立即进入</div>
+							<div class="join" @click="opennew('nav',mydata[gid].pbPartnerDeviceId,mydata[gid].pbCommunityPartnerId)">立即进入</div>
 						</div>
 					</div>
 				</div>
@@ -71,34 +67,48 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:".wrapper",
 				data:{
 					map:'',
 					informbooo:false,
-					gid:'',
+					gid:0,
+					mydata:'',
+					adress:'',
+					lng:34.269361,
+					lat:117.271321,
+					juli:0
 				},
 				mounted:function(){
 					var that=this
+					localStorage.setItem('pbCoName','')
+					localStorage.setItem('cartdata','')
 //					// 扩展API加载完毕后调用onPlusReady回调函数 
 					document.addEventListener('plusready', onPlusReady, false);
 					// 扩展API加载完毕，现在可以正常调用扩展API
 					function onPlusReady(){
 						plus.geolocation.getCurrentPosition(function(p){
-//							alert(p.coords.latitude+p.coords.longitude)
-//							that.mapinit(p.coords.latitude,p.coords.longitude)
+//							that.lng=p.coords.longitude
+//							that.lat=p.coords.latitude
+//							localStorage.setItem('lng',p.coords.longitude)
+//							localStorage.setItem('lat',p.coords.latitude)
 						}, function(e){
 							alert('Geolocation error: ' + e.message);
 						} );
 					}
-					that.mapinit(117.271321,34.269361)
+					that.mapinit(that.lat,that.lng)
+					localStorage.setItem('lng',34.269361)
+					localStorage.setItem('lat',117.271321)
 				},
 				methods:{
 					gocenter:function(){
-						this.map.setZoomAndCenter(17, [117.271321,34.269361]);
+						this.map.setZoomAndCenter(17, [that.lat,that.lng]);
 					},
-					opennew:function(target,id){
+					opennew:function(target,id,id02){
+						localStorage.setItem('pbPartnerDeviceId',id)
+						localStorage.setItem('pbCommunityPartnerId',id02)
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
@@ -133,25 +143,87 @@
 					            image: "./img/pin copy.png",
 					        })        
 					    });
-					    this.addmarker(117.271461,34.268561,01)
-					    this.addmarker(117.273602,34.270144,02)
-					    this.addmarker(117.270003,34.26897,03)
-					    this.addmarker(117.271553,34.270357,04)
-					    this.addmarker(117.273002,34.27225,05)
+					    $.ajax({
+					    	type:"post",
+					    	url:localStorage.getItem('myurl')+"/user/getDevices",
+					    	dataType:'json',
+					    	data:{
+					    		coordinate:that.lat+','+that.lng
+					    	},
+					    	success:function(res){
+					    		console.log(res)
+					    		that.mydata=res.data
+					    		for (var i=0;i<res.data.length;i++) {
+					    			that.addmarker(res.data[i].pbPdAddress.substring(0,res.data[i].pbPdAddress.indexOf(',')),res.data[i].pbPdAddress.substr(res.data[i].pbPdAddress.indexOf(',')+1),i,res.data[i].pbActivityTreasulrId)
+					    		}
+					    		AMap.service('AMap.Geocoder', function() { 
+					    			var lat=that.mydata[that.gid].pbPdAddress.substring(0,that.mydata[that.gid].pbPdAddress.indexOf(','))
+									var lng=that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',')+1)
+									var lnglatXY = [lat,lng] 
+									geocoder = new AMap.Geocoder({
+										city: "" //城市，默认：“全国”
+									});
+									geocoder.getAddress(lnglatXY, function(status, result) {
+										if(status === 'complete' && result.info === 'OK') {
+											that.adress=result.regeocode.formattedAddress
+										} else {
+											//获取地址失败
+											console.log(result)
+										}
+									});
+								})
+					    	}
+					    });
 					},
-					addmarker:function(lat,lng,id){
+					addmarker:function(lat,lng,id,aid){
 						var that=this
-						var marker = new AMap.Marker({
-						    position: new AMap.LngLat(lat,lng),
-						    offset: new AMap.Pixel(-10, -10),
-						    icon: './img/Group.png', // 添加 Icon 图标 URL
-						    title: id
-						});
+						if(aid==null){
+							var marker = new AMap.Marker({
+							    position: new AMap.LngLat(lat,lng),
+							    offset: new AMap.Pixel(-10, -10),
+							    icon: './img/Group.png', // 添加 Icon 图标 URL
+							    title: id
+							});
+						}else{
+							var marker = new AMap.Marker({
+							    position: new AMap.LngLat(lat,lng),
+							    offset: new AMap.Pixel(-10, -10),
+							    icon: './img/Groupred.png', // 添加 Icon 图标 URL
+							    title: id
+							});
+						}
 						this.map.add(marker);
 						marker.on('click',function(MapsEvent){
 							that.gid=marker.getTitle()
-							that.informshow()
+							var lat=that.mydata[that.gid].pbPdAddress.substring(0,that.mydata[that.gid].pbPdAddress.indexOf(','))
+							var lng=that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',')+1)
+							AMap.service('AMap.Geocoder', function() { 
+								var lnglatXY = [lat,lng] 
+								geocoder = new AMap.Geocoder({
+									city: "" //城市，默认：“全国”
+								});
+								geocoder.getAddress(lnglatXY, function(status, result) {
+									if(status === 'complete' && result.info === 'OK') {
+										that.adress=result.regeocode.formattedAddress
+										that.informshow()
+									} else {
+										//获取地址失败
+										console.log(result)
+									}
+								});
+							})
+							
 						})
+					}
+				},
+				filters:{
+					myadress:function(value){
+						var that=this
+						var lat=value.substring(0,value.indexOf(','))
+						var lng=value.substr(value.indexOf(',')+1)
+						var p1 = [lat,lng]
+						var p2 =[localStorage.getItem('lat'),localStorage.getItem('lng')]
+						return parseInt(AMap.GeometryUtil.distance(p1, p2));
 					}
 				}
 			})

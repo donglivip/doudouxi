@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,36 +9,57 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+	<style type="text/css">
+		.button span {
+			flex: 1;
+			text-align: center;
+		}
+		
+		.button span:first-of-type {
+			border-right: 1px solid #FFFFFF;
+		}
+	</style>
+
 	<body>
 		<div class="wrapper profit profitgo">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					提现
 				</div>
 				<div class="head-tab" href="javascript:void(0)">
-					
+
 				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="profit-top">
 					<div class="subtitile" style="color: #096148;">提现金额</div>
-					<input type="price" placeholder="请输入提现金额" value="￥50"/>
-					<div class="subtitile">可提现额￥66</div>
-					<div class="profit-type">
+					<input type="price" placeholder="请输入提现金额" v-model="price" />
+					<div class="subtitile">可提现额￥{{mydata[1]}}</div>
+					<div class="profit-type" @click="alertshow02">
 						<div>提现到</div>
-						<div>支付宝</div>
+						<div>{{style | mytype}}</div>
 					</div>
 				</div>
 				<div class="withdraw" @click="submit">确认提现</div>
+				<div class="alert" v-show="alertboo02" @click="alertshow02">
+					<div class="alert-inner">
+						<img src="img/Group 10@2x.png" />
+						<div class="text">支付方式</div>
+						<div class="button">
+							<span v-if="usAliPayCode!=undefined" @click="paytype(1)">支付宝</span>
+							<span v-if="usWeChatPayCode!=undefined" @click="paytype(2)">微信</span>
+						</div>
+					</div>
+				</div>
 				<div class="alert" v-show="alertboo" @click="alertshow">
 					<div class="alert-inner">
-						<img src="img/yes.png"/>
-						<div class="text">提现完成</div>
+						<img src="img/yes.png" />
+						<div class="text">{{alerttext}}</div>
 						<div class="button">
 							确定
 						</div>
@@ -46,24 +68,118 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					alertboo:false
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					alertboo: false,
+					price: '',
+					mydata: '',
+					mydata01: '',
+					alerttext: '',
+					alertboo02: false,
+					usAliPayCode: localStorage.getItem('usAliPayCode'),
+					usWeChatPayCode: localStorage.getItem('usWeChatPayCode'),
+					style: ''
 				},
-				methods:{
-					alertshow:function(){
-						this.alertboo=!this.alertboo
+				methods: {
+					paytype: function(type) {
+						this.style = type
 					},
-					submit:function(){
-						this.alertshow()
+					alertshow02: function() {
+						this.alertboo02 = !this.alertboo02
+					},
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
+					},
+					submit: function() {
+						if(this.price == '' || this.price == 0 || this.price > this.mydata[1]) {
+							this.alertshow('金额为空或余额不足！')
+							return false;
+						}
+						if(this.style == '') {
+							this.alertshow('请选择提现方式！')
+							return false;
+						}
+						var that = this
+						var payCode;
+						if(that.style == 1) {
+							payCode = localStorage.getItem('usAliPayCode')
+						} else {
+							payCode = localStorage.getItem('usWeChatPayCode')
+						}
+						var ajaxjson = {
+							userId: localStorage.getItem('usUserId'),
+							price: that.price,
+							serviceCharge: that.price * that.mydata01.pbPfPercentage / 100,
+							style: that.style,
+							payCode: payCode
+						}
+						console.log(ajaxjson)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/applyCash",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								if(res.data!=1){
+									alert('提现失败')
+								}else{
+									mui.back()
+								}
+							}
+						});
+					},
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/findBalance",
+							dataType: 'json',
+							data: {
+								userId: localStorage.getItem('usUserId')
+							},
+							success: function(res) {
+								that.mydata = res.data
+							}
+						});
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/findPresentation",
+							dataType: 'json',
+							data: {
+								userRole: 1
+							},
+							success: function(res) {
+								console.log(res)
+								that.mydata01 = res.data
+							}
+						});
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
+				},
+				filters: {
+					mytype: function(value) {
+						switch(value) {
+							case '':
+								return '请选择支付方式'
+								break;
+							case 1:
+								return '支付宝'
+								break;
+							case 2:
+								return '微信'
+								break;
+						}
+					}
 				}
 			})
 		</script>
 	</body>
+
 </html>
