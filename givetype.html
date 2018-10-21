@@ -34,7 +34,7 @@
 					</div>
 					<div class="havetype-title">
 						<div class="left">您的存衣码：</div>
-						<div class="num">964578</div>
+						<div class="num">{{num}}</div>
 						<div class="clone" data-clipboard-action="copy" data-clipboard-target=".num">复制存衣码</div>
 					</div>
 					<div class="havetype-title">
@@ -49,7 +49,7 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					num:localStorage.getItem('num')
 				},
 				methods:{
 					opennew:function(target,id){

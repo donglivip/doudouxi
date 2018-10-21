@@ -24,9 +24,9 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="nav-tab" @click="opennew('new-order')" v-if="navdata!=''">
+				<div class="nav-tab" @click="opennew('new-order',navdata[0].pbNewStyleId)" v-if="navdata!=''">
 					<div class="img-box type01" >
-						<img src="img/hanger-1@3x.png"/>
+						<img :src="navdata[0].pbNsImgUrl"/>
 					</div>
 					<div class="new-main" style="height: .8rem;">
 						<div class="new-title">
@@ -36,16 +36,16 @@
 						<div class="text">{{navdata[0].pbNwContent}}</div>
 					</div>
 				</div>
-				<div class="nav-tab" @click="opennew('new-gonggao')" v-if="navdata01!=''">
+				<div class="nav-tab" @click="opennew('new-gonggao',navdata[1].pbNewStyleId)" v-if="navdata!=''">
 					<div class="img-box type02" >
-						<img src="img/Share@3x.png"/>
+						<img :src="navdata[1].pbNsImgUrl"/>
 					</div>
 					<div class="new-main" style="height: .8rem;">
 						<div class="new-title">
 							<div class="title">公告 </div>
-							<div class="time">{{navdata01[0].pbNwCreateTime}}</div>
+							<div class="time">{{navdata[1].pbNmCreateTime}}</div>
 						</div>
-						<div class="text">{{navdata01[0].pbNwContent}}</div>
+						<div class="text">{{navdata[1].pbNwContent}}</div>
 					</div>
 				</div>
 			</div>
@@ -60,7 +60,8 @@
 					navdata01:''
 				},
 				methods:{
-					opennew:function(target,id){
+					opennew:function(target,pbNewStyleId){
+						localStorage.setItem('pbNewStyleId',pbNewStyleId)
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
@@ -74,24 +75,12 @@
 							url:localStorage.getItem('myurl')+"/user/findNewsStyle",
 							dataType:'json',
 							data:{
-								userId:localStorage.getItem('usCityPartnerId'),
+								userId:localStorage.getItem('usUserId'),
 								roleId:1
 							},
 							success:function(res){
 								console.log(res)
 								that.navdata=res.data
-							}
-						});
-						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/usCityPartner/queryMesMiddle",
-							dataType:'json',
-							data:{
-								usCityPartnerId:localStorage.getItem('usCityPartnerId')
-							},
-							success:function(res){
-								console.log(res)
-								that.navdata01=res.data
 							}
 						});
 					}

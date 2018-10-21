@@ -39,7 +39,7 @@
 				</div>
 				<div class="order-main" @scroll="myscroll">
 					<div class="main-inner">
-						<div class="order-box" @click="opennew('orderdetail')" v-for="val in mydata">
+						<div class="order-box"v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)" >
 							<img :src="val.pbOrComplainImg" />
 							<div class="order-right">
 								<div class="order-title">
@@ -53,8 +53,17 @@
 										<div class="order-price">订单价格:￥{{val.pbOrCountPrice}}</div>
 										<div class="order-time">下单时间:{{val.changeCreateTime}}</div>
 									</div>
-									<div class="bottom-right" @click.stop="opennew('givetype')" v-if="val.pbOrStatus==2||val.pbOrStatus==6">
+									<div class="bottom-right" @click.stop="givetype(val.pbOrderId,val.pbOrDressCode)" v-if="val.pbOrStatus==2">
 										查看存衣码
+									</div>
+									<div class="bottom-right" @click.stop="havetype(val.pbOrderId,val.pbOrDressCode)" v-if="val.pbOrStatus==6">
+										查看取衣码
+									</div>
+									<div class="bottom-right" @click.stop="orderOK(val.orderId)" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==4">
+										撤回投诉
+									</div>
+									<div class="bottom-right" @click.stop="opennew('givetype')" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==2">
+										支付订单
 									</div>
 								</div>
 							</div>
@@ -127,6 +136,40 @@
 					pageNum:0
 				},
 				methods: {
+					givetype:function(id,num){
+						localStorage.setItem('orderId',id)
+						localStorage.setItem('num',num)
+						this.opennew('givetype')
+					},
+					havetype:function(id,num){
+						localStorage.setItem('orderId',id)
+						localStorage.setItem('num',num)
+						this.opennew('havetype')
+					},
+//					撤回投诉
+					orderOK:function(id){
+						var that = this
+						var ajaxjson = {
+							orderId: id,
+							userId: localStorage.getItem('usUserId')
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/orderOK",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								if(res.status==200){
+									that.pageNum=0
+									that.mydata=[]
+									that.myajax()
+								}else{
+									alert('操作失败！')
+								}
+							}
+						});
+					},
 					myscroll: function() {
 						var that = this
 						if(Math.abs($('.main-inner').offset().top) + $('.order-main').height() + 200 >= $('.main-inner').height()) {
@@ -151,6 +194,13 @@
 						this.navboo = !this.navboo
 						this.myajax()
 					},
+					opendetail:function(orderId,pbOrProblemStatus,pbOrStatus,pbOrAssessStatus){
+						localStorage.setItem('orderId',orderId)
+						localStorage.setItem('pbOrProblemStatus',pbOrProblemStatus)
+						localStorage.setItem('pbOrStatus',pbOrStatus)
+						localStorage.setItem('pbOrAssessStatus',pbOrAssessStatus)
+						this.opennew('orderdetail')
+					},
 					opennew: function(target) {
 						mui.openWindow({
 							url: './' + target + '.html',
@@ -159,9 +209,11 @@
 					},
 					myajax: function() {
 						var that = this
+						that.pageNum++
 						var ajaxjson = {
 							userId: localStorage.getItem('usUserId'),
-							status: that.navid
+							status: that.navid,
+							pageNum:that.pageNum
 						}
 						console.log(ajaxjson)
 						that.mydata=[]

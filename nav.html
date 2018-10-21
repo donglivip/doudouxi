@@ -105,6 +105,16 @@
 					去结算
 				</div>
 			</div>
+			<div class="alert" v-if='luckboo'>
+				<div class="alert-inner">
+					<div class="alert-top">豆豆洗</div>
+					<div class="text">恭喜您，发现挖宝活动！</div>
+					<div class="button">
+						<div @click="opennew('luck02')">立即参与</div>
+						<div @click="luckshow">含泪放弃</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -122,9 +132,13 @@
 					allnum: 0,
 					detailboo: false,
 					index: 0,
-					mydata: ''
+					mydata: '',
+					luckboo:true
 				},
 				methods: {
+					luckshow:function(){
+						this.luckboo = !this.luckboo
+					},
 					pay:function(){
 						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
 						this.opennew('pay')

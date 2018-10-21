@@ -16,7 +16,7 @@
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</a>
 				<div class="head-main">
-					退单
+					投诉
 				</div>
 				<a class="head-tab" href="javascript:void(0)">
 					
@@ -26,59 +26,189 @@
 			<div class="main big-main">
 				<div class="backorder-box">
 					<div class="backorder-top bbottom">
-						订单编号：46552
+						订单编号：{{orderId}}
 					</div>
 					<div class="backorder-top">
-						退单原因
+						投诉原因
 					</div>
 					<div class="question-box">
-						<div :class="myindex==index?'active':''" v-for="(val,index) in mynav" @click="typechange(index)">{{val.text}}</div>
+						<div :class="myindex==index?'active':''" v-for="(val,index) in mynav" @click="typechange(index)">{{val.pbOcContent}}</div>
 					</div>
-					<textarea placeholder="请输入退单原因" v-if="myindex==mynav.length-1"></textarea>
 					<div class="backorder-top bbottom">
 						上传图片
 					</div>
-					<div class="img-box">
-						<img src="img/upload.png"/>
+					<div class="img-big">
+						<div class="img-box">
+							<img src="img/upload.png" @click="imgclick"/>
+						</div>
+						<img :src="val" v-for="val in imglist"/>
 					</div>
 				</div>
 				<a class="withdraw" href="javascript:void(0)">提交</a>
 			</div>
 		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
 					myindex:0,
-					mynav:[
-						{
-							text:'下单错误',
-							id:0
-						},{
-							text:'地址选错了',
-							id:1
-						},{
-							text:'联系人信息错误',
-							id:2
-						},{
-							text:'我不洗了',
-							id:3
-						},{
-							text:'选错分类了',
-							id:4
-						},{
-							text:'其他',
-							id:5
-						}
-					]
+					mynav:[],
+					orderId: localStorage.getItem('orderId'),
+					files:[],
+					server:localStorage.getItem('myurl')+'/user/uploadComplaintImg',
+					imglist:[]
 				},
 				methods:{
 					typechange:function(index){
 						this.myindex=index
+					},
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/getOrderComplain",
+							dataType: 'json',
+							success: function(res) {
+								console.log(res)
+								that.mynav = res.data
+							}
+						});
+					},
+					submit: function() {
+						var that = this
+						var ajaxjson = {
+							orderId: localStorage.getItem('orderId'),
+							complainIds: [that.mynav[that.myindex].pbOrderRefundId],
+							img:that.imglist
+						}
+						console.log(ajaxjson)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/complainOrder",
+							dataType: 'json',
+							data: {
+								data:JSON.stringify(ajaxjson)
+							},
+							success: function(res) {
+								console.log(res)
+								mui.openWindow({
+									url: './order.html',
+									id: 'order'
+								})
+							}
+						});
+					},
+					imgclick: function(imid, inid) {
+						var that = this
+						var btnArray = [{
+							title: "照相机"
+						}, {
+							title: "相册"
+						}]; //选择按钮  1 2 3
+						plus.nativeUI.actionSheet({
+								title: "请选择",
+								cancel: "取消", // 0
+								buttons: btnArray
+							},
+							function(e) {
+								var index = e.index; // 
+								switch(index) {
+									case 1:
+										//写自己的逻辑
+										that.camera();
+										break;
+									case 2:
+										that.album();
+										break;
+								}
+							});
+					},
+					camera: function() {
+						var that = this
+						var cmr = plus.camera.getCamera();
+						cmr.captureImage(function(p) {
+							//成功
+							plus.io.resolveLocalFileSystemURL(p, function(entry) {
+								var img_name = entry.name; //获得图片名称
+								var img_path = entry.toLocalURL(); //获得图片路径
+								that.avatar = img_path
+								that.upload_img(img_path);
+							}, function(e) {
+								alert("读取拍照文件错误：" + e.message);
+							});
+
+						}, function(e) {
+							alert("失败：" + e.message);
+						}, {
+							filename: '_doc/camera/',
+							index: 1
+						});
+					},
+					album: function() {
+						var that = this
+						plus.gallery.pick(function(path) {
+							that.upload_img(path);
+						}, function(e) {
+							alert("取消选择图片");
+						}, {
+							filter: "image"
+						});
+					},
+					upload_img: function(p) {
+						var that = this
+						var n = p.substr(p.lastIndexOf('/') + 1);
+						that.files.push({
+							name: "uploadkey",
+							path: p
+						});
+						//开始上传
+						that.start_upload();
+					},
+					start_upload: function() {
+						var that = this
+						if(that.files.length <= 0) {
+							plus.nativeUI.alert("没有添加上传文件！");
+							return;
+						}
+						//原生的转圈等待框
+						var wt = plus.nativeUI.showWaiting();
+						var task = plus.uploader.createUpload(that.server, {
+								method: "POST"
+							},
+							function(t, status) { //上传完成
+								if(status == 200) {
+									//资源
+									var responseText = t.responseText;
+									//转换成json
+									var json = eval('(' + responseText + ')');
+									//上传文件的信息
+									var files = json.data;
+									console.log(responseText)
+									that.imglist.push(files)
+									console.log(JSON.stringify(that.imglist))
+									wt.close();
+								} else {
+									alert("上传失败：" + status);
+									//关闭原生的转圈等待框
+									wt.close();
+								}
+							});
+						task.addData("uid", that.getUid());
+						for(var i = 0; i < that.files.length; i++) {
+							var f = that.files[i];
+							task.addFile(f.path, {
+								key: f.name
+							});
+						}
+						task.start();
+					},
+					getUid: function() {
+						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

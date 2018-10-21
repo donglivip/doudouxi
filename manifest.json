@@ -10,7 +10,7 @@
     "icons": {
         "72": "icon.png"
     },
-    "launch_path": "mlogin.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer": {
         "name": "",/*开发者名称*/
         "email": "",/*开发者邮箱地址*/
@@ -32,7 +32,7 @@
         },
         "Maps": {
             "description": "管理地图插件"
-        }
+        },"Payment":{}
     },
     "plus": {
         "splashscreen": {
@@ -42,7 +42,7 @@
         "popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"maps":{"amap":{"appkey_ios":"097e493cf7685448fe997a9f34c2b102","appkey_android":"410e4fdba02bfd560410a23adc4a31e7","description":""}}},
+        "distribute": {"plugins":{"payment":{"alipay":{"description":"阿里支付","scheme":""},"weixin":{"description":"微信支付","appid":"wxa1862a6cfe4e0c5c"},"appleiap":{"description":"Apple应用内支付"}},"maps":{"amap":{"appkey_ios":"097e493cf7685448fe997a9f34c2b102","appkey_android":"410e4fdba02bfd560410a23adc4a31e7","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/
@@ -140,7 +140,8 @@
 					"choiceorde.html",
 					"nav.html",
 					"usercenter.html",
-					"newcenter.html"
+					"newcenter.html",
+					"mlogin.html"
 				],
 				"priority": 0
 			},
@@ -205,7 +206,8 @@
 				"refer": [
 					"usercenter.html",
 					"dcartdetail.html",
-					"Agreement.html"
+					"Agreement.html",
+					"rname.html"
 				],
 				"priority": 0
 			},
@@ -382,6 +384,21 @@
 				],
 				"refer": [
 					"index.html"
+				],
+				"priority": 0
+			},
+			"orderdetail.html": {
+				"resources": [],
+				"refer": [
+					"rating.html",
+					"Complaint.html"
+				],
+				"priority": 0
+			},
+			"rating.html": {
+				"resources": [],
+				"refer": [
+					"orderdetail.html"
 				],
 				"priority": 0
 			}

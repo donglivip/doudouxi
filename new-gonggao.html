@@ -23,18 +23,20 @@
 				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main big-main">
-				<block v-for='val in navdata'>
-					<div class="nav-title">{{val.pbNwCreateTime}}</div>
-					<div class="nav-tab">
-						<div class="new-main">
-							<div class="new-title">
-								{{val.pbNsName}} 
+			<div class="main big-main" @scroll="myscroll">
+				<div class="main-inner">
+					<block v-for='val in navdata'>
+						<div class="nav-title">{{val.pbNwCreateTime}}</div>
+						<div class="nav-tab">
+							<div class="new-main">
+								<div class="new-title">
+									{{val.pbNsName}} 
+								</div>
+								<div class="text">{{val.pbNwContent}}</div>
 							</div>
-							<div class="text">{{val.pbNwContent}}</div>
 						</div>
-					</div>
-				</block>
+					</block>
+				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -43,22 +45,64 @@
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					navdata:''
+					mydata: [],
+					pages:0,
+					pageNum:0
 				},
 				methods:{
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
+							
+						}
+					},
 					myajax:function(){
 						var that=this
 	//					公告消息
 						$.ajax({
 							type:"post",
-							url:localStorage.getItem('myurl')+"/usCityPartner/queryMesMiddle",
+							url:localStorage.getItem('myurl')+"/user/findNewStyleDetails",
 							dataType:'json',
 							data:{
-								usCityPartnerId:localStorage.getItem('usCityPartnerId')
+								userId:localStorage.getItem('usUserId'),
+								newStyleId:localStorage.getItem('pbNewStyleId'),
+								roleId:1,
+								pageNum:that.pageNum
 							},
 							success:function(res){
 								console.log(res)
-								that.navdata=res.data
+								that.pages=res.data.pages
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.mydata.push(res.data.list[i])
+									that.neworder(res.data.list[i].pbNewsMiddleDi)
+								}
+							}
+						});
+					},
+					neworder:function(id){
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/user/updateNewsStatus",
+							dataType:'json',
+							data:{
+								newStyleMiddleId:id,
+							},
+							success:function(res){
+								if(res.status!=200){
+									alert('消息阅读失败！')
+								}
 							}
 						});
 					}

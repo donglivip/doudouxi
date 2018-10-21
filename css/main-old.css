@@ -46,7 +46,7 @@ input{border: 0;}
 .order .order-box{display: flex;padding: .2rem 0;border-bottom: 1px solid #F4F4F4;}
 .order .order-box img{width: 1.4rem;height: 1.4rem;margin: 0 .2rem;}
 .order .order-title{display: flex;margin-bottom: .3rem;align-items: center;justify-content: space-between;}
-.order .order-h1{font-size: .3rem;}
+.order .order-h1{font-size: .3rem;white-space: nowrap;overflow: hidden;width: 4rem;}
 .order .order-right{flex: 1;margin-right: .2rem;display: flex;flex-direction: column;justify-content: space-between;}
 .order .order-bottom{display: flex;align-items: flex-end;}
 .order .bottom-right{background: #096148;color: #FFFFFF;border-radius:.4rem ;line-height: .5rem;font-size: .2rem;width: 1.5rem;height: .5rem;text-align: center;}

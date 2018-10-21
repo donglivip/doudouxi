@@ -24,43 +24,25 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<div class="order-main" style="height: calc(100% - .2rem);">
-					<div class="order-box">
-						<img src="./img/shop.jpg"/>
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									订单编号：3756021
+				<div class="order-main" style="height: calc(100% - .2rem);" @scroll="myscroll">
+					<div class="main-inner">
+						<div class="order-box" @click="opennew('orderdetail',val.orderId,val.pbOrProblemStatus,val.pbOrStatus)" v-for="val in mydata">
+							<img :src="val.pbOrComplainImg" />
+							<div class="order-right">
+								<div class="order-title">
+									<div class="order-h1">
+										订单编号：{{val.pbOrderId}}
+									</div>
+									<div class="order-state">{{val | status}}</div>
 								</div>
-								<div class="order-state">待存衣</div>
-							</div>
-							<div class="order-bottom">
-								<div class="bottom-left">
-									<div class="order-time">下单时间：2018-07-18 16:50</div>
-									<div class="order-price">订单价格：￥30.00</div>
-								</div>
-								<div class="bottom-right" @click="opennew('saoyisao')">
-									扫码开箱
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="order-box">
-						<img src="./img/shop.jpg"/>
-						<div class="order-right">
-							<div class="order-title">
-								<div class="order-h1">
-									订单编号：3756021
-								</div>
-								<div class="order-state">待取衣</div>
-							</div>
-							<div class="order-bottom">
-								<div class="bottom-left">
-									<div class="order-time">下单时间：2018-07-18 16:50</div>
-									<div class="order-price">订单价格：￥30.00</div>
-								</div>
-								<div class="bottom-right" @click="opennew('saoyisao')">
-									扫码开箱
+								<div class="order-bottom">
+									<div class="bottom-left">
+										<div class="order-price">订单价格:￥{{val.pbOrCountPrice}}</div>
+										<div class="order-time">下单时间:{{val.changeCreateTime}}</div>
+									</div>
+									<div class="bottom-right" @click.stop="saoyisao(val.pbOrderId)" v-if="val.pbOrStatus==2||val.pbOrStatus==6">
+										扫码开箱
+									</div>
 								</div>
 							</div>
 						</div>
@@ -69,22 +51,107 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					mydata: [],
+					pages:0,
+					pageNum:0
 				},
 				methods:{
-					opennew:function(target,id){
+					saoyisao:function(id){
+						localStorage.setItem('orderId',id)
+						mui.openWindow({
+							url:'./saoyisao.html',
+							id:'saoyisao'
+						})
+					},
+					opennew:function(target,id,pbOrProblemStatus,pbOrStatus){
+						localStorage.setItem('orderId',id)
+						localStorage.setItem('pbOrProblemStatus',pbOrProblemStatus)
+						localStorage.setItem('pbOrStatus',pbOrStatus)
 						mui.openWindow({
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					myajax: function() {
+						var that = this
+						that.pageNum++
+						var ajaxjson = {
+							userId: localStorage.getItem('usUserId'),
+							status: 2,
+							pageNum:that.pageNum
+						}
+						console.log(ajaxjson)
+						that.mydata=[]
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getOrders",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								if(res.data.list!=null){
+									that.pages=res.data.pages
+									for(var i = 0; i < res.data.list.length; i++) {
+										that.mydata.push(res.data.list[i])
+									}
+								}
+							}
+						});
+					},
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.order-main').height() + 200 >= $('.main-inner').height()) {
+							if(that.pages>that.pageNum){
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.showWaiting("等待中...");
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+							}
+							
+						}
 					}
 				},
 				mounted:function(){
-					
+					this.myajax()
+				},
+				filters:{
+					status:function(value){
+						if(value.pbOrStatus==1){
+							if(value.pbOrAssessStatus==1){
+								return '已完成'
+							}else{
+								return '待评价'
+							}
+						}else if(value.pbOrStatus==2){
+							return '待存衣'
+						}else if(value.pbOrStatus==6){
+							return '待取衣'
+						}else if(value.pbOrStatus==7){
+							if(value.pbOrProblemStatus==3){
+								return '待退单'
+							}else if(value.pbOrProblemStatus==2){
+								return '调整订单'
+							}else{
+								return '投诉订单'
+							}
+							
+						}else if(value.pbOrStatus==13||value.pbOrStatus==14||value.pbOrStatus==15||value.pbOrStatus==16){
+							return '滞留中'
+						}else{
+							return '洗涤中'
+						}
+					}
 				}
 			})
 		</script>

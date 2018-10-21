@@ -94,7 +94,7 @@
 								password:that.usCpPassword
 							},
 							success:function(res){
-								console.log(res)
+								console.log(JSON.stringify(res))
 								if(res.status==200){
 									if(res.data.usStatus==1){
 										localStorage.setItem('usPhone',res.data.usPhone)
@@ -103,10 +103,10 @@
 										localStorage.setItem('usHeadImg',res.data.usHeadImg)
 										localStorage.setItem('usNickName',res.data.usNickName)
 										localStorage.setItem('usCardId',res.data.usCardId)
-										localStorage.setItem('usPayPassword', that.usPayPassword)
-										localStorage.setItem('usAliPayCode', that.usAliPayCode)
-										localStorage.setItem('usWeChatPayCode', that.usWeChatPayCode)
-										that.opennew('index')
+										localStorage.setItem('usPayPassword', res.data.usPayPassword)
+										localStorage.setItem('usAliPayCode', res.data.usAliPayCode)
+										localStorage.setItem('usWeChatPayCode',res.data.usWeChatPayCode)
+										window.location.href='./index.html'
 									}else{
 										that.alertshow('您的账户已被冻结！')
 									}

@@ -65,7 +65,8 @@
 					usCardId:'',
 					usWeChatPayCode:'',
 					usAliPayCode:'',
-					alerttext:''
+					alerttext:'',
+					channel:''
 				},
 				methods:{
 					alertshow:function(text){
@@ -90,6 +91,7 @@
 								usUserId:localStorage.getItem('usUserId')
 							},
 							success:function(res){
+								console.log(res)
 								if(res.status==200){
 									that.alertshow('信息提交成功')
 									localStorage.setItem('usCardId',that.usCardId)
@@ -98,14 +100,26 @@
 								}else{
 									that.alertshow('信息提交失败')
 								}
-								
-								console.log(res)
 							}
 						});
 					}
 				},
 				mounted:function(){
-					
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				}
 			})
 		</script>

@@ -82,6 +82,7 @@
 					juli:0
 				},
 				mounted:function(){
+					
 					var that=this
 					localStorage.setItem('pbCoName','')
 					localStorage.setItem('cartdata','')
@@ -98,13 +99,17 @@
 							alert('Geolocation error: ' + e.message);
 						} );
 					}
+					if(localStorage.getItem('usUserId')==null){
+						window.location.href='./mlogin.html'
+					}
 					that.mapinit(that.lat,that.lng)
 					localStorage.setItem('lng',34.269361)
 					localStorage.setItem('lat',117.271321)
+					
 				},
 				methods:{
 					gocenter:function(){
-						this.map.setZoomAndCenter(17, [that.lat,that.lng]);
+						this.map.setZoomAndCenter(17, [this.lat,this.lng]);
 					},
 					opennew:function(target,id,id02){
 						localStorage.setItem('pbPartnerDeviceId',id)

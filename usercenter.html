@@ -149,6 +149,9 @@
 							success:function(res){
 								console.log(res)
 								that.mydata=res.data
+							},
+							error:function(err){
+								console.log(err)
 							}
 						});
 					},

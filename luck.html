@@ -143,11 +143,11 @@
 					},
 					go: function() {
 						var that = this
-						//						if(localStorage.getItem('usUwIntegral') < that.mydata.pbLdrIntegral) {
-						//							this.jname = '您的积分不足！'
-						//							this.alertshow()
-						//							return false;
-						//						}
+						if(localStorage.getItem('usUwIntegral') < that.mydata.pbLdrIntegral) {
+							this.jname = '您的积分不足！'
+							this.alertshow()
+							return false;
+						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/useIntegral",
@@ -168,7 +168,7 @@
 							} else {
 								that.time = 0
 								clearInterval(myset)
-								if(that.jdata[Math.floor(Math.random() * 25)].pbCoName == undefined||that.jdata[Math.floor(Math.random() * 25)].pbCoName == 'undefined') {
+								if(that.jdata[Math.floor(Math.random() * 25)].pbCoName == undefined || that.jdata[Math.floor(Math.random() * 25)].pbCoName == 'undefined') {
 									that.jname = '很遗憾,您未中奖！'
 								} else {
 									that.jname = '恭喜您，抽到' + that.jdata[Math.floor(Math.random() * 25)].pbCoName

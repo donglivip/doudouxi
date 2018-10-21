@@ -18,94 +18,46 @@
 				<div class="head-main">
 					订单详情
 				</div>
-				<div class="head-tab" href="tel:1566551">
+				<div class="head-tab" :href="['tel:'+mydata[0].usCommunityPartnerId]">
 					<img src="./img/phone.png"/>
 				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
 				<div class="help-item">
-					<div>订单编号:9645201</div>
+					<div>订单编号:{{mydata[0].pbOrderId}}</div>
 					<div></div>
 				</div>
-				<div class="shop-main" :class="more==true?'active':''">
-					<div class="shop-item">
-						<img src="img/shop.jpg"/>
+				<div class="shop-main" :class="more==true?'active':''" :style="mydata[1].length<3?'height:auto':''">
+					<div class="shop-item" v-for="val in mydata[1]">
+						<img :src="val.pbRdUpdateName"/>
 						<div class="name-box">
 							<div class="num-box">
-								<div class="name">羊毛衫</div>
-								<div class="price">￥16</div>
+								<div class="name">{{val.usCommunityPartnerSaleId}}</div>
+								<div class="price">￥{{val.pbRdPrice}}</div>
 							</div>
 							<div class="num">
-								x1
+								x{{val.pbRdNum}}
 							</div>
 						</div>
 					</div>
-					<div class="shop-item">
-						<img src="img/shop.jpg"/>
-						<div class="name-box">
-							<div class="num-box">
-								<div class="name">羊毛衫</div>
-								<div class="price">￥16</div>
-							</div>
-							<div class="num">
-								x1
-							</div>
-						</div>
-					</div>
-					<div class="shop-item">
-						<img src="img/shop.jpg"/>
-						<div class="name-box">
-							<div class="num-box">
-								<div class="name">羊毛衫</div>
-								<div class="price">￥16</div>
-							</div>
-							<div class="num">
-								x1
-							</div>
-						</div>
-					</div>
-					<div class="shop-item">
-						<img src="img/shop.jpg"/>
-						<div class="name-box">
-							<div class="num-box">
-								<div class="name">羊毛衫</div>
-								<div class="price">￥16</div>
-							</div>
-							<div class="num">
-								x1
-							</div>
-						</div>
-					</div>
-					<div class="shop-item">
-						<img src="img/shop.jpg"/>
-						<div class="name-box">
-							<div class="num-box">
-								<div class="name">羊毛衫</div>
-								<div class="price">￥16</div>
-							</div>
-							<div class="num">
-								x1
-							</div>
-						</div>
-					</div>
-					<div class="more" v-if="!more" @click="moreboo">
+					<div class="more" v-if="!more&&mydata[1].length>3" @click="moreboo">
 						<div>加载更多</div>
 						<img src="img/Arrow_right@2x.png"/>
 					</div>
-					<div class="more" v-if="more" @click="moreboo">
+					<div class="more" v-if="more&&mydata[1].length>3" @click="moreboo">
 						<div>收起</div>
 						<img src="img/up.png"/>
 					</div>
 				</div>
-				<div class="help-item">
+				<div class="help-item" v-if='mydata[0].pbOrProblemPrice!=0'>
 					<div>优惠卷</div>
-					<div class="red">-16</div>
+					<div class="red">-{{mydata[0].pbOrProblemPrice}}</div>
 				</div>
 				<div class="help-item">
 					<div></div>
 					<div class="hji">
-						<span class="line">已优惠:￥16</span>   合计: <span class="red"> ￥16</span>
+						<span class="line" v-if='mydata[0].pbOrProblemPrice!=0'>已优惠:￥{{mydata[0].pbOrProblemPrice}}</span>   合计: <span class="red"> ￥{{mydata[0].pbOrCountPrice}}</span>
 					</div>
 				</div>
 				<div class="help-item detailtop">
@@ -114,57 +66,106 @@
 				</div>
 				<div class="help-item inner">
 					<div>订单编号:</div>
-					<div>9645201</div>
+					<div>{{mydata[0].pbOrderId}}</div>
 				</div>
 				<div class="help-item inner">
 					<div>柜体ID:</div>
-					<div>s9645201</div>
+					<div>{{mydata[0].pbPartnerDeviceCaseId}}</div>
 				</div>
 				<div class="help-item inner">
 					<div>柜体位置:</div>
-					<div>徐州市和平路永安花园26栋</div>
+					<div>{{mydata[0].pbOrCode}}</div>
 				</div>
 				<div class="help-item inner">
 					<div>下单时间:</div>
-					<div>2018-07-05</div>
+					<div>{{mydata[0].changeCreateTime}}</div>
 				</div>
 				<div class="help-item detailtop">
 					<div>订单备注</div>
 					<div class="red"></div>
 				</div>
 				<div class="help-item inner" style="height: auto;">
-					<textarea  readonly="readonly">
-						无备注
+					<textarea  readonly="readonly" :value="mydata[0].pbOrRemarks">
+						
 					</textarea>
 				</div>
 			</div>
 			<div class="bottom">
 				<div class="bleft">
-					<div class="btn" @click="opennew('002','backorder')">退单</div>
-					<div class="btn" @click="opennew('002','Complaint')">投诉</div>
+					<div class="btn" @click="opennew('backorder')" v-if="pbOrStatus==2">退单</div>
+					<div class="btn" @click="opennew('Complaint')" >投诉</div>
 				</div>
 				<div class="bright">
-					<div class="btn" @click="opennew('002','rating')">进行评价</div>
+					<div class="btn" @click="opennew('rating')" v-if="pbOrStatus==1&&pbOrProblemStatus==1||pbOrStatus==1&&pbOrProblemStatus==6&&pbOrAssessStatus!=1">进行评价</div>
+					<div class="btn" @click="orderOK()" v-if="pbOrStatus==7&&pbOrProblemStatus==4">撤回投诉</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-					more:false
+					more:false,
+					mydata:'',
+					pbOrStatus:localStorage.getItem('pbOrStatus'),
+					pbOrProblemStatus:localStorage.getItem('pbOrProblemStatus'),
+					pbOrAssessStatus:localStorage.getItem('pbOrAssessStatus')
 				},
 				methods:{
+//					撤回投诉
+					orderOK:function(id){
+						var that = this
+						var ajaxjson = {
+							orderId: localStorage.getItem('orderId'),
+							userId: localStorage.getItem('usUserId')
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/orderOK",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								if(res.status==200){
+									that.pageNum=0
+									that.mydata=[]
+									that.myajax()
+								}else{
+									alert('操作失败！')
+								}
+							}
+						});
+					},
 					moreboo:function(){
 						this.more=!this.more
 					},
-					opennew:function(id,target){
+					opennew:function(target){
 						window.location.href='./'+target+'.html'
-					}
+					},
+					myajax: function() {
+						var that = this
+						that.pageNum++
+						var ajaxjson = {
+//							orderId: localStorage.getItem('orderId')
+							orderId:1
+						}
+						console.log(ajaxjson)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getOrderDetails",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(res)
+								that.mydata=res.data
+							}
+						});
+					},
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

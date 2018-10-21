@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,12 +9,13 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper dcart">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					豆豆卡
@@ -26,104 +28,178 @@
 			<div class="main big-main">
 				<div class="dcart-top" style="background-image: url(img/back2.png);">
 					<div class="subtitile">余额</div>
-					<div class="price" style="font-size: .7rem;">￥138</div>
+					<div class="price" style="font-size: .7rem;">￥{{mydata[0]}}</div>
 				</div>
 				<div class="title">请选择充值金额</div>
 				<div class="box">
 					<div class="box-tab" :class="priceindex==1?'active':''" @click="pricechange(1)">
 						<div class="price">充100元</div>
-						<div class="subprice">赠送100积分</div>
+						<!--<div class="subprice">赠送100积分</div>-->
 					</div>
 					<div class="box-tab" :class="priceindex==2?'active':''" @click="pricechange(2)">
 						<div class="price">充200元</div>
-						<div class="subprice">赠送200积分</div>
+						<!--<div class="subprice">赠送200积分</div>-->
 					</div>
 					<div class="box-tab" :class="priceindex==3?'active':''" @click="pricechange(3)">
 						<div class="price">充300元</div>
-						<div class="subprice">赠送300积分</div>
+						<!--<div class="subprice">赠送300积分</div>-->
 					</div>
 					<div class="box-tab" :class="priceindex==4?'active':''" @click="pricechange(4)">
 						<div class="price">充400元</div>
-						<div class="subprice">赠送400积分</div>
+						<!--<div class="subprice">赠送400积分</div>-->
 					</div>
 					<div class="box-tab" :class="priceindex==5?'active':''" @click="pricechange(5)">
 						<div class="price">充500元</div>
-						<div class="subprice">赠送500积分</div>
+						<!--<div class="subprice">赠送500积分</div>-->
 					</div>
 					<div class="box-tab" :class="priceindex==6?'active':''" @click="pricechange(6)">
 						<div class="price">充600元</div>
-						<div class="subprice">赠送600积分</div>
+						<!--<div class="subprice">赠送600积分</div>-->
 					</div>
 				</div>
 				<div class="title">请选择充值方式</div>
 				<div class="box box02">
 					<div class="box-tab box-tab02" :class="zndex==1?'active':''" @click="zchange(1)">
-						<img src="img/apay.png"/>
+						<img src="img/apay.png" />
 						<div class="ztext">支付宝</div>
 					</div>
-					<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
+					<!--<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
 						<img src="img/wpay.png"/>
 						<div class="ztext">微信</div>
-					</div>
+					</div>-->
 				</div>
-				<div class="bottom-grey" >
+				<div class="bottom-grey">
 					<div class="ctext" @click="opennew('Agreement')">
-						充值即阅读并同意  <span>《充值服务协议》</span> 
+						充值即阅读并同意 <span>《充值服务协议》</span>
 					</div>
-					<div class="pay" @click="pay">充值</div>
+					<div class="pay" @click="submit">充值</div>
 				</div>
 				<div class="alert" v-show="alertboo" @click="alertshow">
 					<div class="alert-inner">
-						<img src="img/yes.png"/>
+						<img src="img/yes.png" />
 						<div class="text">充值成功, {{time}}s后返回豆豆卡</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					priceindex:1,
-					zndex:1,
-					alertboo:false,
-					time:3
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					priceindex: 1,
+					zndex: 1,
+					alertboo: false,
+					time: 3,
+					mydata: '',
+					channel:[]
 				},
-				methods:{
-					pricechange:function(index){
-						this.priceindex=index
+				methods: {
+					submit: function() {
+						var that = this
+						console.log(localStorage.getItem('usAliPayCode'))
+						if(localStorage.getItem('usAliPayCode') == null || localStorage.getItem('usAliPayCode') == undefined||localStorage.getItem('usAliPayCode') == 'undefined') {
+							function plusReady() {
+								// 弹出系统提示对话框
+								plus.nativeUI.alert("您还没完成实名认证!", function() {
+									that.opennew('rname')
+								}, "豆豆洗", "前去认证");
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+							return false;
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/aliPayBeanCard",
+							dataType: 'json',
+							data: {
+								userId: localStorage.getItem('usUserId'),
+								status: that.zndex,
+								price: that.priceindex * 100,
+								code: localStorage.getItem('usAliPayCode')
+							},
+							success: function(res) {
+								console.log(res)
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+									plus.nativeUI.alert("支付成功！", function() {
+										that.pay()
+										that.myajax()
+									});
+								}, function(error) {
+									alert('支付失败!')
+								});
+							}
+						});
 					},
-					zchange:function(index){
-						this.zndex=index
+					pricechange: function(index) {
+						this.priceindex = index
 					},
-					opennew:function(target,id){
+					zchange: function(index) {
+						this.zndex = index
+					},
+					opennew: function(target, id) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					},
-					pay:function(){
-						var that=this
+					pay: function() {
+						var that = this
 						this.alertshow()
-						var set=setInterval(function(){
-							if(that.time==1){
+						var set = setInterval(function() {
+							if(that.time == 1) {
 								clearInterval(set)
 								that.alertshow()
-								that.time=3
-							}else{
+								that.time = 3
+							} else {
 								that.time--
 							}
-						},1000)
+						}, 1000)
 					},
-					alertshow:function(){
-						this.alertboo=!this.alertboo
-					}
+					alertshow: function() {
+						this.alertboo = !this.alertboo
+					},
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/findBalance",
+							dataType: 'json',
+							data: {
+								userId: localStorage.getItem('usUserId')
+							},
+							success: function(res) {
+								console.log(res)
+								that.mydata = res.data
+							}
+						});
+					},
 				},
-				mounted:function(){
-					
+				mounted: function() {
+					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				}
 			})
 		</script>
 	</body>
+
 </html>
