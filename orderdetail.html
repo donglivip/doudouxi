@@ -30,7 +30,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata[1].length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata[1]">
-						<img :src="val.pbRdUpdateName"/>
+						<img :src="val.pbRdUpdateName | myimg"/>
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.usCommunityPartnerSaleId}}</div>
@@ -145,11 +145,19 @@
 						window.location.href='./'+target+'.html'
 					},
 					myajax: function() {
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting( "订单加载中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 						var that = this
 						that.pageNum++
 						var ajaxjson = {
-//							orderId: localStorage.getItem('orderId')
-							orderId:1
+							orderId: localStorage.getItem('orderId')
 						}
 						console.log(ajaxjson)
 						$.ajax({
@@ -162,10 +170,24 @@
 								that.mydata=res.data
 							}
 						});
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					},
 				},
 				mounted:function(){
 					this.myajax()
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 		</script>

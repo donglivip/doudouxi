@@ -27,8 +27,8 @@
 			<!--中间主体-->
 			<div class="main">
 				<div class="center-top">
-					<img :src="avatar" class="backimg" />
-					<img :src="avatar" class="avatar" @click="imgclick" />
+					<img :src="avatar | myimg" class="backimg" />
+					<img :src="avatar | myimg" class="avatar" @click="imgclick" />
 					<div class="name-box">
 						<div class="name">{{usNickName=='undefined'?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
@@ -260,8 +260,9 @@
 											usHeadImg: json.data
 										},
 										success: function(res) {
+											console.log(JSON.stringify(res))
 											if(res.status == 200) {
-												that.alertshow('信息提交成功')
+												that.alertshow('头像修改成功')
 												localStorage.setItem('usHeadImg', json.data)
 											} else {
 												that.alertshow('信息提交失败')
@@ -296,6 +297,11 @@
 						this.avatar = 'img/Group 10@2x.png'
 					} else {
 						this.avatar = localStorage.getItem('usHeadImg')
+					}
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

@@ -83,24 +83,33 @@
 							text = 'EAN8: ';
 							break;
 					}
-					myajax: function() {
+					alert(result);
+					alert(localStorage.getItem('orderId'))
 						var that = this
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/user/getOrders",
+							url: localStorage.getItem('myurl') + "/equipment/openTheDoor",
 							dataType: 'json',
 							data: {
-								orderId:localStorage.getItem('orderId')
+								orderId:localStorage.getItem('orderId'),
+								deviceCode:result
 							},
 							success: function(res) {
+								alert(JSON.stringify(res))
+								plus.webview.getWebviewById('saoyisao').reload()
 								if(res.status==200){
-									plus.nativeUI.toast('开箱完成')
+									plus.nativeUI.toast('开箱完成！')
+								}else if(res.status==400){
+									plus.nativeUI.toast('开箱失败，请到所属洗衣柜开箱！')
 								}else{
-									plus.nativeUI.toast('开箱失败')
+									plus.nativeUI.toast('开箱失败,请联系服务商！')
 								}
+							},
+							error:function(error){
+								plus.webview.getWebviewById('saoyisao').reload()
+								alert(JSON.stringify(error))
 							}
 						});
-					}
 				}
 			$('#true').click(function(){
 				alertboo('')

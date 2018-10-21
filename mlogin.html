@@ -84,6 +84,15 @@
 							that.alertshow('账号和密码都不能为空！')
 							return false;
 						}
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting( "登陆中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 						$.ajax({
 							type:"post",
 							url:localStorage.getItem('myurl')+"/user/registerUser",
@@ -115,6 +124,15 @@
 								}
 							}
 						});
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					},
 					changetype:function(text){
 						this.ptype=text

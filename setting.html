@@ -28,7 +28,7 @@
 			<div class="main big-main">
 				<div class="help-item avatar" @click="imgclick">
 					<div>头像</div>
-					<img :src="avatar" />
+					<img :src="avatar | myimg" />
 				</div>
 				<a class="help-item" href="namechange.html">
 					<div>昵称</div>
@@ -42,6 +42,10 @@
 					<div>支付密码</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
 				</a>
+				<div class="help-item" @click="backlogin">
+					<div>退出登录</div>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
+				</div>
 			</div>
 			<div class="alert" v-show="alertboo" @click="alertshow">
 				<div class="alert-inner">
@@ -54,6 +58,7 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '.wrapper',
@@ -66,6 +71,13 @@
 					usNickName: localStorage.getItem('usNickName')
 				},
 				methods: {
+					backlogin:function(){
+						localStorage.clear()
+						mui.openWindow({
+							url:'./mlogin.html',
+							id:'mlogin'
+						})
+					},
 					alertshow: function(text) {
 						this.alerttext = text
 						this.alertboo = !this.alertboo
@@ -156,6 +168,7 @@
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
 									var files = json.data;
+									console.log(files)
 									$.ajax({
 										type: "post",
 										url: localStorage.getItem('myurl') + "/user/updateUser",
@@ -166,13 +179,15 @@
 										},
 										success: function(res) {
 											if(res.status == 200) {
-												that.alertshow('信息提交成功')
+												that.alertshow('修改完成!')
 												localStorage.setItem('usHeadImg', json.data)
+												plus.webview.getWebviewById('usercenter').reload()
+												plus.webview.getWebviewById('setting').reload()
 											} else {
 												that.alertshow('信息提交失败')
 											}
-
-											console.log(res)
+											
+											console.log(JSON.stringify(res))
 										}
 									});
 									wt.close();
@@ -200,6 +215,11 @@
 						this.avatar = 'img/Group 10@2x.png'
 					} else {
 						this.avatar = localStorage.getItem('usHeadImg')
+					}
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

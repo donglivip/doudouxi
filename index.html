@@ -82,10 +82,17 @@
 					juli:0
 				},
 				mounted:function(){
-					
+					function plusReady(){
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting( "地图生成中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					var that=this
-					localStorage.setItem('pbCoName','')
-					localStorage.setItem('cartdata','')
+					
 //					// 扩展API加载完毕后调用onPlusReady回调函数 
 					document.addEventListener('plusready', onPlusReady, false);
 					// 扩展API加载完毕，现在可以正常调用扩展API
@@ -105,7 +112,7 @@
 					that.mapinit(that.lat,that.lng)
 					localStorage.setItem('lng',34.269361)
 					localStorage.setItem('lat',117.271321)
-					
+					localStorage.setItem('myurl','http://192.168.0.118')
 				},
 				methods:{
 					gocenter:function(){
@@ -179,6 +186,15 @@
 								})
 					    	}
 					    });
+					    function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					},
 					addmarker:function(lat,lng,id,aid){
 						var that=this

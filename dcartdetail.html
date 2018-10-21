@@ -25,7 +25,7 @@
 			<!--中间主体-->
 			<div class="main big-main">
 				<!--名单筛选-->
-				<div class="order-nav" @click="navshow(typetext)">
+				<div class="order-nav" @click="navshow(typetext,navid)">
 					<div class="nav-text">{{typetext}}</div>
 					<img src="img/Arrow_right@2x.png"/>
 				</div>
@@ -89,6 +89,7 @@
 						this.pageNum=0
 						this.mydata=[]
 						this.navboo=!this.navboo
+						this.myajax()
 					},
 					opennew:function(type){
 						if(type=='q'){

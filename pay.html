@@ -87,11 +87,11 @@
 						豆豆洗
 					</div>
 					<div class="text">
-						请选择您的支付方式
+						确定下单吗？
 					</div>
 					<div class="button">
-						<div id="true" @click="gopay(0)">支付宝</div>
-						<div style="border: 0;" id="true" @click="gopay(1)">微信<<!--/div-->>
+						<div @click="gopay(0)">确定</div>
+						<div  @click="alertshow">取消</div>
 					</div>
 				</div>
 			</div>
@@ -172,14 +172,9 @@
 							success:function(res){
 								console.log(res)
 								if(res.status==200){
-									plus.payment.request(that.channel[0], res.data[0], function(result) {
-										plus.nativeUI.alert("支付成功！", function() {
-											that.opennew('choiceorde')
-										});
-									}, function(error) {
-										alert('支付失败！')
-									});
+									that.opennew('order')
 								}else{
+									tht.alertshow()
 									plus.nativeUI.toast('下单失败，请稍后实施！')
 								}
 							},

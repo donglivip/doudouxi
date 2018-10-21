@@ -65,6 +65,15 @@
 				methods:{
 					login:function(){
 						var that=this
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting( "登陆中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 //						15805204773//  123456//
 						if(that.usCpPassword==''||that.code==''||that.code!=that.mycode){
 							that.alertshow('账号或验证码不正确！')
@@ -99,6 +108,15 @@
 								}
 							}
 						});
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					},
 					addcode:function(){
 						var set

@@ -163,7 +163,8 @@
 				"refer": [
 					"saoyisao.html",
 					"index.html",
-					"order.html"
+					"order.html",
+					"orderdetail.html"
 				],
 				"priority": 0
 			},
@@ -295,7 +296,8 @@
 					"usercenter.html",
 					"pchange.html",
 					"wlogin.html",
-					"namechange.html"
+					"namechange.html",
+					"mlogin.html"
 				],
 				"priority": 0
 			},

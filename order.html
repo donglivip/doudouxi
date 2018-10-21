@@ -40,7 +40,7 @@
 				<div class="order-main" @scroll="myscroll">
 					<div class="main-inner">
 						<div class="order-box"v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)" >
-							<img :src="val.pbOrComplainImg" />
+							<img :src="val.pbOrComplainImg | myimg" />
 							<div class="order-right">
 								<div class="order-title">
 									<div class="order-h1">
@@ -191,6 +191,7 @@
 					navshow: function(text, id) {
 						this.typetext = text
 						this.navid = id
+						this.mydata=[]
 						this.navboo = !this.navboo
 						this.myajax()
 					},
@@ -208,6 +209,15 @@
 						})
 					},
 					myajax: function() {
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting( "订单查询中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 						var that = this
 						that.pageNum++
 						var ajaxjson = {
@@ -216,7 +226,6 @@
 							pageNum:that.pageNum
 						}
 						console.log(ajaxjson)
-						that.mydata=[]
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrders",
@@ -232,10 +241,22 @@
 								}
 							}
 						});
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					}
 				},
 				mounted: function() {
 					this.myajax()
+					localStorage.setItem('pbCoPrice','')
+					localStorage.setItem('pbCoName','')
+					localStorage.setItem('cartdata','')
 				},
 				filters:{
 					status:function(value){
@@ -262,6 +283,11 @@
 							return '滞留中'
 						}else{
 							return '洗涤中'
+						}
+					},
+					myimg:function(value){
+						if(value!=null){
+							return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 						}
 					}
 				}

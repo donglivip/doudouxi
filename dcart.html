@@ -63,10 +63,10 @@
 						<img src="img/apay.png" />
 						<div class="ztext">支付宝</div>
 					</div>
-					<!--<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
+					<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
 						<img src="img/wpay.png"/>
 						<div class="ztext">微信</div>
-					</div>-->
+					</div>
 				</div>
 				<div class="bottom-grey">
 					<div class="ctext" @click="opennew('Agreement')">
@@ -124,15 +124,27 @@
 								code: localStorage.getItem('usAliPayCode')
 							},
 							success: function(res) {
-								console.log(res)
-								plus.payment.request(that.channel[0], res.data[0], function(result) {
-									plus.nativeUI.alert("支付成功！", function() {
-										that.pay()
-										that.myajax()
+								console.log(JSON.stringify(res))
+								if(that.zndex==1){
+									plus.payment.request(that.channel[0], res.data[0], function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+											that.pay()
+											that.myajax()
+										});
+									}, function(error) {
+										alert('支付失败!')
 									});
-								}, function(error) {
-									alert('支付失败!')
-								});
+								}else{
+									plus.payment.request(that.channel[1], res, function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+											that.pay()
+											that.myajax()
+										});
+									}, function(error) {
+										alert('支付失败!')
+										console.log(JSON.stringify(error))
+									});
+								}
 							}
 						});
 					},
