@@ -166,7 +166,8 @@
 	},
 	"wlogin.html": {
 		"refer": [
-			"setting.html"
+			"setting.html",
+			"mlogin.html"
 		],
 		"resources": []
 	},
@@ -192,7 +193,8 @@
 	"mlogin.html": {
 		"refer": [
 			"index.html",
-			"plogin.html"
+			"plogin.html",
+			"wlogin.html"
 		],
 		"resources": [
 			"css/main.css"

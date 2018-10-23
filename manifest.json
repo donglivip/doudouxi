@@ -321,7 +321,8 @@
 			"wlogin.html": {
 				"resources": [],
 				"refer": [
-					"setting.html"
+					"setting.html",
+					"mlogin.html"
 				],
 				"priority": 0
 			},
@@ -353,7 +354,8 @@
 				],
 				"refer": [
 					"index.html",
-					"plogin.html"
+					"plogin.html",
+					"wlogin.html"
 				],
 				"priority": 0
 			},

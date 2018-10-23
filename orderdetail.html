@@ -93,7 +93,7 @@
 			<div class="bottom">
 				<div class="bleft">
 					<div class="btn" @click="opennew('backorder')" v-if="pbOrStatus==2">退单</div>
-					<div class="btn" @click="opennew('Complaint')" >投诉</div>
+					<div class="btn" @click="opennew('Complaint')" v-if="pbOrStatus==1&&pbOrAssessStatus==1">投诉</div>
 				</div>
 				<div class="bright">
 					<div class="btn" @click="opennew('rating')" v-if="pbOrStatus==1&&pbOrProblemStatus==1||pbOrStatus==1&&pbOrProblemStatus==6&&pbOrAssessStatus!=1">进行评价</div>
@@ -159,7 +159,6 @@
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId')
 						}
-						console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrderDetails",

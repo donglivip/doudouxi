@@ -40,6 +40,13 @@
 					</div>
 					<div class="login" @click="login()">登录</div>
 				</div>
+				<div class="alert" v-if="alertboo" @click="alertshow('')">
+					<div class="alert-inner">
+						<div class="alert-top">豆豆洗</div>
+						<div class="text alert-text">{{alerttext}}</div>
+						<div class="button">确定</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -52,9 +59,15 @@
 					usCpPhone:'',
 					code:'',
 					mycode:'',
-					pwd:''
+					pwd:'',
+					alertboo:false,
+					alerttext:''
 				},
 				methods:{
+					alertshow:function(text){
+						this.alerttext=text
+						this.alertboo=!this.alertboo
+					},
 					login:function(){
 						var that=this
 						if(that.usCpPhone==''||that.code==''||that.code!=that.mycode||that.pwd==''){
@@ -70,12 +83,15 @@
 								usPhone:that.usCpPhone
 							},
 							success:function(res){
-								console.log(res)
+								console.log(JSON.stringify(res))
 								if(res.status==200){
 									window.location.href='./mlogin.html'
 								}else{
 									that.alertshow(res.msg)
 								}
+							},
+							error:function(err){
+								console.log(JSON.stringify(err))
 							}
 						});
 					},

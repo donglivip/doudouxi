@@ -12,20 +12,20 @@
 		<div class="wrapper help orderdetail nav">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab mui-action-back">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					提交订单
 				</div>
-				<a class="head-tab" href="JavaScript:void(0)">
-					声明
-				</a>
+				<div class="head-tab">
+					<!--声明-->
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main">
 				<div class="help-item">
-					<div>订单编号:9645201</div>
+					<div>订单编号:{{orderId}}</div>
 					<div></div>
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
@@ -50,7 +50,7 @@
 						<img src="img/up.png"/>
 					</div>
 				</div>
-				<div class="help-item" @click="opennew('userdiscount')">
+				<div class="help-item" @click="userdiscount()">
 					<div style="flex: 1;">优惠卷</div>
 					<div v-if="pbCoName==''">{{size}}张可用</div>
 					<div v-if="pbCoName!=''">{{pbCoName}}</div>
@@ -59,7 +59,7 @@
 				<div class="help-item">
 					<div></div>
 					<div class="hji">
-						<span class="line">已优惠:￥{{pbCoPrice}}</span>   合计: <span class="red"> ￥{{allnum - pbCoPrice}}</span>
+						<span class="line">已优惠:￥{{pbCoPrice==null?'0':pbCoPrice}}</span>   合计: <span class="red"> ￥{{allnum - pbCoPrice}}</span>
 					</div>
 				</div>
 				<div class="help-item detailtop">
@@ -112,9 +112,17 @@
 					pbOrCountNum:0,
 					pbOrRemarks:'',
 					pbCoPrice:localStorage.getItem('pbCoPrice'),
-					channel:[]
+					channel:[],
+					orderId:localStorage.getItem('orderId')
 				},
 				methods:{
+					userdiscount:function(){
+						if(this.size>0){
+							this.opennew('userdiscount')
+						}else{
+							plus.nativeUI.toast('暂无优惠卷可用！')
+						}
+					},
 					moreboo:function(){
 						this.more=!this.more
 					},
@@ -152,7 +160,7 @@
 						var ajaxjson={
 							"usUserId":localStorage.getItem('usUserId'),
 							"usCommunityPartnerId":localStorage.getItem('pbCommunityPartnerId'),
-							"pbPartnerDeviceCaseId":localStorage.getItem('pbPartnerDeviceId'),
+							"pbPartnerDeviceId":localStorage.getItem('pbPartnerDeviceId'),
 							"pbOrCountNum":that.pbOrCountNum,
 							"pbOrCountPrice":that.allnum - that.pbCoPrice,
 							"pbOrIsCoupon":pbOrIsCoupon,
@@ -174,8 +182,8 @@
 								if(res.status==200){
 									that.opennew('order')
 								}else{
-									tht.alertshow()
-									plus.nativeUI.toast('下单失败，请稍后实施！')
+									that.alertshow()
+									plus.nativeUI.toast(res.msg)
 								}
 							},
 							error:function(err){

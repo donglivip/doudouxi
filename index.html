@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/style/index.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://webapi.amap.com/maps?v=1.4.8&key=68aa6ce0aa3da10b36c6baed4fb2bc7a"></script>
@@ -11,18 +12,19 @@
 		<script>testinSDK.enable('data','2651500bcca2788527aa9a395cb38e67');testinSDK.enable('bug');</script>-->
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper index">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab" @click="opennew('choiceorde')">
-					<img src="img/index01.png"/>
+					<img src="img/index01.png" />
 				</div>
 				<div class="head-main">
 					豆豆洗
 				</div>
 				<div class="head-tab" @click="opennew('newcenter')">
-					<img src="img/index02.png"/>
+					<img src="img/index02.png" />
 				</div>
 			</div>
 			<!--中间主体-->
@@ -36,30 +38,30 @@
 						<div class="range">{{adress}}</div>
 						<div class="star-box">
 							<div class="star">
-								<img src="img/Group 5@2x.png" v-for="mydata[gid].pbLeLevel"/>
+								<img src="img/Group 5@2x.png" v-for="mydata[gid].pbLeLevel" />
 							</div>
 							<div class="join" @click="opennew('nav',mydata[gid].pbPartnerDeviceId,mydata[gid].pbCommunityPartnerId)">立即进入</div>
 						</div>
 					</div>
 				</div>
-				<img src="img/go.png" @click="gocenter" class="gocenter"/>
+				<img src="img/go.png" @click="gocenter" class="gocenter" />
 			</div>
 			<!--底部-->
 			<div class="bottom">
 				<div class="bottom-tab myanm">
-					<img src="img/bottom01-active.png"/>
+					<img src="img/bottom01-active.png" />
 					<div class="bottom-text active">
 						首页
 					</div>
 				</div>
 				<div class="bottom-tab" @click="opennew('order')">
-					<img src="img/bottom02.png"/>
+					<img src="img/bottom02.png" />
 					<div class="bottom-text">
 						订单
 					</div>
 				</div>
 				<div class="bottom-tab" @click="opennew('usercenter')">
-					<img src="img/bottom03.png"/>
+					<img src="img/bottom03.png" />
 					<div class="bottom-text">
 						我的
 					</div>
@@ -69,163 +71,164 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:".wrapper",
-				data:{
-					map:'',
-					informbooo:false,
-					gid:0,
-					mydata:'',
-					adress:'',
-					lng:34.269361,
-					lat:117.271321,
-					juli:0
+			var myvue = new Vue({
+				el: ".wrapper",
+				data: {
+					map: '',
+					informbooo: false,
+					gid: 0,
+					mydata: '',
+					adress: '',
+					lng: 118.774048,
+					lat: 31.827822,
+					juli: 0
 				},
-				mounted:function(){
-					function plusReady(){
-							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting( "地图生成中..." );
-						}
-						if(window.plus){
-							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
-						}
-					var that=this
-					
-//					// 扩展API加载完毕后调用onPlusReady回调函数 
-					document.addEventListener('plusready', onPlusReady, false);
-					// 扩展API加载完毕，现在可以正常调用扩展API
-					function onPlusReady(){
-						plus.geolocation.getCurrentPosition(function(p){
-//							that.lng=p.coords.longitude
-//							that.lat=p.coords.latitude
-//							localStorage.setItem('lng',p.coords.longitude)
-//							localStorage.setItem('lat',p.coords.latitude)
-						}, function(e){
-							alert('Geolocation error: ' + e.message);
-						} );
-					}
+				mounted: function() {
 					if(localStorage.getItem('usUserId')==null){
 						window.location.href='./mlogin.html'
 					}
-					that.mapinit(that.lat,that.lng)
-					localStorage.setItem('lng',34.269361)
-					localStorage.setItem('lat',117.271321)
-					localStorage.setItem('myurl','http://192.168.0.118')
+					var that = this
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("地图生成中...");
+						plus.geolocation.getCurrentPosition(function(p) {
+							that.lng = p.coords.longitude
+							that.lat = p.coords.latitude
+							localStorage.setItem('lng', p.coords.longitude)
+							localStorage.setItem('lat', p.coords.latitude)
+							that.mapinit(that.lat, that.lng)
+						}, function(e) {
+							alert('Geolocation error: ' + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 				},
-				methods:{
-					gocenter:function(){
-						this.map.setZoomAndCenter(17, [this.lat,this.lng]);
+				methods: {
+					gocenter: function() {
+						this.map.setZoomAndCenter(17, [this.lng, this.lat]);
 					},
-					opennew:function(target,id,id02){
-						localStorage.setItem('pbPartnerDeviceId',id)
-						localStorage.setItem('pbCommunityPartnerId',id02)
+					opennew: function(target, id, id02) {
+						localStorage.setItem('pbPartnerDeviceId', id)
+						localStorage.setItem('pbCommunityPartnerId', id02)
+						if(target=='order'){
+							plus.webview.getWebviewById('order').reload(true)
+						}
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					},
-					informshow:function(){
-						this.informbooo=!this.informbooo
+					informshow: function() {
+						this.informbooo = !this.informbooo
 					},
-					mapinit:function(lat,lng){
-						var that=this
+					mapinit: function(lng,lat) {
+						var that = this
 						this.map = new AMap.Map('container', {
 							resizeEnable: true,
-						    rotateEnable:true,
-						    pitchEnable:true,
-						    zoom: 17,
-						    pitch:50,
-						    rotation:-15,
-						    viewMode:'3D',
-						    buildingAnimation:true,
-						    center:[lat,lng],
-					        layers:[
-					            new AMap.TileLayer({}),
-					            new AMap.Buildings({zIndex:100,merge:false,sort:false,zooms:[17,20]})
-					        ]
+							rotateEnable: true,
+							pitchEnable: true,
+							zoom: 17,
+							pitch: 50,
+							rotation: -15,
+							viewMode: '3D',
+							buildingAnimation: true,
+							center: [lat, lng],
+							layers: [
+								new AMap.TileLayer({}),
+								new AMap.Buildings({
+									zIndex: 100,
+									merge: false,
+									sort: false,
+									zooms: [17, 20]
+								})
+							]
 						});
 						//添加点标记，并使用自己的icon
-					    var marker=new AMap.Marker({
-					        map: that.map,
-							position: [lat,lng],
-					        icon: new AMap.Icon({            
-					            size: new AMap.Size(27, 33),
-					            image: "./img/pin copy.png",
-					        })        
-					    });
-					    $.ajax({
-					    	type:"post",
-					    	url:localStorage.getItem('myurl')+"/user/getDevices",
-					    	dataType:'json',
-					    	data:{
-					    		coordinate:that.lat+','+that.lng
-					    	},
-					    	success:function(res){
-					    		console.log(res)
-					    		that.mydata=res.data
-					    		for (var i=0;i<res.data.length;i++) {
-					    			that.addmarker(res.data[i].pbPdAddress.substring(0,res.data[i].pbPdAddress.indexOf(',')),res.data[i].pbPdAddress.substr(res.data[i].pbPdAddress.indexOf(',')+1),i,res.data[i].pbActivityTreasulrId)
-					    		}
-					    		AMap.service('AMap.Geocoder', function() { 
-					    			var lat=that.mydata[that.gid].pbPdAddress.substring(0,that.mydata[that.gid].pbPdAddress.indexOf(','))
-									var lng=that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',')+1)
-									var lnglatXY = [lat,lng] 
+						var marker = new AMap.Marker({
+							map: that.map,
+							position: [lat, lng],
+							icon: new AMap.Icon({
+								size: new AMap.Size(27, 33),
+								image: "./img/pin copy.png",
+							})
+						});
+//						获取最近的柜子
+						console.log(that.lng + ',' + that.lat)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/getDevices",
+							dataType: 'json',
+							data: {
+								coordinate: that.lng + ',' + that.lat
+							},
+							success: function(res) {
+								that.mydata = res.data
+								for(var i = 0; i < res.data.length; i++) {
+									that.addmarker(res.data[i].pbPdAddress.substring(0, res.data[i].pbPdAddress.indexOf(',')), res.data[i].pbPdAddress.substr(res.data[i].pbPdAddress.indexOf(',') + 1), i, res.data[i].pbActivityTreasulrId)
+								}
+								AMap.service('AMap.Geocoder', function() {
+									var lat = that.mydata[that.gid].pbPdAddress.substring(0, that.mydata[that.gid].pbPdAddress.indexOf(','))
+									var lng = that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',') + 1)
+									var lnglatXY = [lat, lng]
 									geocoder = new AMap.Geocoder({
 										city: "" //城市，默认：“全国”
 									});
 									geocoder.getAddress(lnglatXY, function(status, result) {
 										if(status === 'complete' && result.info === 'OK') {
-											that.adress=result.regeocode.formattedAddress
+											that.adress = result.regeocode.formattedAddress
 										} else {
 											//获取地址失败
 											console.log(result)
 										}
 									});
 								})
-					    	}
-					    });
-					    function plusReady(){
+							}
+						});
+
+						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
-					addmarker:function(lat,lng,id,aid){
-						var that=this
-						if(aid==null){
+					addmarker: function(lat, lng, id, aid) {
+						var that = this
+						if(aid == null) {
 							var marker = new AMap.Marker({
-							    position: new AMap.LngLat(lat,lng),
-							    offset: new AMap.Pixel(-10, -10),
-							    icon: './img/Group.png', // 添加 Icon 图标 URL
-							    title: id
+								position: new AMap.LngLat(lat, lng),
+								offset: new AMap.Pixel(-10, -10),
+								icon: './img/Group.png', // 添加 Icon 图标 URL
+								title: id
 							});
-						}else{
+						} else {
 							var marker = new AMap.Marker({
-							    position: new AMap.LngLat(lat,lng),
-							    offset: new AMap.Pixel(-10, -10),
-							    icon: './img/Groupred.png', // 添加 Icon 图标 URL
-							    title: id
+								position: new AMap.LngLat(lat, lng),
+								offset: new AMap.Pixel(-10, -10),
+								icon: './img/Groupred.png', // 添加 Icon 图标 URL
+								title: id
 							});
 						}
 						this.map.add(marker);
-						marker.on('click',function(MapsEvent){
-							that.gid=marker.getTitle()
-							var lat=that.mydata[that.gid].pbPdAddress.substring(0,that.mydata[that.gid].pbPdAddress.indexOf(','))
-							var lng=that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',')+1)
-							AMap.service('AMap.Geocoder', function() { 
-								var lnglatXY = [lat,lng] 
+						marker.on('click', function(MapsEvent) {
+							that.gid = marker.getTitle()
+							var lat = that.mydata[that.gid].pbPdAddress.substring(0, that.mydata[that.gid].pbPdAddress.indexOf(','))
+							var lng = that.mydata[that.gid].pbPdAddress.substr(that.mydata[that.gid].pbPdAddress.indexOf(',') + 1)
+							AMap.service('AMap.Geocoder', function() {
+								var lnglatXY = [lat, lng]
 								geocoder = new AMap.Geocoder({
 									city: "" //城市，默认：“全国”
 								});
 								geocoder.getAddress(lnglatXY, function(status, result) {
 									if(status === 'complete' && result.info === 'OK') {
-										that.adress=result.regeocode.formattedAddress
+										that.adress = result.regeocode.formattedAddress
 										that.informshow()
 									} else {
 										//获取地址失败
@@ -233,21 +236,22 @@
 									}
 								});
 							})
-							
+
 						})
 					}
 				},
-				filters:{
-					myadress:function(value){
-						var that=this
-						var lat=value.substring(0,value.indexOf(','))
-						var lng=value.substr(value.indexOf(',')+1)
-						var p1 = [lat,lng]
-						var p2 =[localStorage.getItem('lat'),localStorage.getItem('lng')]
+				filters: {
+					myadress: function(value) {
+						var that = this
+						var lat = value.substring(0, value.indexOf(','))
+						var lng = value.substr(value.indexOf(',') + 1)
+						var p1 = [lat, lng]
+						var p2 = [localStorage.getItem('lat'), localStorage.getItem('lng')]
 						return parseInt(AMap.GeometryUtil.distance(p1, p2));
 					}
 				}
 			})
 		</script>
 	</body>
+
 </html>

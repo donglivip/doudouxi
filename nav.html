@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/style/nav.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
@@ -30,13 +30,15 @@
 			<!--中间主体-->
 			<div class="main" style="background: #FFFFFF;" v-if="!detailboo">
 				<div class="mynav">
-					<div class="nav-tab" v-for='(val,index) in onedata' :class="navindex==index?'active':''" @click="tab(index.val.pbClothesOneId)">
+					<div class="nav-tab" v-for='(val,index) in onedata' :class="navindex==index?'active':''" @click="tab(index,val.pbClothesOneId)">
 						<div class="nav-text">{{val.pbCoName}}</div>
 						<div class="nav-circle"></div>
 					</div>
 				</div>
 				<div class="subnav">
-					<div class="subnav-item" :class="subindex==index?'active':''" @click="subindexchange(index)" v-for="(val,index) in twodata">{{val.pbCtName}}</div>
+					<div class="subnav-inner">
+						<div class="subnav-item" :class="subindex==index?'active':''" @click="subindexchange(index)" v-for="(val,index) in twodata">{{val.pbCtName}}</div>
+					</div>
 				</div>
 				<div class="shop-box">
 					<div class="shop" v-for="(val,index) in threedata">
@@ -140,6 +142,10 @@
 						this.luckboo = !this.luckboo
 					},
 					pay:function(){
+						if(this.cartdata.length==0){
+							plus.nativeUI.toast('您还没有选择衣物呢!')
+							return false;
+						}
 						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
 						this.opennew('pay')
 					},
@@ -165,7 +171,6 @@
 						});
 					},
 					myajax: function() {
-						localStorage.setItem('pbPartnerDeviceId','1')
 						function plusReady(){
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.showWaiting( "分类获取中..." );
@@ -186,7 +191,9 @@
 							success: function(res) {
 								console.log(res)
 								that.onedata = res.data
-								that.havetwo(res.data[0].pbClothesOneId)
+								if(res.data!=null){
+									that.havetwo(res.data[that.navindex].pbClothesOneId)
+								}
 							},
 							error:function(err){
 								console.log(err)
@@ -268,6 +275,7 @@
 					},
 					tab: function(index, id) {
 						this.navindex = index
+						this.subindex=0
 						this.havetwo(id)
 					},
 					alertshow: function() {

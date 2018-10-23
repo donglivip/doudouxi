@@ -1,31 +1,4 @@
 @import url("reset.css");
- @font-face{ font-family:'myFont';src:url('../fonts/PingFang-Medium-1.ttf');}
-body,html,.wrapper{width: 100%;height: 100%;position: relative;overflow: hidden;color: #333333;font-family: 'myFont';font-size: .26rem;}
-.header{width: 100%;height: .8rem;position: absolute;top: 0;left: 0;display: flex;align-items: center;font-weight:600 ;font-size: .32rem;border-bottom: 1px solid #f4f4f4;background: #FFFFFF;}
-.header img{width: .33rem;}
-.bottom-text {margin-bottom: .15rem;}
-.head-tab:first-of-type{justify-content: flex-start;}
-.head-tab:last-of-type{justify-content: flex-end;}
-.head-tab{width: 1.6rem;margin: 0 .2rem;font-size: .25rem;font-weight: 500;white-space: nowrap;text-align: right;height: 100%;display: flex;align-items: center;}
-.head-tab:last-of-type{justify-content: flex-end;}
-.head-main{flex: 1;text-align: center;}
-.bottom{width:100%;height: 1rem;position: absolute;bottom: 0;left: 0;display: flex;align-items: center;border-top: 1px solid #f4f4f4;background: #FFFFFF;}
-.bottom-tab{flex: 1;display: flex;flex-direction: column;align-items: center;justify-content: center;}
-.bottom-tab .active{color: #096148;}
-.bottom-tab img{width: .4rem;margin: .15rem 0;}
-.main{height: calc(100% - 1.8rem);overflow-x: hidden;overflow-y: scroll;margin-top: .8rem;}
-.big-main{height: calc(100% - .8rem);}
-.header .back{width: .16rem;float: left;}
-.alert{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: rgba(0,0,0,.5);display: flex;align-items: center;justify-content: center;z-index: 99999;}
-.alert .alert-inner{background: #FFFFFF;width: 5rem;border-radius: .2rem;overflow: hidden;}
-.alert .button{background: #096148;color: #FFFFFF;height: 1rem;display: flex;align-items: center;justify-content: center;font-size: .3rem;}
-.alert img{width: 1rem;height: 1rem;margin: .6rem auto 0;display: block;}
-.alert .text{color: #096148;font-size: .3rem;margin: .6rem auto .8rem;text-align: center;font-size: .35rem;}
-.alert .button div{flex: 1;text-align: center;}
-.alert .button div:first-of-type{border-right: 1px solid #ffffff;}
-.alert .alert-top{line-height: .8rem;text-align: center;font-size: .38rem;border-bottom: 1px solid #096148;margin-top: .1rem;font-weight: 600;}
-
-input{border: 0;}
 /*主页*/
 .index #container{width: 100%;height: calc(100% + .4rem);}
 .index .lately{background: #096148;color: #fff;font-size: .32rem;padding: .2rem .3rem;border-radius: .4rem;position: absolute;bottom: 1.3rem;left: calc(50% - .95rem);}
@@ -320,4 +293,4 @@ input{border: 0;}
 	50%{transform: scale(.5);}
 	100%{transform: scale(1);}
 }
-.gocenter{position: absolute;top: 1rem;right: .2rem;width: .5rem;height: .5rem;}
+

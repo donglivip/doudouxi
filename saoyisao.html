@@ -44,6 +44,7 @@
 		$(function() {
 			var barcode = null;
 			$('.alert').hide()
+
 			function alertboo(text) {
 				$('.text').html(text)
 				if($('.alert').css('display') == 'none') {
@@ -56,7 +57,8 @@
 					$('.alert').css('display', 'none')
 				}
 			}
-			function create(){
+
+			function create() {
 				if(!barcode) {
 					barcode = plus.barcode.create('barcode', [plus.barcode.QR], {
 						top: '0',
@@ -70,48 +72,52 @@
 				}
 				barcode.start();
 			}
+
 			function onmarked(type, result) {
-					var text = '未知: ';
-					switch(type) {
-						case plus.barcode.QR:
-							text = 'QR: ';
-							break;
-						case plus.barcode.EAN13:
-							text = 'EAN13: ';
-							break;
-						case plus.barcode.EAN8:
-							text = 'EAN8: ';
-							break;
-					}
-					alert(result);
-					alert(localStorage.getItem('orderId'))
-						var that = this
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/equipment/openTheDoor",
-							dataType: 'json',
-							data: {
-								orderId:localStorage.getItem('orderId'),
-								deviceCode:result
-							},
-							success: function(res) {
-								alert(JSON.stringify(res))
-								plus.webview.getWebviewById('saoyisao').reload()
-								if(res.status==200){
-									plus.nativeUI.toast('开箱完成！')
-								}else if(res.status==400){
-									plus.nativeUI.toast('开箱失败，请到所属洗衣柜开箱！')
-								}else{
-									plus.nativeUI.toast('开箱失败,请联系服务商！')
-								}
-							},
-							error:function(error){
-								plus.webview.getWebviewById('saoyisao').reload()
-								alert(JSON.stringify(error))
-							}
-						});
+				var text = '未知: ';
+				switch(type) {
+					case plus.barcode.QR:
+						text = 'QR: ';
+						break;
+					case plus.barcode.EAN13:
+						text = 'EAN13: ';
+						break;
+					case plus.barcode.EAN8:
+						text = 'EAN8: ';
+						break;
 				}
-			$('#true').click(function(){
+				var that = this
+				$.ajax({
+					type: "post",
+					url: localStorage.getItem('myurl') + "/equipment/openTheDoor",
+					dataType: 'json',
+					data: {
+						orderId: localStorage.getItem('orderId'),
+						deviceCode: result
+					},
+					success: function(res) {
+						if(res.status == 200) {
+							plus.webview.getWebviewById('order').reload()
+							plus.nativeUI.toast('开箱完成！')
+							mui.opennew({
+								url:'./order.html',
+								id:'order'
+							})
+						} else if(res.status == 400) {
+							plus.webview.getWebviewById('saoyisao').reload()
+							plus.nativeUI.toast('开箱失败，请到所属洗衣柜开箱！')
+						} else {
+							plus.webview.getWebviewById('saoyisao').reload()
+							plus.nativeUI.toast('开箱失败,请联系服务商！')
+						}
+					},
+					error: function(error) {
+						plus.webview.getWebviewById('saoyisao').reload()
+						alert(JSON.stringify(error))
+					}
+				});
+			}
+			$('#true').click(function() {
 				alertboo('')
 			})
 			document.addEventListener("plusready", function() {

@@ -93,10 +93,12 @@
 							success:function(res){
 								console.log(res)
 								if(res.status==200){
-									that.alertshow('信息提交成功')
+									plus.webview.getWebviewById('usercenter').reload(true)
+									plus.nativeUI.toast('信息提交成功')
 									localStorage.setItem('usCardId',that.usCardId)
 									localStorage.setItem('usAliPayCode',that.usAliPayCode)
 									localStorage.setItem('usWeChatPayCode',that.usWeChatPayCode)
+									mui.back()
 								}else{
 									that.alertshow('信息提交失败')
 								}

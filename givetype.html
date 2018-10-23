@@ -60,6 +60,7 @@
 					}
 				},
 				mounted:function(){
+					plus.webview.getWebviewById('order').reload(true)
 					var clipboard = new ClipboardJS('.clone');
 				    clipboard.on('success', function(e) {
 				        console.log(e);

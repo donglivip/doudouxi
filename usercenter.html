@@ -9,7 +9,6 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
-
 	<body>
 		<div class="wrapper usercenter">
 			<!--头部-->
@@ -147,11 +146,11 @@
 								userId:localStorage.getItem('usUserId')
 							},
 							success:function(res){
-								console.log(res)
+								console.log(JSON.stringify(res))
 								that.mydata=res.data
 							},
 							error:function(err){
-								console.log(err)
+								console.log(localStorage.getItem('usUserId'))
 							}
 						});
 					},
