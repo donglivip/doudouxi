@@ -114,12 +114,10 @@
 					opennew: function(target, id, id02) {
 						localStorage.setItem('pbPartnerDeviceId', id)
 						localStorage.setItem('pbCommunityPartnerId', id02)
-						if(target=='order'){
-							plus.webview.getWebviewById('order').reload(true)
-						}
 						mui.openWindow({
 							url: './' + target + '.html',
-							id: target
+							id: target,
+							createNew:true
 						})
 					},
 					informshow: function() {
@@ -162,6 +160,7 @@
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getDevices",
 							dataType: 'json',
+							async:true,
 							data: {
 								coordinate: that.lng + ',' + that.lat
 							},

@@ -30,7 +30,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata">
-						<img :src="val.pbCdImg"/>
+						<img :src="val.pbCdImg | myimg"/>
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
@@ -130,7 +130,8 @@
 						this.alertboo=false
 						mui.openWindow({
 							url:'./'+target+'.html',
-							id:target
+							id:target,
+							createNew:true
 						})
 					},
 					alertshow:function(){
@@ -198,7 +199,6 @@
 					for (var i=0;i<this.mydata.length;i++) {
 						this.allnum+=this.mydata[i].usCpsSalePrice*this.mydata[i].pbRdNum
 						this.pbOrCountNum+=this.mydata[i].pbRdNum
-						this.mydata[i].usCommunityPartnerSaleId=localStorage.getItem('usCommunityPartnerSaleId')
 						this.mydata[i].pbRdPrice=this.mydata[i].usCpsSalePrice*this.mydata[i].pbRdNum
 					}
 					this.myajax()
@@ -216,6 +216,11 @@
 						plusReady();
 					} else {
 						document.addEventListener('plusready', plusReady, false);
+					}
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

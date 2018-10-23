@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/style/usercenter.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
@@ -142,6 +142,8 @@
 							type:"post",
 							url:localStorage.getItem('myurl')+"/user/findBalance",
 							dataType:'json',
+							timeout:1000,
+							async:true,
 							data:{
 								userId:localStorage.getItem('usUserId')
 							},
@@ -263,6 +265,7 @@
 											if(res.status == 200) {
 												that.alertshow('头像修改成功')
 												localStorage.setItem('usHeadImg', json.data)
+												plus.webview.getWebviewById('usercenter').reload()
 											} else {
 												that.alertshow('信息提交失败')
 											}
@@ -300,7 +303,12 @@
 				},
 				filters:{
 					myimg:function(value){
-						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
+						console.log()
+						if(value!='img/Group 10@2x.png'){ 
+							return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
+						}else{
+							return value
+						}
 					}
 				}
 			})

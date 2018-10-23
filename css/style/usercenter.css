@@ -1,0 +1,20 @@
+@import url("../reset.css");
+/*个人中心*/
+.usercenter{background: #F4F4F4;}
+.usercenter .header{background: none;border: 0;color: #FFFFFF;z-index: 99;}
+.usercenter .main{margin: 0;height: calc(100% - 1rem);}
+.usercenter .center-top{width: 100%;height: 3rem;display: flex;color: #FFFFFF;padding-top: 1rem;box-sizing: border-box;position: relative;overflow: hidden;}
+.usercenter .center-top .avatar{width: 1.3rem;height: 1.3rem;border-radius: 50%;margin: 0 .2rem;z-index: 66;}
+.usercenter .name-box{flex: 1;display: flex;flex-direction: column;justify-content: space-between;height: 1.3rem;z-index: 66;}
+.usercenter .name{font-size: .4rem;margin-top: .15rem;}
+.usercenter .state-box{display: flex;justify-content: space-between;}
+.usercenter .state{background: #096148;border-radius: .5rem;padding: .1rem .3rem;font-size: .23rem;margin-right: .2rem;color: #FFFFFF;align-items: center;}
+.usercenter .backimg{position: absolute;top: 0;left: 0;width: 100%;filter: blur(20px);}
+.usercenter .nav{background: #FFFFFF;width: calc(100% - .4rem);height: 1.3rem;border-radius: .2rem;display: flex;margin: -.5rem auto .2rem;z-index: 66;position: relative;font-size: .2rem;}
+.usercenter .nav-tab{display: flex;flex-direction: column;align-items: center;flex: 1;}
+.usercenter .nav-tab img{width: .4rem;height: .4rem;margin: .2rem 0 .1rem;}
+.usercenter .text{text-align: center;}
+.usercenter .user-tab{display: flex;align-items: center;width: 100%;height: 1rem;border-bottom: 1px solid #F4F4F4;background: #FFFFFF;}
+.usercenter .user-tab .logo{width: .4rem;margin: 0 .2rem;}
+.usercenter .tab-text{font-size: .28rem;flex: 1;}
+.usercenter .user-tab .arr{width: .2rem;margin-right: .2rem;}

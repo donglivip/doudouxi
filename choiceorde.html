@@ -26,8 +26,8 @@
 			<div class="main big-main">
 				<div class="order-main" style="height: calc(100% - .2rem);" @scroll="myscroll">
 					<div class="main-inner">
-						<div class="order-box" @click="opennew('orderdetail',val.orderId,val.pbOrProblemStatus,val.pbOrStatus)" v-for="val in mydata">
-							<img :src="val.pbOrComplainImg" />
+						<div class="order-box" @click="opennew('orderdetail',val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus)" v-for="val in mydata">
+							<img :src="val.pbOrComplainImg | myimg" />
 							<div class="order-right">
 								<div class="order-title">
 									<div class="order-h1">
@@ -65,7 +65,8 @@
 						localStorage.setItem('orderId',id)
 						mui.openWindow({
 							url:'./saoyisao.html',
-							id:'saoyisao'
+							id:'saoyisao',
+							createNew:true
 						})
 					},
 					opennew:function(target,id,pbOrProblemStatus,pbOrStatus){
@@ -150,6 +151,11 @@
 							return '滞留中'
 						}else{
 							return '洗涤中'
+						}
+					},
+					myimg:function(value){
+						if(value!=null){
+							return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 						}
 					}
 				}

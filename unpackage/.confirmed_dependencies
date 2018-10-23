@@ -60,7 +60,9 @@
 			"newcenter.html",
 			"index.html"
 		],
-		"resources": []
+		"resources": [
+			"aboutus.html"
+		]
 	},
 	"dcart.html": {
 		"refer": [
@@ -240,5 +242,10 @@
 			"orderdetail.html"
 		],
 		"resources": []
+	},
+	"givetype.html": {
+		"refer": [
+			"saoyisao.html"
+		]
 	}
 }

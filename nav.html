@@ -135,18 +135,19 @@
 					detailboo: false,
 					index: 0,
 					mydata: '',
-					luckboo:false
+					luckboo: false
 				},
 				methods: {
-					luckshow:function(){
+					luckshow: function() {
 						this.luckboo = !this.luckboo
 					},
-					pay:function(){
-						if(this.cartdata.length==0){
+					pay: function() {
+						if(this.cartdata.length == 0) {
 							plus.nativeUI.toast('您还没有选择衣物呢!')
 							return false;
 						}
-						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
+						localStorage.setItem('cartdata', JSON.stringify(this.cartdata))
+						console.log(JSON.stringify(localStorage.getItem('cartdata')))
 						this.opennew('pay')
 					},
 					back: function() {
@@ -171,15 +172,6 @@
 						});
 					},
 					myajax: function() {
-						function plusReady(){
-							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "分类获取中..." );
-						}
-						if(window.plus){
-							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
-						}
 						var that = this
 						$.ajax({
 							type: "post",
@@ -191,11 +183,11 @@
 							success: function(res) {
 								console.log(res)
 								that.onedata = res.data
-								if(res.data!=null){
+								if(res.data != null) {
 									that.havetwo(res.data[that.navindex].pbClothesOneId)
 								}
 							},
-							error:function(err){
+							error: function(err) {
 								console.log(err)
 							}
 						});
@@ -235,14 +227,14 @@
 								that.threedata = res.data
 							}
 						});
-						function plusReady(){
+						function plusReady() {
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.closeWaiting()
+							plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
 					clear: function() {
@@ -265,8 +257,10 @@
 							this.threedata[index].pbRdNum++
 						}
 						that.allnum = 0
-						that.cartdata=[]
+						that.cartdata = []
+						//						循环所有的三级分类
 						for(var i = 0; i < that.threedata.length; i++) {
+							//							如果数量大于0则加入购物车数组
 							if(that.threedata[i].pbRdNum > 0) {
 								that.cartdata.push(that.threedata[i])
 								that.allnum += that.threedata[i].pbRdNum * that.threedata[i].usCpsSalePrice
@@ -275,7 +269,7 @@
 					},
 					tab: function(index, id) {
 						this.navindex = index
-						this.subindex=0
+						this.subindex = 0
 						this.havetwo(id)
 					},
 					alertshow: function() {
@@ -293,7 +287,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: './' + target + '.html',
-							id: target
+							id: target,
+							createNew:true
 						})
 					},
 					subindexchange: function(index) {
@@ -302,10 +297,21 @@
 					}
 				},
 				mounted: function() {
-					this.myajax()
+					var that=this
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("分类获取中...");
+						that.myajax()
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+
 				},
-				filters:{
-					myimg:function(value){
+				filters: {
+					myimg: function(value) {
 						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}

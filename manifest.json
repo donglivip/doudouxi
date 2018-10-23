@@ -184,7 +184,9 @@
 				"priority": 0
 			},
 			"usercenter.html": {
-				"resources": [],
+				"resources": [
+					"aboutus.html"
+				],
 				"refer": [
 					"order.html",
 					"dcart.html",
@@ -195,7 +197,6 @@
 					"luck.html",
 					"share.html",
 					"setting.html",
-					"aboutus.html",
 					"help.html",
 					"newcenter.html",
 					"index.html"
@@ -403,6 +404,13 @@
 				"resources": [],
 				"refer": [
 					"orderdetail.html"
+				],
+				"priority": 0
+			},
+			"givetype.html": {
+				"resources": [],
+				"refer": [
+					"saoyisao.html"
 				],
 				"priority": 0
 			}
