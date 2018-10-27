@@ -47,6 +47,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '.wrapper',
@@ -77,8 +78,9 @@
 							},
 							success: function(res) {
 								if(res.status == 200) {
-									that.alertshow('信息提交成功')
+									plus.nativeUI.toast('修改完成!')
 									localStorage.setItem('usPayPassword', that.usPayPassword)
+									window.history.back()
 								} else {
 									that.alertshow('信息提交失败')
 								}

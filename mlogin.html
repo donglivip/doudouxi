@@ -46,8 +46,8 @@
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<a href=""><img src="img/QQ@2x.png"/></a>
-							<a href=""><img src="img/wxin.png"/></a>
+							<a href="javascript:void(0)" @click="qqlogin"><img src="img/QQ@2x.png"/></a>
+							<a href="javascript:void(0)" @click="authorize"><img src="img/wxin.png"/></a>
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,9 @@
 					usCpPassword:'',
 					usCpPhone:'',
 					alertboo :false,
-					alerttext:''
+					alerttext:'',
+					auths:'',
+					aweixin:''
 				},
 				methods:{
 					alertshow:function(text){
@@ -86,7 +88,7 @@
 						}
 						function plusReady(){
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "登陆中..." );
+							var w = plus.nativeUI.showWaiting( "等待中..." );
 						}
 						if(window.plus){
 							plusReady();
@@ -142,10 +144,67 @@
 							url:'./'+target+'.html',
 							id:target
 						})
+					},
+					qqlogin:function(){
+						plus.nativeUI.toast('程序员正在夜以继日开发中！')
+					},
+					authorize:function(){
+						var that=this
+						var s = that.auths[0];
+//						if ( s.authResult!=undefined ) {
+							s.login( function(e){
+								// 获取登录操作结果
+								console.log( "登录认证成功："+JSON.stringify(e.target.userInfo) );
+								$.ajax({
+									type:"post",
+									url:localStorage.getItem('myurl')+"/user/registerUser",
+									dataType:'json',
+									data:{
+										index:3,
+										code:e.target.userInfo.openid
+									},
+									success:function(res){
+										console.log(JSON.stringify(res))
+										if(res.status==200){
+											if(res.data.usStatus==1){
+												localStorage.setItem('usPhone','微信用户')
+												localStorage.setItem('usShareCode',res.data.usShareCode)
+												localStorage.setItem('usUserId',res.data.usUserId)
+												localStorage.setItem('usHeadImg',res.data.usHeadImg)
+												localStorage.setItem('usNickName',e.target.userInfo.nickname)
+												window.location.href='./index.html'
+											}else{
+												that.alertshow('您的账户已被冻结！')
+											}
+										}else{
+											that.alertshow(res.msg)
+										}
+									},error:function(err){
+										console.log(JSON.stringify(err))
+									}
+								});
+							}, function(e){
+								console.log( "登录认证失败！" );
+							}, {} );
+//						}else{
+//							console.log('wsb')
+//						}
 					}
 				},
 				mounted:function(){
-					localStorage.setItem('myurl','http://47.100.104.251:8081')
+					var that=this
+					localStorage.setItem('myurl','http://27.54.248.14:8080')
+//					localStorage.setItem('myurl','http://192.168.0.186')
+					// 监听plusready事件  
+					document.addEventListener('plusready', function(){
+						// 扩展API加载完毕，现在可以正常调用扩展API
+						plus.oauth.getServices( function(services){
+							that.auths = services;
+							that.aweixin = services['weixin'];
+						}, function(e){
+							alert("获取分享服务列表失败："+e.message+" - "+e.code);
+						} );
+					}, false );
 				}
 			})
 		</script>

@@ -155,7 +155,11 @@
 					},
 					myimg:function(value){
 						if(value!=null){
-							return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
+							if(value.indexOf(',')!=-1){
+								return localStorage.getItem('myurl') + value.substring(0,value.indexOf(','))
+							}else{
+								return localStorage.getItem('myurl') + value
+							}
 						}
 					}
 				}

@@ -32,29 +32,9 @@
 				</div>
 				<div class="title">请选择充值金额</div>
 				<div class="box">
-					<div class="box-tab" :class="priceindex==1?'active':''" @click="pricechange(1)">
-						<div class="price">充100元</div>
-						<!--<div class="subprice">赠送100积分</div>-->
-					</div>
-					<div class="box-tab" :class="priceindex==2?'active':''" @click="pricechange(2)">
-						<div class="price">充200元</div>
-						<!--<div class="subprice">赠送200积分</div>-->
-					</div>
-					<div class="box-tab" :class="priceindex==3?'active':''" @click="pricechange(3)">
-						<div class="price">充300元</div>
-						<!--<div class="subprice">赠送300积分</div>-->
-					</div>
-					<div class="box-tab" :class="priceindex==4?'active':''" @click="pricechange(4)">
-						<div class="price">充400元</div>
-						<!--<div class="subprice">赠送400积分</div>-->
-					</div>
-					<div class="box-tab" :class="priceindex==5?'active':''" @click="pricechange(5)">
-						<div class="price">充500元</div>
-						<!--<div class="subprice">赠送500积分</div>-->
-					</div>
-					<div class="box-tab" :class="priceindex==6?'active':''" @click="pricechange(6)">
-						<div class="price">充600元</div>
-						<!--<div class="subprice">赠送600积分</div>-->
+					<div class="box-tab" :class="priceindex==index?'active':''" @click="pricechange(index)" v-for="(val,index) in cartdata">
+						<div class="price">充{{val.maLcPrice}}元</div>
+						<div class="subprice">赠送{{val.maLcIntegral}}积分</div>
 					</div>
 				</div>
 				<div class="title">请选择充值方式</div>
@@ -88,31 +68,17 @@
 			var myvue = new Vue({
 				el: '.wrapper',
 				data: {
-					priceindex: 1,
+					priceindex: 0,
 					zndex: 1,
 					alertboo: false,
 					time: 3,
 					mydata: '',
-					channel:[]
+					channel:[],
+					cartdata:[]
 				},
 				methods: {
 					submit: function() {
 						var that = this
-						console.log(localStorage.getItem('usAliPayCode'))
-						if(localStorage.getItem('usAliPayCode') == null || localStorage.getItem('usAliPayCode') == undefined||localStorage.getItem('usAliPayCode') == 'undefined') {
-							function plusReady() {
-								// 弹出系统提示对话框
-								plus.nativeUI.alert("您还没完成实名认证!", function() {
-									that.opennew('rname')
-								}, "豆豆洗", "前去认证");
-							}
-							if(window.plus) {
-								plusReady();
-							} else {
-								document.addEventListener("plusready", plusReady, false);
-							}
-							return false;
-						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/aliPayBeanCard",
@@ -120,7 +86,8 @@
 							data: {
 								userId: localStorage.getItem('usUserId'),
 								status: that.zndex,
-								price: that.priceindex * 100,
+								price: that.cartdata[that.priceindex].maLcPrice,
+//								price: 0.01,
 								code: localStorage.getItem('usAliPayCode')
 							},
 							success: function(res) {
@@ -178,10 +145,21 @@
 					},
 					myajax: function() {
 						var that = this
+						// H5 plus事件处理
+						function plusReady(){
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting( "等待中..." );
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/findBalance",
 							dataType: 'json',
+							async:true,
 							data: {
 								userId: localStorage.getItem('usUserId')
 							},
@@ -190,6 +168,26 @@
 								that.mydata = res.data
 							}
 						});
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/findLaundryCard",
+							dataType: 'json',
+							async:true,
+							success: function(res) {
+								console.log(res)
+								that.cartdata = res.data
+							}
+						});
+						// H5 plus事件处理
+						function plusReady(){
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus){
+							plusReady();
+						}else{
+							document.addEventListener("plusready",plusReady,false);
+						}
 					},
 				},
 				mounted: function() {

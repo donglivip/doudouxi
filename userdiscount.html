@@ -25,6 +25,7 @@
 			<!--中间主体-->
 			<div class="main big-main" @scroll="myscroll">
 				<div class="main-inner">
+					<img src="img/blank.png" v-if="mydata.length==0" style="height: 3rem;display: block;margin: 1rem auto;"/>
 					<div class="discount-tab" v-for="val in mydata">
 						<div class="discount-left">
 							<div class="price">

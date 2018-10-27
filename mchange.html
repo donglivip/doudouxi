@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+	</head>
+
+	<body>
+		<div class="wrapper plogin wlogin">
+			<!--头部-->
+			<div class="header">
+				<a class="head-tab" href="javascript:history.back()">
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
+				</a>
+				<div class="head-main">
+					修改登陆密码
+				</div>
+				<a class="head-tab" href="javascript:void(0)">
+
+				</a>
+			</div>
+			<!--中间主体-->
+			<div class="main big-main">
+				<div class="main-inner">
+					<!--<div class="input-box">
+						<input type="number" placeholder="请输旧密码"/>
+					</div>-->
+					<div class="input-box">
+						<input type="text" placeholder="请输入密码" v-model="usPayPassword" />
+					</div>
+					<div class="input-box">
+						<input type="text" placeholder="请再次输入新密码" v-model="usPayPassword01" />
+					</div>
+					<div class="login" @click="login">立即修改</div>
+				</div>
+			</div>
+			<div class="alert" v-if="alertboo" @click="alertshow('')">
+				<div class="alert-inner">
+					<div class="alert-top">豆豆洗</div>
+					<div class="text alert-text">{{alerttext}}</div>
+					<div class="button">确定</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					usPayPassword: '',
+					usPayPassword01: '',
+					alertboo: false,
+					alerttext: ''
+				},
+				methods: {
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
+					},
+					login: function() {
+						var that = this
+						if(this.usPayPassword != this.usPayPassword01||this.usPayPassword=='') {
+							that.alertshow('信息输入错误！')
+							return false;
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/updateUser",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('usUserId'),
+								usPassword: that.usPayPassword
+							},
+							success: function(res) {
+								console.log(res)
+								if(res.status == 200) {
+									plus.nativeUI.toast('修改完成!')
+									window.history.back()
+								} else {
+									that.alertshow('信息提交失败')
+								}
+
+								console.log(res)
+							}
+						});
+					}
+				},
+				mounted: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

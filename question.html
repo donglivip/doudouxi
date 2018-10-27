@@ -24,39 +24,47 @@
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
-				<a class="help-item" href="question-detail.html">
-					<div>真丝类衣物怎么清洗？</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
-				<a class="help-item" href="question-detail.html">
-					<div>常见问题？</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
-				<a class="help-item" href="question-detail.html">
-					<div>关于投诉？</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
-				<a class="help-item" href="question-detail.html">
-					<div>关于投诉？</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
-				<a class="help-item" href="question-detail.html">
-					<div>关于投诉？</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
-				</a>
+				<block v-for="(val,index) in mydata">
+					<div class="help-item" @click="change(index)">
+						<div>{{val.pbCpTitle}}？</div>
+						<img src="img/Arrow_simple_rightt Copy 3@2x.png"/>
+					</div>
+					<div class="help-text" style="margin: .3rem;" v-if="val.boo==true">
+						{{val.pbCpContent}}
+					</div>
+				</block>
 			</div>
 		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',
 				data:{
-
+					mydata:[]
 				},
 				methods:{
-					
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/share/getHelpProblem",
+							async:true,
+							dataType:'json',
+							success:function(res){
+								for (var i = 0; i < res.data.length; i++) {
+									res.data[i].boo=false
+								}
+								console.log(res.data)
+								that.mydata=res.data
+							}
+						});
+					},
+					change:function(index){
+						this.mydata[index].boo=!this.mydata[index].boo
+					}
 				},
 				mounted:function(){
-					
+					this.myajax()
 				}
 			})
 		</script>

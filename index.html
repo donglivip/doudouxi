@@ -92,11 +92,11 @@
 						// 弹出系统等待对话框
 						plus.nativeUI.showWaiting("地图生成中...");
 						plus.geolocation.getCurrentPosition(function(p) {
-							that.lng = p.coords.longitude
-							that.lat = p.coords.latitude
-							localStorage.setItem('lng', p.coords.longitude)
-							localStorage.setItem('lat', p.coords.latitude)
-							that.mapinit(that.lat, that.lng)
+//							that.lng = p.coords.longitude
+//							that.lat = p.coords.latitude
+//							localStorage.setItem('lng', p.coords.longitude)
+//							localStorage.setItem('lat', p.coords.latitude)
+//							that.mapinit(that.lat, that.lng)
 						}, function(e) {
 							alert('Geolocation error: ' + e.message);
 						});
@@ -106,6 +106,9 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
+					localStorage.setItem('lng', that.lng)
+					localStorage.setItem('lat', that.lat)
+					that.mapinit(that.lat, that.lng)
 				},
 				methods: {
 					gocenter: function() {
@@ -245,7 +248,7 @@
 						var lat = value.substring(0, value.indexOf(','))
 						var lng = value.substr(value.indexOf(',') + 1)
 						var p1 = [lat, lng]
-						var p2 = [localStorage.getItem('lat'), localStorage.getItem('lng')]
+						var p2 = [localStorage.getItem('lng'), localStorage.getItem('lat')]
 						return parseInt(AMap.GeometryUtil.distance(p1, p2));
 					}
 				}

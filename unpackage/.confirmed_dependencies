@@ -196,7 +196,8 @@
 		"refer": [
 			"index.html",
 			"plogin.html",
-			"wlogin.html"
+			"wlogin.html",
+			"setting.html"
 		],
 		"resources": [
 			"css/main.css"
@@ -212,7 +213,8 @@
 	"pay.html": {
 		"refer": [
 			"choiceorde.html",
-			"userdiscount.html"
+			"userdiscount.html",
+			"order.html"
 		],
 		"resources": []
 	},
@@ -227,7 +229,8 @@
 			"css/main.css"
 		],
 		"refer": [
-			"index.html"
+			"index.html",
+			"mlogin.html"
 		]
 	},
 	"orderdetail.html": {

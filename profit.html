@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,12 +9,13 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper profit">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					收益
@@ -30,73 +32,81 @@
 				</div>
 				<div class="proce">提现扣除{{mydata01.pbPfPercentage}}％的手续费</div>
 				<div class="withdraw" @click="opennew('profitgo')">提现</div>
-				<div class="proce proce02">点击提现，即代表您已同意  <a href="javascript:void(0)">《提现说明》</a> </div>
+				<div class="proce proce02">点击提现，即代表您已同意
+					<a href="javascript:void(0)">《提现说明》</a>
+				</div>
 			</div>
 			<div class="alert" v-if="alertboo" @click="alertshow('')">
-					<div class="alert-inner">
-						<div class="alert-top">豆豆洗</div>
-						<div class="text alert-text">{{alerttext}}</div>
-						<div class="button">确定</div>
-					</div>
+				<div class="alert-inner">
+					<div class="alert-top">豆豆洗</div>
+					<div class="text alert-text">{{alerttext}}</div>
+					<div class="button">确定</div>
 				</div>
+			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					mydata:'',
-					mydata01:'',
-					alertboo :false,
-					alerttext:''
-				},
-				methods:{
-					alertshow:function(text){
-						this.alerttext=text
-						this.alertboo=!this.alertboo
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					mydata: '',
+					mydata01: {
+						pbPfInitialAmount: 0,
+						pbPfPercentage: 0
 					},
-					opennew:function(target){
-						if(this.mydata[1]<this.mydata01.pbPfInitialAmount){
+					alertboo: false,
+					alerttext: ''
+				},
+				methods: {
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
+					},
+					opennew: function(target) {
+						if(this.mydata[1] <= this.mydata01.pbPfInitialAmount&&target=='profitgo') {
 							this.alertshow('余额不足')
 							return false;
 						}
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/user/findBalance",
-							dataType:'json',
-							data:{
-								userId:localStorage.getItem('usUserId')
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/findBalance",
+							dataType: 'json',
+							data: {
+								userId: localStorage.getItem('usUserId')
 							},
-							success:function(res){
-								that.mydata=res.data
+							success: function(res) {
+								that.mydata = res.data
 							}
 						});
 						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/share/findPresentation",
-							dataType:'json',
-							data:{
-								userRole:1
+							type: "post",
+							url: localStorage.getItem('myurl') + "/share/findPresentation",
+							dataType: 'json',
+							data: {
+								userRole: 1
 							},
-							success:function(res){
+							success: function(res) {
 								console.log(res)
-								that.mydata01=res.data
+								if(res.data != null) {
+									that.mydata = res.data
+								}
 							}
 						});
 					}
 				},
-				mounted:function(){
+				mounted: function() {
 					this.myajax()
 				}
 			})
 		</script>
 	</body>
+
 </html>

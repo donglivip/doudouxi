@@ -8,6 +8,9 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+	<style type="text/css">
+		.grenn{border: 1px solid #096148!important;color: #096148!important;}
+	</style>
 	<body>
 		<div class="wrapper plogin">
 			<!--头部-->
@@ -26,8 +29,8 @@
 			<div class="main big-main">
 				<div class="main-inner">
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号" v-model="usCpPhone"/>
-						<div class="addcode" @click="addcode">{{num}}</div>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur"/>
+						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
 					</div>
 					<div class="input-box">
 						<input type="number" placeholder="请输入短信验证码" v-model="code"/>
@@ -61,9 +64,19 @@
 					mycode:'',
 					pwd:'',
 					alertboo:false,
-					alerttext:''
+					alerttext:'',
+					phoboo:false
 				},
 				methods:{
+					inputblur:function(){
+						var that=this
+						 var myreg=/^[1][0-9]{10}$/;
+			            if (!myreg.test(that.usCpPhone)) {
+			                that.phoboo=false
+			            } else {
+			                that.phoboo=true
+			            }
+					},
 					alertshow:function(text){
 						this.alerttext=text
 						this.alertboo=!this.alertboo

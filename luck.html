@@ -92,7 +92,11 @@
 					jdata: [],
 					jname: '',
 					alertboo: false,
-					mydata: '',
+					mydata: {
+						pbLdrIntegral:0,
+						pbLdrShareNum:0,
+						pbLdrTime:0
+					},
 					usUwIntegral: localStorage.getItem('usUwIntegral')
 				},
 				methods: {
@@ -107,7 +111,10 @@
 								status: 2
 							},
 							success: function(res) {
-								that.mydata = res.data
+								console.log(res)
+								if(res.data!=null){
+									that.mydata = res.data
+								}
 							}
 						});
 						$.ajax({

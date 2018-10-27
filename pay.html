@@ -23,9 +23,9 @@
 				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main">
+			<div class="main" v-if="mydata.length!=0">
 				<div class="help-item">
-					<div>订单编号:{{orderId}}</div>
+					<div>订单编号:{{mydata[0].pbClothesDetailsId}}</div>
 					<div></div>
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
@@ -34,10 +34,10 @@
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
-								<div class="price">￥{{val.usCpsSalePrice}}</div>
+								<div class="price">￥{{val.pbRdPrice}}</div>
 							</div>
 							<div class="num">
-								x{{val.pbRdNum}}
+								x{{val.usLbcNum}}
 							</div>
 						</div>
 					</div>
@@ -52,8 +52,8 @@
 				</div>
 				<div class="help-item" @click="userdiscount()">
 					<div style="flex: 1;">优惠卷</div>
-					<div v-if="pbCoName==''">{{size}}张可用</div>
-					<div v-if="pbCoName!=''">{{pbCoName}}</div>
+					<div v-if="pbCoName==''||pbCoName==null">{{size}}张可用</div>
+					<div v-if="pbCoName!=''||pbCoName!=null">{{pbCoName}}</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" style="width: .1rem;"/>
 				</div>
 				<div class="help-item">
@@ -71,28 +71,21 @@
 						
 					</textarea>
 				</div>
+				<div class="alert" v-if="alertboo" @click="alertshow('')">
+					<div class="alert-inner">
+						<div class="alert-top">豆豆洗</div>
+						<div class="text alert-text">{{alerttext}}</div>
+						<div class="button">确定</div>
+					</div>
+				</div>
 			</div>
 			<div class="bottom">
 				<div class="nav-left">
 					<img src="img/Basket@2x.png"/>
 					<div class="bprice">合计:￥{{allnum - pbCoPrice}}</div>
 				</div>
-				<div class="nav-right" @click="alertshow">
+				<div class="nav-right" @click="gopay(0)">
 					去结算
-				</div>
-			</div>
-			<div class="alert" v-show='alertboo'>
-				<div class="alert-inner">
-					<div class="alert-top">
-						豆豆洗
-					</div>
-					<div class="text">
-						确定下单吗？
-					</div>
-					<div class="button">
-						<div @click="gopay(0)">确定</div>
-						<div  @click="alertshow">取消</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -117,7 +110,8 @@
 				},
 				methods:{
 					userdiscount:function(){
-						if(this.size>0){
+//						this.size>0
+						if(true){
 							this.opennew('userdiscount')
 						}else{
 							plus.nativeUI.toast('暂无优惠卷可用！')
@@ -134,7 +128,8 @@
 							createNew:true
 						})
 					},
-					alertshow:function(){
+					alertshow:function(text){
+						this.alerttext=text
 						this.alertboo=!this.alertboo
 					},
 					myajax:function(){
@@ -156,6 +151,14 @@
 					},
 					gopay:function(type){
 						var that=this
+						var mydata=[]
+						for (var i = 0; i < that.mydata.length; i++) {
+							var obj={}
+							obj.pbRdNum=that.mydata[i].usLbcNum
+							obj.pbRdPrice=that.mydata[i].pbRdPrice
+							obj.usCommunityPartnerSaleId=that.mydata[i].usCommunityPartnerSaleId
+							mydata.push(obj)
+						}
 						var pbOrIsCoupon=(that.pbCoName==''?2:1)
 						var pbOrRemarks=(that.pbOrRemarks==''?'暂无备注！':that.pbOrRemarks)
 						var ajaxjson={
@@ -166,11 +169,11 @@
 							"pbOrCountPrice":that.allnum - that.pbCoPrice,
 							"pbOrIsCoupon":pbOrIsCoupon,
 							"pbCouponUserId":localStorage.getItem('pbCouponUserId'),
-							"pbOrderDetailes":that.mydata,
+							"pbOrderDetailes":mydata,
 							"pbOrRemarks":pbOrRemarks
 						}
-						ajaxjson=JSON.stringify(ajaxjson)
 						console.log(ajaxjson)
+						ajaxjson=JSON.stringify(ajaxjson)
 						$.ajax({
 							type:"post",
 							url:localStorage.getItem('myurl')+"/user/downOrder",
@@ -181,9 +184,21 @@
 							success:function(res){
 								console.log(res)
 								if(res.status==200){
-									that.opennew('order')
+//									清空购物车
+									$.ajax({
+										type:"post",
+										url:localStorage.getItem('myurl')+"/user/deleteMyBasket",
+										dataType: "json",
+										data:{
+											usUserId:localStorage.getItem('usUserId'),
+											usLaundryBasketId:JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
+										},
+										success:function(res){
+											that.opennew('order')
+										}
+									})
 								}else{
-									that.alertshow()
+									that.alertshow(res.msg)
 									plus.nativeUI.toast(res.msg)
 								}
 							},
@@ -195,11 +210,11 @@
 				},
 				mounted:function(){
 					var cartdata=localStorage.getItem('cartdata')
-					this.mydata=JSON.parse(cartdata)
+					this.mydata=JSON.parse(cartdata)[1]
 					for (var i=0;i<this.mydata.length;i++) {
-						this.allnum+=this.mydata[i].usCpsSalePrice*this.mydata[i].pbRdNum
-						this.pbOrCountNum+=this.mydata[i].pbRdNum
-						this.mydata[i].pbRdPrice=this.mydata[i].usCpsSalePrice*this.mydata[i].pbRdNum
+						this.allnum+=this.mydata[i].usLbcPrice*this.mydata[i].usLbcNum
+						this.pbOrCountNum+=this.mydata[i].usLbcNum
+						this.mydata[i].pbRdPrice=this.mydata[i].usLbcPrice*this.mydata[i].usLbcNum
 					}
 					this.myajax()
 					var that = this
