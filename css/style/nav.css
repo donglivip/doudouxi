@@ -8,7 +8,7 @@
 .nav .subnav-item{color: #096148;border: 1px solid #096148;padding: .1rem .3rem;border-radius: .3rem;margin:0 .2rem;}
 .nav .subnav .active{background: #096148;color: #FFFFFF;}
 .nav .nav-right{width: 2.5rem;height: 100%;background: #096148;color: #FFFFFF;display: flex;align-items: center;justify-content: center;font-size: .35rem;}
-.nav .subnav-inner{display: flex;width: max-content;align-items: center;margin: .1rem 0;}
+.nav .subnav-inner{display: flex;width: max-content;width:-webkit-max-content;align-items: center;margin: .1rem 0;}
 .nav .nav-left{flex: 1;display: flex;align-items: center;}
 .nav .nav-left img{width: .5rem;margin: 0 .2rem;}
 .nav .bprice{font-size: .35rem;color: #021A13;font-weight: 600;}

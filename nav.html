@@ -42,16 +42,16 @@
 				</div>
 				<div class="shop-box">
 					<div class="shop" v-for="(val,index) in threedata">
-						<div class="img-box" @click="usCommunityPartnerSaleId(val.usCommunityPartnerSaleId,index)">
-							<img :src="val.pbCdImg | myimg" />
+						<div class="img-box" @click="usCommunityPartnerSaleId(val.saleId,index)">
+							<img :src="val.cdImg | myimg" />
 						</div>
 						<div class="price-box">
-							<div class="name">{{val.pbCdName}}</div>
-							<div class="price">￥{{val.usCpsSalePrice}}</div>
+							<div class="name">{{val.cdName}}</div>
+							<div class="price">￥{{val.price}}</div>
 						</div>
 						<div class="add-box">
 							<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)" />
-							<div class="num">{{val.pbClothesDetailsId | mynum}}</div>
+							<div class="num">{{val.countNum}}</div>
 							<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)" />
 						</div>
 					</div>
@@ -64,11 +64,13 @@
 						<img src="img/Trash@2x.png" @click.stop="clear" />
 						<div class="text" @click.stop="clear">清空购物车</div>
 					</div>
-					<div class="cart" v-for="val in cartdata[1]">
+					<div class="cart" v-for="(val,index) in cartdata[1]" v-if='cartdata[1][0]!=null'>
 						<div class="cart-name">{{val.pbCdName}}</div>
 						<div class="cart-num">￥{{val.usLbcPrice}}</div>
 						<div class="cart-setting">
+							<img src="img/Close-2 Copy 9@2x.png" @click.stop="changenum('j',index)" />
 							<div>x{{val.usLbcNum}}</div>
+							<img src="img/Close-2 Copy 6@2x.png" @click.stop="changenum('z',index)" />
 						</div>
 					</div>
 				</div>
@@ -87,7 +89,7 @@
 					</div>
 					<div class="setting">
 						<img src="img/Close-2 Copy 9@2x.png" @click.stop="addnum('j',index)" />
-						<div>{{threedata[index].pbClothesDetailsId | mynum}}</div>
+						<div>{{threedata[index].countNum}}</div>
 						<img src="img/Close-2 Copy 6@2x.png" @click.stop="addnum('z',index)" />
 					</div>
 				</div>
@@ -135,14 +137,15 @@
 					detailboo: false,
 					index: 0,
 					mydata: '',
-					luckboo: false
+					luckboo: false,
+					threeid: ''
 				},
 				methods: {
-					goallnum:function(){
-						var that=this
-						that.allnum=0
+					goallnum: function() {
+						var that = this
+						that.allnum = 0
 						for(var i = 0; i < that.cartdata[1].length; i++) {
-							that.allnum+=that.cartdata[1][i].usLbcPrice*that.cartdata[1][i].usLbcNum
+							that.allnum += that.cartdata[1][i].usLbcPrice * that.cartdata[1][i].usLbcNum
 						}
 					},
 					luckshow: function() {
@@ -171,7 +174,6 @@
 								saleId: '1'
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 								that.detailboo = !that.detailboo
 							}
@@ -189,11 +191,7 @@
 							},
 							success: function(res) {
 								that.cartdata = res.data
-								localStorage.setItem('cartdata',JSON.stringify(that.cartdata))
 								that.goallnum()
-							},
-							error:function(err){
-								alert(JSON.stringify(err))
 							}
 						});
 					},
@@ -204,17 +202,13 @@
 							url: localStorage.getItem('myurl') + "/user/getClothes",
 							dataType: 'json',
 							data: {
-								//								deviceId: localStorage.getItem('pbPartnerDeviceId')
-								deviceId: '1'
+								deviceId: localStorage.getItem('pbPartnerDeviceId')
 							},
 							success: function(res) {
 								that.onedata = res.data
 								if(res.data != null) {
 									that.havetwo(res.data[that.navindex].pbClothesOneId)
 								}
-							},
-							error: function(err) {
-								console.log(err)
 							}
 						});
 					},
@@ -222,12 +216,11 @@
 						var that = this
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/user/getClotheTwo",
+							url: localStorage.getItem('myurl') + "/user/getClothesTwoByOneId",
 							dataType: 'json',
 							data: {
-								//								deviceId: localStorage.getItem('pbPartnerDeviceId'),
-								deviceId: '1',
-								oneId: id
+								deviceId: localStorage.getItem('pbPartnerDeviceId'),
+								pbClothesOneId: id
 							},
 							success: function(res) {
 								that.twodata = res.data
@@ -237,20 +230,52 @@
 					},
 					havethree: function(id) {
 						var that = this
+						that.threeid = id
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/user/getClotheTwo",
+							url: localStorage.getItem('myurl') + "/user/selectClotheTwo",
 							dataType: 'json',
+							async: true,
 							data: {
-								//								deviceId: localStorage.getItem('pbPartnerDeviceId'),
-								deviceId: '1',
-								twoId: id
+								pbPartnerDeviceId: localStorage.getItem('pbPartnerDeviceId'),
+								pbClothesTwoId: that.threeid,
+								usCommunityPartnerId: localStorage.getItem('pbCommunityPartnerId'),
+								usUserId: localStorage.getItem('usUserId')
 							},
 							success: function(res) {
 								console.log(JSON.stringify(res))
 								that.threedata = res.data
 							}
 						});
+					},
+					clear: function() {
+						var that = this
+						// H5 plus事件处理
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("删除中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/deleteMyBasket",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('usUserId'),
+								usLaundryBasketId: that.cartdata[0].usLaundryBasketId
+							},
+							success: function(res) {
+								that.havecart()
+								for(var i = 0; i < that.threedata.length; i++) {
+									$('.shop').eq(i).children('.add-box').children('.num').html(0)
+								}
+							}
+						});
+						this.alertboo = !this.alertboo
 
 						function plusReady() {
 							// 弹出系统等待对话框
@@ -262,83 +287,94 @@
 							document.addEventListener("plusready", plusReady, false);
 						}
 					},
-					clear: function() {
-						var that = this
-						// H5 plus事件处理
-						function plusReady(){
+					//					购物车中加减
+					changenum: function(type, index) {
+						function plusReady() {
 							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting( "删除中..." );
+							plus.nativeUI.showWaiting("等待中...");
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
+						var that = this
+						var num = this.cartdata[1][index].usLbcNum
+						if(type == 'j') {
+							num--
+						} else {
+							num++
+						}
+						var ajaxjson = {
+							usLbNum: 0,
+							usLbPrice: 0,
+							usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
+							usCommunityPartnerSale: that.cartdata[1][index].usCommunityPartnerSaleId,
+							usLbcNum: num,
+							usLbcPrice: that.cartdata[1][index].usCpsSalePrice,
+							usLaundryBasketChildId: that.cartdata[1][index].usLaundryBasketChildId
+						}
+						console.log(ajaxjson)
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/user/deleteMyBasket",
+							url: localStorage.getItem('myurl') + "/user/updateMyBasketDetail",
 							dataType: 'json',
-							data: {
-								usUserId: localStorage.getItem('usUserId'),
-								usLaundryBasketId: that.cartdata[0].usLaundryBasketId
-							},
+							data: ajaxjson,
 							success: function(res) {
-								console.log(res)
+								that.havethree(that.threeid)
 								that.havecart()
-									for(var i = 0; i < that.threedata.length; i++) {
-										$('.shop').eq(i).children('.add-box').children('.num').html(0)
-									}
 							}
 						});
-						this.alertboo = !this.alertboo
-						function plusReady(){
+
+						function plusReady() {
 							// 弹出系统等待对话框
-							plus.nativeUI.closeWaiting()
+							var w = plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
+					//					详情中加减
 					addnum: function(type, index) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("等待中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						var boo = false
-						var num=$('.shop').eq(index).children('.add-box').children('.num').html()
+						var num = that.threedata[index].countNum
 						if(num != 0) {
 							//							修改购物车
-							if(type=='j'){
-								if(num>1){
-									num--
-								}
-							}else{
+							if(type == 'j') {
+								num--
+							} else {
 								num++
-							}
-							var usLaundryBasketChildId=null
-							for (var i = 0; i < that.cartdata[1].length; i++) {
-								if(that.threedata[index].pbClothesDetailsId=that.cartdata[1][i].pbClothesDetailsId){
-									usLaundryBasketChildId=that.cartdata[1][i].usLaundryBasketChildId
-								}
 							}
 							var ajaxjson = {
 								usLbNum: 0,
 								usLbPrice: 0,
 								usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
-								usCommunityPartnerSale: that.threedata[index].usCommunityPartnerSaleId,
+								usCommunityPartnerSale: that.threedata[index].saleId,
 								usLbcNum: num,
-								usLbcPrice: that.threedata[index].usCpsSalePrice,
-								usLaundryBasketChildId:usLaundryBasketChildId
+								usLbcPrice: that.threedata[index].price,
+								usLaundryBasketChildId: that.threedata[index].childId
 							}
-							console.log(ajaxjson)
 							$.ajax({
 								type: "post",
 								url: localStorage.getItem('myurl') + "/user/updateMyBasketDetail",
 								dataType: 'json',
 								data: ajaxjson,
 								success: function(res) {
-									console.log(res)
+									that.havethree(that.threeid)
 									that.havecart()
-									$('.shop').eq(index).children('.add-box').children('.num').html(num)
+
 								}
 							});
 						} else {
@@ -347,9 +383,9 @@
 								usLbNum: 0,
 								usLbPrice: 0,
 								usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
-								usCommunityPartnerSale: that.threedata[index].usCommunityPartnerSaleId,
+								usCommunityPartnerSale: that.threedata[index].saleId,
 								usLbcNum: 1,
-								usLbcPrice: that.threedata[index].usCpsSalePrice
+								usLbcPrice: that.threedata[index].price
 							}
 							$.ajax({
 								type: "post",
@@ -357,11 +393,21 @@
 								dataType: 'json',
 								data: ajaxjson,
 								success: function(res) {
-									console.log(res)
+									that.havethree(that.threeid)
 									that.havecart()
-									$('.shop').eq(index).children('.add-box').children('.num').html('1')
+
 								}
 							});
+						}
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
 					tab: function(index, id) {
@@ -390,42 +436,12 @@
 				},
 				mounted: function() {
 					var that = this
+					that.myajax()
 					that.havecart()
-					function plusReady() {
-						// 弹出系统等待对话框
-						plus.nativeUI.showWaiting("分类获取中...");
-						that.myajax()
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener("plusready", plusReady, false);
-					}
 				},
 				filters: {
 					myimg: function(value) {
 						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
-					},
-					mynum:function(value){
-						if(localStorage.getItem('cartdata')!=null&&localStorage.getItem('cartdata')!=''){
-							var cartdata=JSON.parse(localStorage.getItem('cartdata'))[1]
-							var boo='-1'
-							if(cartdata[0]==null){
-								return 0;
-							}
-							for (var i=0;i<cartdata.length;i++) {
-								if(value==cartdata[i].pbClothesDetailsId){
-									boo=i
-								}
-							}
-							if(boo=='-1'){
-								return 0
-							}else{
-								return cartdata[boo].usLbcNum
-							}
-						}else{
-							return 0
-						}
 					}
 				}
 			})

@@ -76,7 +76,7 @@
 				data: {
 					map: '',
 					informbooo: false,
-					gid: 0,
+					gid:1,
 					mydata: '',
 					adress: '',
 					lng: 118.774048,
@@ -168,6 +168,7 @@
 								coordinate: that.lng + ',' + that.lat
 							},
 							success: function(res) {
+								console.log(res)
 								that.mydata = res.data
 								for(var i = 0; i < res.data.length; i++) {
 									that.addmarker(res.data[i].pbPdAddress.substring(0, res.data[i].pbPdAddress.indexOf(',')), res.data[i].pbPdAddress.substr(res.data[i].pbPdAddress.indexOf(',') + 1), i, res.data[i].pbActivityTreasulrId)

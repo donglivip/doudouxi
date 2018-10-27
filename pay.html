@@ -150,6 +150,7 @@
 						});
 					},
 					gopay:function(type){
+						plus.nativeUI.showWaiting('订单生成中！')
 						var that=this
 						var mydata=[]
 						for (var i = 0; i < that.mydata.length; i++) {
@@ -194,11 +195,12 @@
 											usLaundryBasketId:JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
 										},
 										success:function(res){
+											plus.nativeUI.closeWaiting()
 											that.opennew('order')
 										}
 									})
 								}else{
-									that.alertshow(res.msg)
+									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast(res.msg)
 								}
 							},
