@@ -172,7 +172,8 @@
 				"resources": [],
 				"refer": [
 					"choiceorde.html",
-					"index.html"
+					"index.html",
+					"order.html"
 				],
 				"priority": 0
 			},
@@ -399,7 +400,8 @@
 				"resources": [],
 				"refer": [
 					"rating.html",
-					"Complaint.html"
+					"Complaint.html",
+					"backorder.html"
 				],
 				"priority": 0
 			},
@@ -413,7 +415,15 @@
 			"givetype.html": {
 				"resources": [],
 				"refer": [
-					"saoyisao.html"
+					"saoyisao.html",
+					"order.html"
+				],
+				"priority": 0
+			},
+			"backorder.html": {
+				"resources": [],
+				"refer": [
+					"order.html"
 				],
 				"priority": 0
 			}

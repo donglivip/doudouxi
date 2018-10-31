@@ -12,15 +12,15 @@
 		<div class="wrapper profit backorder">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					投诉
 				</div>
-				<a class="head-tab" href="javascript:void(0)">
+				<div class="head-tab">
 					
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
@@ -43,10 +43,12 @@
 						</div>
 						<img :src="val" v-for="val in imglist"/>
 					</div>
+					<textarea v-model="content" placeholder="请输入投诉内容"></textarea>
 				</div>
-				<a class="withdraw" href="javascript:void(0)">提交</a>
+				<a class="withdraw" href="javascript:void(0)" @click="submit">提交</a>
 			</div>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
@@ -57,7 +59,8 @@
 					orderId: localStorage.getItem('orderId'),
 					files:[],
 					server:localStorage.getItem('myurl')+'/user/uploadComplaintImg',
-					imglist:[]
+					imglist:[],
+					content:''
 				},
 				methods:{
 					typechange:function(index){
@@ -70,7 +73,7 @@
 							url: localStorage.getItem('myurl') + "/share/getOrderComplain",
 							dataType: 'json',
 							success: function(res) {
-								console.log(res)
+								console.log(JSON.stringify(res))
 								that.mynav = res.data
 							}
 						});
@@ -79,10 +82,11 @@
 						var that = this
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId'),
-							complainIds: [that.mynav[that.myindex].pbOrderRefundId],
-							img:that.imglist
+							complainIds: [that.mynav[that.myindex].pbOrderComplainId],
+							img:that.imglist,
+							content:that.content
 						}
-						console.log(ajaxjson)
+						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/complainOrder",
@@ -91,11 +95,11 @@
 								data:JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
-								console.log(res)
-								mui.openWindow({
-									url: './order.html',
-									id: 'order'
-								})
+								console.log(JSON.stringify(res))
+//								mui.openWindow({
+//									url: './order.html',
+//									id: 'order'
+//								})
 							}
 						});
 					},

@@ -243,8 +243,8 @@
 								usUserId: localStorage.getItem('usUserId')
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								that.threedata = res.data
+								plus.nativeUI.closeWaiting()
 							}
 						});
 					},
@@ -325,16 +325,6 @@
 								that.havecart()
 							}
 						});
-
-						function plusReady() {
-							// 弹出系统等待对话框
-							var w = plus.nativeUI.closeWaiting()
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
 					},
 					//					详情中加减
 					addnum: function(type, index) {
@@ -398,16 +388,6 @@
 
 								}
 							});
-						}
-
-						function plusReady() {
-							// 弹出系统等待对话框
-							var w = plus.nativeUI.closeWaiting()
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
 						}
 					},
 					tab: function(index, id) {

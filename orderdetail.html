@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,18 +9,19 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper help orderdetail">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					订单详情
 				</div>
 				<a class="head-tab" :href="['tel:'+mydata[0].usCommunityPartnerId]">
-					<img src="./img/phone.png"/>
+					<img src="./img/phone.png" />
 				</a>
 			</div>
 			<!--中间主体-->
@@ -30,7 +32,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata[1].length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata[1]">
-						<img :src="val.pbRdUpdateName | myimg"/>
+						<img :src="val.pbRdUpdateName | myimg" />
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.usCommunityPartnerSaleId}}</div>
@@ -43,11 +45,11 @@
 					</div>
 					<div class="more" v-if="!more&&mydata[1].length>3" @click="moreboo">
 						<div>加载更多</div>
-						<img src="img/Arrow_right@2x.png"/>
+						<img src="img/Arrow_right@2x.png" />
 					</div>
 					<div class="more" v-if="more&&mydata[1].length>3" @click="moreboo">
 						<div>收起</div>
-						<img src="img/up.png"/>
+						<img src="img/up.png" />
 					</div>
 				</div>
 				<div class="help-item" v-if='mydata[0].pbOrProblemPrice!=0'>
@@ -57,7 +59,7 @@
 				<div class="help-item">
 					<div></div>
 					<div class="hji">
-						<span class="line" v-if='mydata[0].pbOrProblemPrice!=0'>已优惠:￥{{mydata[0].pbOrProblemPrice}}</span>   合计: <span class="red"> ￥{{mydata[0].pbOrCountPrice}}</span>
+						<span class="line" v-if='mydata[0].pbOrProblemPrice!=0'>已优惠:￥{{mydata[0].pbOrProblemPrice}}</span> 合计: <span class="red"> ￥{{mydata[0].pbOrCountPrice}}</span>
 					</div>
 				</div>
 				<div class="help-item detailtop">
@@ -85,37 +87,80 @@
 					<div class="red"></div>
 				</div>
 				<div class="help-item inner" style="height: auto;">
-					<textarea  readonly="readonly" :value="mydata[0].pbOrRemarks">
+					<textarea readonly="readonly" :value="mydata[0].pbOrRemarks">
 						
 					</textarea>
 				</div>
 			</div>
 			<div class="bottom">
 				<div class="bleft">
-					<div class="btn" @click="opennew('backorder')" v-if="pbOrStatus==2">退单</div>
+					<div class="btn" @click="opennew('backorder',1)" v-if="pbOrStatus==2">退单</div>
 					<div class="btn" @click="opennew('Complaint')" v-if="pbOrStatus==1&&pbOrAssessStatus==1">投诉</div>
+					<div class="btn" @click="payzhi()" v-if="pbOrStatus==7&&pbOrProblemStatus==2">支付差价</div>
 				</div>
 				<div class="bright">
 					<div class="btn" @click="opennew('rating')" v-if="pbOrStatus==1&&pbOrProblemStatus==1||pbOrStatus==1&&pbOrProblemStatus==6&&pbOrAssessStatus!=1">进行评价</div>
 					<div class="btn" @click="orderOK()" v-if="pbOrStatus==7&&pbOrProblemStatus==4">撤回投诉</div>
+
+					<div class="btn" @click="opennew('backorder',2)" v-if="pbOrStatus==7&&pbOrProblemStatus==2">退单</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					more:false,
-					mydata:'',
-					pbOrStatus:localStorage.getItem('pbOrStatus'),
-					pbOrProblemStatus:localStorage.getItem('pbOrProblemStatus'),
-					pbOrAssessStatus:localStorage.getItem('pbOrAssessStatus')
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					more: false,
+					mydata: '',
+					pbOrStatus: localStorage.getItem('pbOrStatus'),
+					pbOrProblemStatus: localStorage.getItem('pbOrProblemStatus'),
+					pbOrAssessStatus: localStorage.getItem('pbOrAssessStatus')
 				},
-				methods:{
-//					撤回投诉
-					orderOK:function(id){
+				methods: {
+					payzhi: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/payTrimOrder",
+							dataType: 'json',
+							data: {
+								orderId: that.mydata[0].pbOrderId,
+								price: parseFloat(that.mydata[0].pbOrCreateName),
+								userId: localStorage.getItem('usUserId')
+							},
+							success: function(res) {
+								if(res.status==200){
+									plus.webview.getWebviewById('order').reload()
+									mui.back()
+								}else{
+									$.ajax({
+										type: "post",
+										url: localStorage.getItem('myurl') + "/user/onlinePayTrimOrder",
+										dataType: 'json',
+										data: {
+											orderId: that.mydata[0].pbOrderId,
+											price: parseFloat(that.mydata[0].pbOrCreateName),
+											payStatus: '1'
+										},
+										success: function(res) {
+											plus.payment.request(that.channel[0], res.data[0], function(result) {
+												plus.nativeUI.alert("支付成功！", function() {
+													plus.webview.getWebviewById('order').reload()
+													mui.back()
+												});
+											}, function(error) {
+			
+											});
+										}
+									});
+								}
+							}
+						});
+					},
+					//					撤回投诉
+					orderOK: function(id) {
 						var that = this
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId'),
@@ -128,37 +173,42 @@
 							data: ajaxjson,
 							success: function(res) {
 								console.log(res)
-								if(res.status==200){
-									that.pageNum=0
-									that.mydata=[]
+								if(res.status == 200) {
+									that.pageNum = 0
+									that.mydata = []
 									that.myajax()
-								}else{
+								} else {
 									alert('操作失败！')
 								}
 							}
 						});
 					},
-					moreboo:function(){
-						this.more=!this.more
+					moreboo: function() {
+						this.more = !this.more
 					},
-					opennew:function(target){
-						window.location.href='./'+target+'.html'
+					opennew: function(target, id) {
+						localStorage.setItem('ttype', id)
+						mui.openWindow({
+							url: './' + target + '.html',
+							id: target,
+							createNew: true
+						})
 					},
 					myajax: function() {
-						function plusReady(){
+						function plusReady() {
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "订单加载中..." );
+							var w = plus.nativeUI.showWaiting("订单加载中...");
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 						var that = this
 						that.pageNum++
-						var ajaxjson = {
-							orderId: localStorage.getItem('orderId')
-						}
+							var ajaxjson = {
+								orderId: localStorage.getItem('orderId')
+							}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrderDetails",
@@ -166,29 +216,46 @@
 							data: ajaxjson,
 							success: function(res) {
 								console.log(res)
-								that.mydata=res.data
+								that.mydata = res.data
 							}
 						});
-						function plusReady(){
+
+						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
 				},
-				mounted:function(){
+				mounted: function() {
 					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				},
-				filters:{
-					myimg:function(value){
+				filters: {
+					myimg: function(value) {
 						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})
 		</script>
 	</body>
+
 </html>

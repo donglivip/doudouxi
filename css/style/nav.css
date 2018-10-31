@@ -32,3 +32,15 @@
 .nav .cart-setting img{width: .3rem;height: .3rem;}
 .nav .cart-setting div{width: .4rem;text-align: center;}
 .nav .cart-top img{width: .3rem;margin-right: .2rem;}
+/*商品详情*/
+.shopdetail{background: #f4f4f4;} 
+.shopdetail .img-box{background: #FFFFFF;height: 6rem;display: flex;align-items: center;justify-content: center;}
+.shopdetail .img-box img{height: 4.5rem;}
+.shopdetail .detail-inner{background: #FFFFFF;margin: .2rem 0;display: flex;align-items: center;height: 1rem;}
+.shopdetail .name{margin: 0 .2rem;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.shopdetail .setting{display: flex;align-items: center;margin-right: .2rem;}
+.shopdetail .setting img{width: .3rem;height: .3rem;}
+.shopdetail .setting div{width: .5rem;text-align: center;}
+.shopdetail .price{flex: 1;}
+.shopdetail .process{background: #FFFFFF;}
+.shopdetail .process-title{padding: .2rem;}

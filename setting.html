@@ -30,22 +30,22 @@
 					<div>头像</div>
 					<img :src="avatar | myimg" />
 				</div>
-				<a class="help-item" href="namechange.html">
+				<div class="help-item" @click="opennew('namechange')">
 					<div>昵称</div>
 					<div>{{usNickName=='undefined'?'您还没设置昵称':usNickName}}</div>
-				</a>
-				<a class="help-item" href="mchange.html">
+				</div>
+				<div class="help-item" @click="opennew('mchange')">
 					<div>登录密码</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
-				</a>
-				<a class="help-item" href="pchange.html">
+				</div>
+				<div class="help-item" @click="opennew('pchange')">
 					<div>支付密码</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
-				</a>
-				<a class="help-item" href="pphone.html">
+				</div>
+				<div class="help-item" @click="opennew('pphone')">
 					<div>修改绑定手机号</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
-				</a>
+				</div>
 				<div class="help-item" @click="backlogin">
 					<div>退出登录</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
@@ -97,7 +97,11 @@
 								});
 							}
 						}
-						window.location.href='mlogin.html'
+						mui.openWindow({
+								url: './mlogin.html',
+								id: 'mlogin',
+								createNew:true
+							})
 					},
 					alertshow: function(text) {
 						this.alerttext = text
@@ -229,7 +233,13 @@
 					},
 					getUid: function() {
 						return Math.floor(Math.random() * 100000000 + 10000000).toString();
-					}
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: './' + target + '.html',
+							id: target
+						})
+					},
 				},
 				mounted: function() {
 					if(localStorage.getItem('usHeadImg') == 'undefined') {

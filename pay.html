@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,12 +9,23 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+	<style type="text/css">
+		.button span {
+			flex: 1;
+			text-align: center;
+		}
+		
+		.button span:first-of-type {
+			border-right: 1px solid #FFFFFF;
+		}
+	</style>
+
 	<body>
 		<div class="wrapper help orderdetail nav">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					提交订单
@@ -30,7 +42,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata">
-						<img :src="val.pbCdImg | myimg"/>
+						<img :src="val.pbCdImg | myimg" />
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
@@ -43,23 +55,23 @@
 					</div>
 					<div class="more" v-if="!more&&mydata.length>3" @click="moreboo">
 						<div>加载更多</div>
-						<img src="img/Arrow_right@2x.png"/>
+						<img src="img/Arrow_right@2x.png" />
 					</div>
 					<div class="more" v-if="more&&mydata.length>3" @click="moreboo">
 						<div>收起</div>
-						<img src="img/up.png"/>
+						<img src="img/up.png" />
 					</div>
 				</div>
 				<div class="help-item" @click="userdiscount()">
 					<div style="flex: 1;">优惠卷</div>
 					<div v-if="pbCoName==''||pbCoName==null">{{size}}张可用</div>
 					<div v-if="pbCoName!=''||pbCoName!=null">{{pbCoName}}</div>
-					<img src="img/Arrow_simple_rightt Copy 3@2x.png" style="width: .1rem;"/>
+					<img src="img/Arrow_simple_rightt Copy 3@2x.png" style="width: .1rem;" />
 				</div>
 				<div class="help-item">
 					<div></div>
 					<div class="hji">
-						<span class="line">已优惠:￥{{pbCoPrice==null?'0':pbCoPrice}}</span>   合计: <span class="red"> ￥{{allnum - pbCoPrice}}</span>
+						<span class="line">已优惠:￥{{pbCoPrice==null?'0':pbCoPrice}}</span> 合计: <span class="red"> ￥{{allnum - pbCoPrice}}</span>
 					</div>
 				</div>
 				<div class="help-item detailtop">
@@ -74,14 +86,17 @@
 				<div class="alert" v-if="alertboo" @click="alertshow('')">
 					<div class="alert-inner">
 						<div class="alert-top">豆豆洗</div>
-						<div class="text alert-text">{{alerttext}}</div>
-						<div class="button">确定</div>
+						<div class="text alert-text">豆豆卡余额不足，请选择支付方式</div>
+						<div class="button">
+							<span @click="zpay(1)">支付宝</span>
+							<span @click="zpay(2)">微信</span>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="bottom">
 				<div class="nav-left">
-					<img src="img/Basket@2x.png"/>
+					<img src="img/Basket@2x.png" />
 					<div class="bprice">合计:￥{{allnum - pbCoPrice}}</div>
 				</div>
 				<div class="nav-right" @click="gopay(0)">
@@ -92,131 +107,205 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					more:false,
-					alertboo:false,
-					mydata:[],
-					pageNum:0,
-					size:0,
-					pbCoName:localStorage.getItem('pbCoName'),
-					allnum:0,
-					pbOrCountNum:0,
-					pbOrRemarks:'',
-					pbCoPrice:localStorage.getItem('pbCoPrice'),
-					channel:[],
-					orderId:localStorage.getItem('orderId')
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					more: false,
+					alertboo: false,
+					mydata: [],
+					pageNum: 0,
+					size: 0,
+					pbCoName: localStorage.getItem('pbCoName'),
+					allnum: 0,
+					pbOrCountNum: 0,
+					pbOrRemarks: '',
+					pbCoPrice: localStorage.getItem('pbCoPrice'),
+					channel: [],
+					orderId: localStorage.getItem('orderId')
 				},
-				methods:{
-					userdiscount:function(){
-//						this.size>0
-						if(true){
+				methods: {
+					userdiscount: function() {
+						//						this.size>0
+						if(true) {
 							this.opennew('userdiscount')
-						}else{
+						} else {
 							plus.nativeUI.toast('暂无优惠卷可用！')
 						}
 					},
-					moreboo:function(){
-						this.more=!this.more
+					moreboo: function() {
+						this.more = !this.more
 					},
-					opennew:function(target){
-						this.alertboo=false
+					opennew: function(target) {
+						this.alertboo = false
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target,
-							createNew:true
+							url: './' + target + '.html',
+							id: target,
+							createNew: true
 						})
 					},
-					alertshow:function(text){
-						this.alerttext=text
-						this.alertboo=!this.alertboo
+					alertshow: function() {
+						this.alertboo = !this.alertboo
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						that.pageNum++
-						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/user/findDiscount",
-							dataType:'json',
-							data:{
-								userId:localStorage.getItem('usUserId'),
-								status:2,
-								pageNum:that.pageNum
-							},
-							success:function(res){
-								that.size=res.data.size
-							}
-						});
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/findDiscount",
+								dataType: 'json',
+								data: {
+									userId: localStorage.getItem('usUserId'),
+									status: 2,
+									pageNum: that.pageNum
+								},
+								success: function(res) {
+									that.size = res.data.size
+								}
+							});
 					},
-					gopay:function(type){
-						plus.nativeUI.showWaiting('订单生成中！')
-						var that=this
-						var mydata=[]
-						for (var i = 0; i < that.mydata.length; i++) {
-							var obj={}
-							obj.pbRdNum=that.mydata[i].usLbcNum
-							obj.pbRdPrice=that.mydata[i].pbRdPrice
-							obj.usCommunityPartnerSaleId=that.mydata[i].usCommunityPartnerSaleId
+					gopay: function(type) {
+						alert('进入ajax')
+						//plus.nativeUI.showWaiting('订单生成中！')
+						var that = this
+						var mydata = []
+						for(var i = 0; i < that.mydata.length; i++) {
+							var obj = {}
+							obj.pbRdNum = that.mydata[i].usLbcNum
+							obj.pbRdPrice = that.mydata[i].pbRdPrice
+							obj.usCommunityPartnerSaleId = that.mydata[i].usCommunityPartnerSaleId
 							mydata.push(obj)
 						}
-						var pbOrIsCoupon=(that.pbCoName==''?2:1)
-						var pbOrRemarks=(that.pbOrRemarks==''?'暂无备注！':that.pbOrRemarks)
-						var ajaxjson={
-							"usUserId":localStorage.getItem('usUserId'),
-							"usCommunityPartnerId":localStorage.getItem('pbCommunityPartnerId'),
-							"pbPartnerDeviceId":localStorage.getItem('pbPartnerDeviceId'),
-							"pbOrCountNum":that.pbOrCountNum,
-							"pbOrCountPrice":that.allnum - that.pbCoPrice,
-							"pbOrIsCoupon":pbOrIsCoupon,
-							"pbCouponUserId":localStorage.getItem('pbCouponUserId'),
-							"pbOrderDetailes":mydata,
-							"pbOrRemarks":pbOrRemarks
+						var pbOrIsCoupon = ((that.pbCoName == '' || that.pbCoName == null) ? 2 : 1)
+						var pbOrRemarks = (that.pbOrRemarks == '' ? '暂无备注！' : that.pbOrRemarks)
+						var ajaxjson = {
+							"usUserId": localStorage.getItem('usUserId'),
+							"usCommunityPartnerId": localStorage.getItem('pbCommunityPartnerId'),
+							"pbPartnerDeviceId": localStorage.getItem('pbPartnerDeviceId'),
+							"pbOrCountNum": that.pbOrCountNum,
+							"pbOrCountPrice": that.allnum - that.pbCoPrice,
+							"pbOrIsCoupon": pbOrIsCoupon,
+							"pbCouponUserId": localStorage.getItem('pbCouponUserId'),
+							"pbOrderDetailes": mydata,
+							"pbOrRemarks": pbOrRemarks
 						}
-						console.log(ajaxjson)
-						ajaxjson=JSON.stringify(ajaxjson)
+
+						ajaxjson = JSON.stringify(ajaxjson)
 						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/user/downOrder",
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/downOrder",
 							dataType: "json",
-							data:{
-								data:ajaxjson
+							data: {
+								data: ajaxjson
 							},
-							success:function(res){
+							success: function(res) {
+								alert('成功')
 								console.log(res)
-								if(res.status==200){
-//									清空购物车
+								if(res.status == 200) {
+									//清空购物车
 									$.ajax({
-										type:"post",
-										url:localStorage.getItem('myurl')+"/user/deleteMyBasket",
+										type: "post",
+										url: localStorage.getItem('myurl') + "/user/deleteMyBasket",
 										dataType: "json",
-										data:{
-											usUserId:localStorage.getItem('usUserId'),
-											usLaundryBasketId:JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
+										data: {
+											usUserId: localStorage.getItem('usUserId'),
+											usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
 										},
-										success:function(res){
-											plus.nativeUI.closeWaiting()
+										success: function(res) {
+											//plus.nativeUI.closeWaiting()
 											that.opennew('order')
 										}
 									})
-								}else{
+								} else if(res.status == 500){
+									//plus.nativeUI.closeWaiting()
+									that.alertshow()
+								}else {
+									//plus.nativeUI.closeWaiting()
+									plus.nativeUI.toast(res.msg)
+								}
+							},
+							error: function(err) {
+								alert('失败')
+								console.log(err)
+							}
+						});
+					},
+					zpay: function(index) {
+						var that = this
+						var mydata = []
+						for(var i = 0; i < that.mydata.length; i++) {
+							var obj = {}
+							obj.pbRdNum = that.mydata[i].usLbcNum
+							obj.pbRdPrice = that.mydata[i].pbRdPrice
+							obj.usCommunityPartnerSaleId = that.mydata[i].usCommunityPartnerSaleId
+							mydata.push(obj)
+						}
+						var pbOrIsCoupon = (that.pbCoName == '' ? 2 : 1)
+						var pbOrRemarks = (that.pbOrRemarks == '' ? '暂无备注！' : that.pbOrRemarks)
+						var ajaxjson = {
+							"usUserId": localStorage.getItem('usUserId'),
+							"usCommunityPartnerId": localStorage.getItem('pbCommunityPartnerId'),
+							"pbPartnerDeviceId": localStorage.getItem('pbPartnerDeviceId'),
+							"pbOrCountNum": that.pbOrCountNum,
+							"pbOrCountPrice": that.allnum - that.pbCoPrice,
+							"pbOrIsCoupon": pbOrIsCoupon,
+							"pbCouponUserId": localStorage.getItem('pbCouponUserId'),
+							"pbOrderDetailes": mydata,
+							"pbOrRemarks": pbOrRemarks,
+							"payStatus": index
+						}
+						console.log(ajaxjson)
+						if(localStorage.getItem('pbCouponUserId') == null || localStorage.getItem('pbCouponUserId') == 'null') {
+							delete ajaxjson.pbCouponUserId
+						}
+						ajaxjson = JSON.stringify(ajaxjson)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/downPayOrder",
+							dataType: "json",
+							data: {
+								data: ajaxjson
+							},
+							success: function(res) {
+								console.log(res)
+								if(res.status == 200) {
+									plus.payment.request(that.channel[0], res.data[0], function(result) {
+										//清空购物车
+										$.ajax({
+											type: "post",
+											url: localStorage.getItem('myurl') + "/user/deleteMyBasket",
+											dataType: "json",
+											data: {
+												usUserId: localStorage.getItem('usUserId'),
+												usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
+											},
+											success: function(res) {
+												//plus.nativeUI.closeWaiting()
+												that.opennew('order')
+											}
+										})
+										plus.nativeUI.alert("支付成功！", function() {
+
+										});
+									}, function(error) {});
+
+								} else {
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast(res.msg)
 								}
 							},
-							error:function(err){
-								console.log(err)
+							error: function(err) {
+								console.log(JSON.stringify(err))
 							}
 						});
 					}
 				},
-				mounted:function(){
-					var cartdata=localStorage.getItem('cartdata')
-					this.mydata=JSON.parse(cartdata)[1]
-					for (var i=0;i<this.mydata.length;i++) {
-						this.allnum+=this.mydata[i].usLbcPrice*this.mydata[i].usLbcNum
-						this.pbOrCountNum+=this.mydata[i].usLbcNum
-						this.mydata[i].pbRdPrice=this.mydata[i].usLbcPrice*this.mydata[i].usLbcNum
+				mounted: function() {
+					var cartdata = localStorage.getItem('cartdata')
+					this.mydata = JSON.parse(cartdata)[1]
+					for(var i = 0; i < this.mydata.length; i++) {
+						this.allnum += this.mydata[i].usLbcPrice * this.mydata[i].usLbcNum
+						this.pbOrCountNum += this.mydata[i].usLbcNum
+						this.mydata[i].pbRdPrice = this.mydata[i].usLbcPrice * this.mydata[i].usLbcNum
 					}
 					this.myajax()
 					var that = this
@@ -235,12 +324,13 @@
 						document.addEventListener('plusready', plusReady, false);
 					}
 				},
-				filters:{
-					myimg:function(value){
+				filters: {
+					myimg: function(value) {
 						return localStorage.getItem('myurl') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})
 		</script>
 	</body>
+
 </html>

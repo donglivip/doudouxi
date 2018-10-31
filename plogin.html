@@ -15,15 +15,15 @@
 		<div class="wrapper plogin">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
-				</a>
+				</div>
 				<div class="head-main">
 					登录
 				</div>
-				<a class="head-tab" href="javascript:void(0)">
+				<div class="head-tab">
 					
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
@@ -128,7 +128,11 @@
 										localStorage.setItem('usNickName',res.data.usNickName)
 										localStorage.setItem('usCardId',res.data.usCardId)
 										localStorage.setItem('usPayPassword', that.usPayPassword)
-										that.opennew('index')
+										mui.openWindow({
+											url: './index.html',
+											id: 'index',
+											createNew:true
+										})
 									}else{
 										that.alertshow('您的账户已被冻结！')
 									}

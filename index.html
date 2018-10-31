@@ -76,7 +76,7 @@
 				data: {
 					map: '',
 					informbooo: false,
-					gid:1,
+					gid:0,
 					mydata: '',
 					adress: '',
 					lng: 118.774048,
@@ -84,19 +84,16 @@
 					juli: 0
 				},
 				mounted: function() {
-					if(localStorage.getItem('usUserId')==null){
-						window.location.href='./mlogin.html'
-					}
 					var that = this
 					function plusReady() {
 						// 弹出系统等待对话框
 						plus.nativeUI.showWaiting("地图生成中...");
 						plus.geolocation.getCurrentPosition(function(p) {
-//							that.lng = p.coords.longitude
-//							that.lat = p.coords.latitude
-//							localStorage.setItem('lng', p.coords.longitude)
-//							localStorage.setItem('lat', p.coords.latitude)
-//							that.mapinit(that.lat, that.lng)
+							that.lng = p.coords.longitude
+							that.lat = p.coords.latitude
+							localStorage.setItem('lng', p.coords.longitude)
+							localStorage.setItem('lat', p.coords.latitude)
+							that.mapinit(that.lat, that.lng)
 						}, function(e) {
 							alert('Geolocation error: ' + e.message);
 						});
@@ -106,9 +103,7 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
-					localStorage.setItem('lng', that.lng)
-					localStorage.setItem('lat', that.lat)
-					that.mapinit(that.lat, that.lng)
+					localStorage.setItem('pbCoName','')
 				},
 				methods: {
 					gocenter: function() {
@@ -124,10 +119,14 @@
 						})
 					},
 					informshow: function() {
+						console.log(this.mydata)
 						this.informbooo = !this.informbooo
 					},
 					mapinit: function(lng,lat) {
 						var that = this
+						if(localStorage.getItem('usUserId')==null){
+							window.location.href='./mlogin.html'
+						}
 						this.map = new AMap.Map('container', {
 							resizeEnable: true,
 							rotateEnable: true,

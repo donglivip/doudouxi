@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/style/order.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
@@ -39,7 +39,7 @@
 				</div>
 				<div class="order-main" @scroll="myscroll">
 					<div class="main-inner">
-						<div class="order-box"v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)" >
+						<div class="order-box" v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)">
 							<img :src="val.pbOrComplainImg | myimg" />
 							<div class="order-right">
 								<div class="order-title">
@@ -59,10 +59,10 @@
 									<div class="bottom-right" @click.stop="havetype(val.pbOrderId,val.pbOrDressCode)" v-if="val.pbOrStatus==6">
 										查看取衣码
 									</div>
-									<div class="bottom-right" @click.stop="orderOK(val.orderId)" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==4">
+									<div class="bottom-right" @click.stop="orderOK(val.pbOrderId)" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==4">
 										撤回投诉
 									</div>
-									<div class="bottom-right" @click.stop="opennew('givetype')" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==2">
+									<div class="bottom-right" @click.stop="payzhi(val.pbOrderId,val.pbOrProblemPrice)" v-if="val.pbOrStatus==7&&val.pbOrProblemStatus==2">
 										支付订单
 									</div>
 								</div>
@@ -132,22 +132,62 @@
 					],
 					navid: 1,
 					mydata: [],
-					pages:0,
-					pageNum:0
+					pages: 0,
+					pageNum: 0
 				},
 				methods: {
-					givetype:function(id,num){
-						localStorage.setItem('orderId',id)
-						localStorage.setItem('num',num)
+					payzhi: function(id, price) {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/payTrimOrder",
+							dataType: 'json',
+							data: {
+								orderId: id,
+								price: price,
+								userId: localStorage.getItem('usUserId')
+							},
+							success: function(res) {
+								if(res.status==200){
+									plus.webview.getWebviewById('order').reload()
+									mui.back()
+								}else{
+									$.ajax({
+										type: "post",
+										url: localStorage.getItem('myurl') + "/user/onlinePayTrimOrder",
+										dataType: 'json',
+										data: {
+											orderId: id,
+											price: price,
+											payStatus: '1'
+										},
+										success: function(res) {
+											plus.payment.request(that.channel[0], res.data[0], function(result) {
+												plus.nativeUI.alert("支付成功！", function() {
+													plus.webview.getWebviewById('order').reload()
+													mui.back()
+												});
+											}, function(error) {
+			
+											});
+										}
+									});
+								}
+							}
+						});
+					},
+					givetype: function(id, num) {
+						localStorage.setItem('orderId', id)
+						localStorage.setItem('num', num)
 						this.opennew('givetype')
 					},
-					havetype:function(id,num){
-						localStorage.setItem('orderId',id)
-						localStorage.setItem('num',num)
+					havetype: function(id, num) {
+						localStorage.setItem('orderId', id)
+						localStorage.setItem('num', num)
 						this.opennew('havetype')
 					},
-//					撤回投诉
-					orderOK:function(id){
+					//					撤回投诉
+					orderOK: function(id) {
 						var that = this
 						var ajaxjson = {
 							orderId: id,
@@ -159,12 +199,12 @@
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(res)
-								if(res.status==200){
-									that.pageNum=0
-									that.mydata=[]
+								console.log(JSON.stringify(ajaxjson))
+								if(res.status == 200) {
+									that.pageNum = 0
+									that.mydata = []
 									that.myajax()
-								}else{
+								} else {
 									alert('操作失败！')
 								}
 							}
@@ -173,7 +213,7 @@
 					myscroll: function() {
 						var that = this
 						if(Math.abs($('.main-inner').offset().top) + $('.order-main').height() + 200 >= $('.main-inner').height()) {
-							if(that.pages>that.pageNum){
+							if(that.pages > that.pageNum) {
 								function plusReady() {
 									// 弹出系统等待对话框
 									var w = plus.nativeUI.showWaiting("等待中...");
@@ -185,117 +225,133 @@
 								}
 								that.myajax()
 							}
-							
+
 						}
 					},
 					navshow: function(text, id) {
 						this.typetext = text
 						this.navid = id
-						this.mydata=[]
+						this.mydata = []
 						this.navboo = !this.navboo
 						this.myajax()
 					},
-					opendetail:function(orderId,pbOrProblemStatus,pbOrStatus,pbOrAssessStatus){
-						localStorage.setItem('orderId',orderId)
-						localStorage.setItem('pbOrProblemStatus',pbOrProblemStatus)
-						localStorage.setItem('pbOrStatus',pbOrStatus)
-						localStorage.setItem('pbOrAssessStatus',pbOrAssessStatus)
+					opendetail: function(orderId, pbOrProblemStatus, pbOrStatus, pbOrAssessStatus) {
+						localStorage.setItem('orderId', orderId)
+						localStorage.setItem('pbOrProblemStatus', pbOrProblemStatus)
+						localStorage.setItem('pbOrStatus', pbOrStatus)
+						localStorage.setItem('pbOrAssessStatus', pbOrAssessStatus)
 						this.opennew('orderdetail')
 					},
 					opennew: function(target) {
 						mui.openWindow({
 							url: './' + target + '.html',
 							id: target,
-							createNew:true
+							createNew: true
 						})
 					},
 					myajax: function() {
-						function plusReady(){
+						function plusReady() {
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "订单查询中..." );
+							var w = plus.nativeUI.showWaiting("订单查询中...");
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 						var that = this
 						that.pageNum++
-						var ajaxjson = {
-							userId: localStorage.getItem('usUserId'),
-							status: that.navid,
-							pageNum:that.pageNum
-						}
-						console.log(ajaxjson)
+							var ajaxjson = {
+								userId: localStorage.getItem('usUserId'),
+								status: that.navid,
+								pageNum: that.pageNum
+							}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrders",
 							dataType: 'json',
 							data: ajaxjson,
-							async:true,
+							async: true,
 							success: function(res) {
-								console.log(res)
-								if(res.data.list!=null){
-									that.pages=res.data.pages
+								console.log(JSON.stringify(res))
+								if(res.data.list != null) {
+									that.pages = res.data.pages
 									for(var i = 0; i < res.data.list.length; i++) {
 										that.mydata.push(res.data.list[i])
 									}
 								}
 							}
 						});
-						function plusReady(){
+
+						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					}
 				},
 				mounted: function() {
 					this.myajax()
-					localStorage.setItem('pbCoPrice','')
-					localStorage.setItem('pbCoName','')
-					localStorage.setItem('cartdata','')
-
+					localStorage.setItem('pbCoPrice', '')
+					localStorage.setItem('pbCoName', '')
+					localStorage.setItem('cartdata', '')
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				},
-				filters:{
-					status:function(value){
-						if(value.pbOrStatus==1){
-							if(value.pbOrAssessStatus==1){
+				filters: {
+					status: function(value) {
+						if(value.pbOrStatus == 1) {
+							if(value.pbOrAssessStatus == 1) {
 								return '已完成'
-							}else{
+							} else {
 								return '待评价'
 							}
-						}else if(value.pbOrStatus==2){
+						} else if(value.pbOrStatus == 2) {
 							return '待存衣'
-						}else if(value.pbOrStatus==6){
+						} else if(value.pbOrStatus == 6) {
 							return '待取衣'
-						}else if(value.pbOrStatus==7){
-							if(value.pbOrProblemStatus==3){
+						} else if(value.pbOrStatus == 7) {
+							if(value.pbOrProblemStatus == 3) {
 								return '待退单'
-							}else if(value.pbOrProblemStatus==2){
+							} else if(value.pbOrProblemStatus == 2) {
 								return '调整订单'
-							}else{
+							} else if(value.pbOrProblemStatus == 4) {
 								return '投诉订单'
+							} else {
+								return '已完成'
 							}
-							
-						}else if(value.pbOrStatus==13||value.pbOrStatus==14||value.pbOrStatus==15||value.pbOrStatus==16){
+
+						} else if(value.pbOrStatus == 13 || value.pbOrStatus == 14 || value.pbOrStatus == 15 || value.pbOrStatus == 16) {
 							return '滞留中'
-						}else{
+						} else {
 							return '洗涤中'
 						}
 					},
-					myimg:function(value){
-						if(value!=null){
-							if(value.indexOf(',')!=-1){
-								return localStorage.getItem('myurl') + value.substring(0,value.indexOf(','))
-							}else{
+					myimg: function(value) {
+						if(value != null) {
+							if(value.indexOf(',') != -1) {
+								return localStorage.getItem('myurl') + value.substring(0, value.indexOf(','))
+							} else {
 								return localStorage.getItem('myurl') + value
 							}
-							
+
 						}
 					}
 				}

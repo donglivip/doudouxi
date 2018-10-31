@@ -98,22 +98,34 @@
 					success: function(res) {
 						if(res.status == 200) {
 							plus.nativeUI.toast('开箱完成！')
-							mui.opennew({
-								url:'./order.html',
-								id:'order',
-								createNew:true
+							mui.openWindow({
+								url: './order.html',
+								id: 'order',
+								createNew: true
 							})
 						} else if(res.status == 400) {
-							plus.webview.getWebviewById('saoyisao').reload()
 							plus.nativeUI.toast('开箱失败，请到所属洗衣柜开箱！')
+							mui.openWindow({
+								url: './order.html',
+								id: 'order',
+								createNew: true
+							})
 						} else {
-							plus.webview.getWebviewById('saoyisao').reload()
 							plus.nativeUI.toast('开箱失败,请联系服务商！')
+							mui.openWindow({
+								url: './order.html',
+								id: 'order',
+								createNew: true
+							})
 						}
 					},
 					error: function(error) {
-						plus.webview.getWebviewById('saoyisao').reload()
-						alert(JSON.stringify(error))
+						plus.nativeUI.toast('开箱失败,请联系服务商！')
+						mui.openWindow({
+							url: './order.html',
+							id: 'order',
+							createNew: true
+						})
 					}
 				});
 			}

@@ -75,7 +75,8 @@
 						localStorage.setItem('pbOrStatus',pbOrStatus)
 						mui.openWindow({
 							url:'./'+target+'.html',
-							id:target
+							id:target,
+							createNew:true
 						})
 					},
 					myajax: function() {

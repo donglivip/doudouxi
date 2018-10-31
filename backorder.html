@@ -14,15 +14,15 @@
 		<div class="wrapper profit backorder">
 			<!--头部-->
 			<div class="header">
-				<a class="head-tab" href="javascript:history.back()">
+				<div class="head-tab mui-action-back">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
-				</a>
+				</div>
 				<div class="head-main">
 					退单
 				</div>
-				<a class="head-tab" href="javascript:void(0)">
+				<div class="head-tab">
 
-				</a>
+				</div>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
@@ -75,21 +75,42 @@
 						console.log({
 								data:JSON.stringify(ajaxjson)
 							})
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/user/refundOrder",
-							dataType: 'json',
-							data: {
-								data:JSON.stringify(ajaxjson)
-							},
-							success: function(res) {
-								console.log(res)
-								mui.openWindow({
-									url: './order.html',
-									id: 'order'
-								})
-							}
-						});
+						if(localStorage.getItem('ttype')==1){
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/refundOrder",
+								dataType: 'json',
+								data: {
+									data:JSON.stringify(ajaxjson)
+								},
+								success: function(res) {
+									console.log(res)
+									mui.openWindow({
+										url: './order.html',
+										id: 'order',
+										createNew:true
+									})
+								}
+							});
+						}else{
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/refundTrimOrder",
+								dataType: 'json',
+								data: {
+									data:JSON.stringify(ajaxjson)
+								},
+								success: function(res) {
+									console.log(res)
+									mui.openWindow({
+										url: './order.html',
+										id: 'order',
+										createNew:true
+									})
+								}
+							});
+						}
+						
 					}
 				},
 				mounted: function() {
