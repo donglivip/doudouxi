@@ -103,7 +103,7 @@
 			<div class="bottom">
 				<div class="nav-left" @click="alertshow">
 					<img src="img/Basket@2x.png" />
-					<div class="bprice">合计:￥{{allnum}}</div>
+					<div class="bprice">合计:￥{{cartdata[0].usLbPrice}}</div>
 				</div>
 				<div class="nav-right" @click="pay()">
 					去结算
@@ -141,13 +141,6 @@
 					threeid: ''
 				},
 				methods: {
-					goallnum: function() {
-						var that = this
-						that.allnum = 0
-						for(var i = 0; i < that.cartdata[1].length; i++) {
-							that.allnum += that.cartdata[1][i].usLbcPrice * that.cartdata[1][i].usLbcNum
-						}
-					},
 					luckshow: function() {
 						this.luckboo = !this.luckboo
 					},
@@ -190,8 +183,8 @@
 								usUserId: localStorage.getItem('usUserId')
 							},
 							success: function(res) {
+								console.log(res)
 								that.cartdata = res.data
-								that.goallnum()
 							}
 						});
 					},
@@ -244,9 +237,28 @@
 							},
 							success: function(res) {
 								that.threedata = res.data
-								plus.nativeUI.closeWaiting()
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						});
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					},
 					clear: function() {
 						var that = this
@@ -270,9 +282,7 @@
 							},
 							success: function(res) {
 								that.havecart()
-								for(var i = 0; i < that.threedata.length; i++) {
-									$('.shop').eq(i).children('.add-box').children('.num').html(0)
-								}
+								that.havethree(that.threeid)
 							}
 						});
 						this.alertboo = !this.alertboo
@@ -306,8 +316,6 @@
 							num++
 						}
 						var ajaxjson = {
-							usLbNum: 0,
-							usLbPrice: 0,
 							usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
 							usCommunityPartnerSale: that.cartdata[1][index].usCommunityPartnerSaleId,
 							usLbcNum: num,
@@ -348,8 +356,6 @@
 								num++
 							}
 							var ajaxjson = {
-								usLbNum: 0,
-								usLbPrice: 0,
 								usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
 								usCommunityPartnerSale: that.threedata[index].saleId,
 								usLbcNum: num,
@@ -362,16 +368,13 @@
 								dataType: 'json',
 								data: ajaxjson,
 								success: function(res) {
-									that.havethree(that.threeid)
 									that.havecart()
-
+									that.havethree(that.threeid)
 								}
 							});
 						} else {
 							//							加入购物车
 							var ajaxjson = {
-								usLbNum: 0,
-								usLbPrice: 0,
 								usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
 								usCommunityPartnerSale: that.threedata[index].saleId,
 								usLbcNum: 1,
@@ -383,9 +386,8 @@
 								dataType: 'json',
 								data: ajaxjson,
 								success: function(res) {
-									that.havethree(that.threeid)
 									that.havecart()
-
+									that.havethree(that.threeid)
 								}
 							});
 						}

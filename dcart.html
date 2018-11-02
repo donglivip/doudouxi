@@ -32,7 +32,7 @@
 				</div>
 				<div class="title">请选择充值金额</div>
 				<div class="box">
-					<div class="box-tab" :class="priceindex==index?'active':''" @click="pricechange(index)" v-for="(val,index) in cartdata">
+					<div class="box-tab" :class="priceindex==index?'active':''" @click="pricechange(index,val.maLaundryCardId)" v-for="(val,index) in cartdata">
 						<div class="price">充{{val.maLcPrice}}元</div>
 						<div class="subprice">赠送{{val.maLcIntegral}}积分</div>
 					</div>
@@ -44,7 +44,7 @@
 						<div class="ztext">支付宝</div>
 					</div>
 					<div class="box-tab box-tab02" :class="zndex==2?'active':''" @click="zchange(2)">
-						<img src="img/wpay.png"/>
+						<img src="img/wpay.png" />
 						<div class="ztext">微信</div>
 					</div>
 				</div>
@@ -73,26 +73,30 @@
 					alertboo: false,
 					time: 3,
 					mydata: '',
-					channel:[],
-					cartdata:[]
+					channel: [],
+					cartdata: [],
+					maLaundryCardId:''
 				},
 				methods: {
 					submit: function() {
 						var that = this
+						var ajaxjson = {
+							userId: localStorage.getItem('usUserId'),
+							status: that.zndex,
+							price: that.cartdata[that.priceindex].maLcPrice,
+							//								price: 0.01,
+							code: localStorage.getItem('usAliPayCode'),
+							note:that.maLaundryCardId
+						}
+						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/aliPayBeanCard",
 							dataType: 'json',
-							data: {
-								userId: localStorage.getItem('usUserId'),
-								status: that.zndex,
-								price: that.cartdata[that.priceindex].maLcPrice,
-//								price: 0.01,
-								code: localStorage.getItem('usAliPayCode')
-							},
+							data: ajaxjson,
 							success: function(res) {
-								console.log(JSON.stringify(res))
-								if(that.zndex==1){
+								console.log(res)
+								if(that.zndex == 1) {
 									plus.payment.request(that.channel[0], res.data[0], function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
 											that.pay()
@@ -101,7 +105,7 @@
 									}, function(error) {
 										alert('支付失败!')
 									});
-								}else{
+								} else {
 									plus.payment.request(that.channel[1], res, function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
 											that.pay()
@@ -115,8 +119,9 @@
 							}
 						});
 					},
-					pricechange: function(index) {
+					pricechange: function(index,maLaundryCardId) {
 						this.priceindex = index
+						this.maLaundryCardId=maLaundryCardId
 					},
 					zchange: function(index) {
 						this.zndex = index
@@ -146,20 +151,20 @@
 					myajax: function() {
 						var that = this
 						// H5 plus事件处理
-						function plusReady(){
+						function plusReady() {
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "等待中..." );
+							var w = plus.nativeUI.showWaiting("等待中...");
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/findBalance",
 							dataType: 'json',
-							async:true,
+							async: true,
 							data: {
 								userId: localStorage.getItem('usUserId')
 							},
@@ -172,21 +177,21 @@
 							type: "post",
 							url: localStorage.getItem('myurl') + "/share/findLaundryCard",
 							dataType: 'json',
-							async:true,
+							async: true,
 							success: function(res) {
 								console.log(res)
 								that.cartdata = res.data
 							}
 						});
 						// H5 plus事件处理
-						function plusReady(){
+						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
 				},

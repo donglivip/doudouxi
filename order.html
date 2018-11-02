@@ -40,7 +40,9 @@
 				<div class="order-main" @scroll="myscroll">
 					<div class="main-inner">
 						<div class="order-box" v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)">
-							<img :src="val.pbOrComplainImg | myimg" />
+							<div class="img-box">
+								<img :src="val.pbOrComplainImg | myimg" />
+							</div>
 							<div class="order-right">
 								<div class="order-title">
 									<div class="order-h1">
@@ -325,8 +327,14 @@
 							}
 						} else if(value.pbOrStatus == 2) {
 							return '待存衣'
-						} else if(value.pbOrStatus == 6) {
-							return '待取衣'
+						}else if(value.pbOrStatus == 3||value.pbOrStatus == 18) {
+							return '配送中'
+						}else if(value.pbOrStatus == 4) {
+							return '已到店'
+						}else if(value.pbOrStatus == 5||value.pbOrStatus == 17) {
+							return '待收取'
+						} else if(value.pbOrStatus == 6||value.pbOrStatus == 19) {
+							return '已送达'
 						} else if(value.pbOrStatus == 7) {
 							if(value.pbOrProblemStatus == 3) {
 								return '待退单'
@@ -338,6 +346,14 @@
 								return '已完成'
 							}
 
+						}else if(value.pbOrStatus == 8) {
+							return '清洗中'
+						}else if(value.pbOrStatus == 9) {
+							return '待分配'
+						}else if(value.pbOrStatus == 10) {
+							return '待送店'
+						}else if(value.pbOrStatus == 11|| value.pbOrStatus == 12) {
+							return '配送中'
 						} else if(value.pbOrStatus == 13 || value.pbOrStatus == 14 || value.pbOrStatus == 15 || value.pbOrStatus == 16) {
 							return '滞留中'
 						} else {

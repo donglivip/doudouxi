@@ -82,11 +82,11 @@
 					<div class="tab-text">帮助</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
 				</div>
-				<a class="user-tab" href="aboutus.html">
+				<div class="user-tab" @click="opennew('aboutus')">
 					<img src="img/Alert@2x.png" class="logo" />
 					<div class="tab-text">关于豆豆洗</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" class="arr" />
-				</a>
+				</div>
 			</div>
 			<!--底部-->
 			<div class="bottom">
@@ -163,7 +163,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: './' + target + '.html',
-							id: target
+							id: target,
+							createNew:true
 						})
 					},
 					imgclick: function(imid, inid) {

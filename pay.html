@@ -46,7 +46,7 @@
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
-								<div class="price">￥{{val.pbRdPrice}}</div>
+								<div class="price">￥{{val.usLbcPrice}}</div>
 							</div>
 							<div class="num">
 								x{{val.usLbcNum}}
@@ -164,8 +164,7 @@
 							});
 					},
 					gopay: function(type) {
-						alert('进入ajax')
-						//plus.nativeUI.showWaiting('订单生成中！')
+						plus.nativeUI.showWaiting('订单生成中！')
 						var that = this
 						var mydata = []
 						for(var i = 0; i < that.mydata.length; i++) {
@@ -198,7 +197,6 @@
 								data: ajaxjson
 							},
 							success: function(res) {
-								alert('成功')
 								console.log(res)
 								if(res.status == 200) {
 									//清空购物车
@@ -211,20 +209,19 @@
 											usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
 										},
 										success: function(res) {
-											//plus.nativeUI.closeWaiting()
+											plus.nativeUI.closeWaiting()
 											that.opennew('order')
 										}
 									})
 								} else if(res.status == 500){
-									//plus.nativeUI.closeWaiting()
+									plus.nativeUI.closeWaiting()
 									that.alertshow()
 								}else {
-									//plus.nativeUI.closeWaiting()
+									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast(res.msg)
 								}
 							},
 							error: function(err) {
-								alert('失败')
 								console.log(err)
 							}
 						});
@@ -279,7 +276,7 @@
 												usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
 											},
 											success: function(res) {
-												//plus.nativeUI.closeWaiting()
+												plus.nativeUI.closeWaiting()
 												that.opennew('order')
 											}
 										})
@@ -303,7 +300,7 @@
 					var cartdata = localStorage.getItem('cartdata')
 					this.mydata = JSON.parse(cartdata)[1]
 					for(var i = 0; i < this.mydata.length; i++) {
-						this.allnum += this.mydata[i].usLbcPrice * this.mydata[i].usLbcNum
+						this.allnum = JSON.parse(cartdata)[0].usLbPrice
 						this.pbOrCountNum += this.mydata[i].usLbcNum
 						this.mydata[i].pbRdPrice = this.mydata[i].usLbcPrice * this.mydata[i].usLbcNum
 					}
