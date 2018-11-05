@@ -15,8 +15,12 @@
 			text-align: center;
 		}
 		
-		.button span:first-of-type {
+		.button span {
 			border-right: 1px solid #FFFFFF;
+		}
+		
+		.button span:last-of-type {
+			border: 0;
 		}
 	</style>
 
@@ -64,8 +68,8 @@
 				</div>
 				<div class="help-item" @click="userdiscount()">
 					<div style="flex: 1;">优惠卷</div>
-					<div v-if="pbCoName==''||pbCoName==null">{{size}}张可用</div>
-					<div v-if="pbCoName!=''||pbCoName!=null">{{pbCoName}}</div>
+					<div v-if="pbCoName==''||pbCoName==null" style="margin: 0 5px 0 0;">{{size}}张可用</div>
+					<div v-if="pbCoName!=''||pbCoName!=null" style="margin: 0 5px 0 0;">{{pbCoName}}</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" style="width: .1rem;" />
 				</div>
 				<div class="help-item">
@@ -86,8 +90,9 @@
 				<div class="alert" v-if="alertboo" @click="alertshow('')">
 					<div class="alert-inner">
 						<div class="alert-top">豆豆洗</div>
-						<div class="text alert-text">豆豆卡余额不足，请选择支付方式</div>
+						<div class="text alert-text">请选择支付方式！</div>
 						<div class="button">
+							<span @click="gopay">豆豆卡</span>
 							<span @click="zpay(1)">支付宝</span>
 							<span @click="zpay(2)">微信</span>
 						</div>
@@ -99,7 +104,7 @@
 					<img src="img/Basket@2x.png" />
 					<div class="bprice">合计:￥{{allnum - pbCoPrice}}</div>
 				</div>
-				<div class="nav-right" @click="gopay(0)">
+				<div class="nav-right" @click="alertshow()">
 					去结算
 				</div>
 			</div>
@@ -213,10 +218,10 @@
 											that.opennew('order')
 										}
 									})
-								} else if(res.status == 500){
+								} else if(res.status == 500) {
 									plus.nativeUI.closeWaiting()
-									that.alertshow()
-								}else {
+									plus.nativeUI.toast('豆豆卡余额不足！')
+								} else {
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast(res.msg)
 								}
@@ -250,7 +255,6 @@
 							"pbOrRemarks": pbOrRemarks,
 							"payStatus": index
 						}
-						console.log(ajaxjson)
 						if(localStorage.getItem('pbCouponUserId') == null || localStorage.getItem('pbCouponUserId') == 'null') {
 							delete ajaxjson.pbCouponUserId
 						}
@@ -263,8 +267,8 @@
 								data: ajaxjson
 							},
 							success: function(res) {
-								console.log(res)
-								if(res.status == 200) {
+								console.log(JSON.stringify(res))
+								if(index == 1) {
 									plus.payment.request(that.channel[0], res.data[0], function(result) {
 										//清空购物车
 										$.ajax({
@@ -284,10 +288,29 @@
 
 										});
 									}, function(error) {});
-
 								} else {
-									plus.nativeUI.closeWaiting()
-									plus.nativeUI.toast(res.msg)
+									plus.payment.request(that.channel[1], res, function(result) {
+										alert('成功')
+										//清空购物车
+										$.ajax({
+											type: "post",
+											url: localStorage.getItem('myurl') + "/user/deleteMyBasket",
+											dataType: "json",
+											data: {
+												usUserId: localStorage.getItem('usUserId'),
+												usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
+											},
+											success: function(res) {
+												plus.nativeUI.closeWaiting()
+												that.opennew('order')
+											}
+										})
+										plus.nativeUI.alert("支付成功！", function() {
+
+										});
+									}, function(error) {
+										alert(JSON.stringify(error))
+									});
 								}
 							},
 							error: function(err) {

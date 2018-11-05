@@ -4,7 +4,7 @@
 .order .order-nav{height: .8rem;display: flex;align-items: center;background: #FFFFFF;}
 .order .order-nav img{width: .3rem;height: .3rem;}
 .order .nav-text{margin: 0 .1rem 0 .2rem;font-size: .28rem;line-height: .3rem;height: .3rem;}
-.order .order-main{background: #FFFFFF;margin-top: .2rem;height: calc(100% - 1rem);overflow-y: scroll;position: relative;}
+.order .order-main{margin-top: .2rem;height: calc(100% - 1rem);overflow-y: scroll;position: relative;}
 .order .order-box{display: flex;padding: .2rem 0;border-bottom: 1px solid #F4F4F4;}
 .order .order-box .img-box{width: 1.4rem;height: 1.4rem;display: flex;align-items: center;justify-content: center;}
 .order .order-box img{height: 1.4rem;margin: 0 .2rem;}

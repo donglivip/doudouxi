@@ -99,7 +99,7 @@
 .plogin .input-box input{height: .35rem;flex: 1;border-left: 1px solid gainsboro;text-indent: .2rem;}
 .plogin .addcode{color: #B8B8B8;border: 1px solid #B8B8B8;border-radius: .3rem;width: 1.5rem;height: .5rem;display: flex;align-items: center;justify-content: center;font-size: .2rem;}
 .plogin .login{height: 1rem;border-radius: .5rem;color: #FFFFFF;font-size: .34rem;display: flex;align-items: center;justify-content: center;margin-top: 1.3rem;background: #096148;}
-.plogin .login-type{display: flex;justify-content: flex-end;margin-top: .2rem;margin-right: .1rem;}
+.plogin .login-type{display: flex;justify-content: center;margin-top: .2rem;margin-right: .1rem;}
 .plogin .three{flex: 1;display: flex;flex-direction: column;justify-content: flex-end;align-items: center;}
 .plogin .thre-title{text-align: center;color: #B8B8B8;}
 .plogin .three-box{display: flex;justify-content: center;}
@@ -187,7 +187,7 @@
 .sharedetail .order-bottom{height: .4rem;}
 .sharedetail .sharedetail-top{height: 1.5rem;display: flex;align-items: center;justify-content: space-around;background: #FFFFFF;margin-bottom: .2rem;}
 .sharedetail .sharedetail-item{display: flex;flex-direction: column;align-items: center;justify-content: center;}
-.sharedetail .order-main{height: calc(100% - 2.3rem);margin: 0;border-top: 1px solid #F4F4F4;}
+.sharedetail .order-main{height: calc(100% - 2.3rem);margin: 0;border-top: 1px solid #F4F4F4;position: relative;}
 .sharedetail p:first-of-type{font-size: .26rem;margin-bottom: .1rem;font-weight: 600;}
 .sharedetail .order-alert{top: 3.3rem!important;}
 /*挖宝*/
@@ -263,4 +263,3 @@
 	50%{transform: scale(.5);}
 	100%{transform: scale(1);}
 }
-

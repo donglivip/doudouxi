@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,20 +10,24 @@
 		<title></title>
 	</head>
 	<style type="text/css">
-		.grenn{border: 1px solid #096148!important;color: #096148!important;}
+		.grenn {
+			border: 1px solid #096148!important;
+			color: #096148!important;
+		}
 	</style>
+
 	<body>
 		<div class="wrapper plogin">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					登录
 				</div>
 				<div class="head-tab">
-					
+
 				</div>
 			</div>
 			<!--中间主体-->
@@ -31,24 +36,24 @@
 					<div class="titile">手机快捷登录 </div>
 					<div class="subtitle">未注册的手机号将自动创建豆豆洗账号 </div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur"/>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur" />
 						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入短信验证码" v-model="code"/>
+						<input type="number" placeholder="请输入短信验证码" v-model="code" />
 					</div>
 					<div class="login-type">
 						<a href="mlogin.html">密码账户登录</a>
 					</div>
 					<div class="login" @click="login()">登录</div>
 					<div class="login-type">
-						<div @click="opennew('Agreement','')">登陆即视为同意 	<strong>《豆豆洗注册协议》</strong></div>
+						<div @click="opennew('Agreement','')">登陆即视为同意 <strong>《豆豆洗注册协议》</strong></div>
 					</div>
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<a href=""><img src="img/QQ@2x.png"/></a>
-							<a href=""><img src="img/wxin.png"/></a>
+							<a href=""><img src="img/QQ@2x.png" /></a>
+							<a href=""><img src="img/wxin.png" /></a>
 						</div>
 					</div>
 					<div class="alert" v-if="alertboo" @click="alertshow('')">
@@ -64,133 +69,138 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					num:'获取验证码',
-					usCpPhone:'',
-					code:'',
-					mycode:'',
-					phoboo:false,
-					alertboo :false,
-					alerttext:''
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					num: '获取验证码',
+					usCpPhone: '',
+					code: '',
+					mycode: '',
+					phoboo: false,
+					alertboo: false,
+					alerttext: ''
 				},
-				methods:{
-					alertshow:function(text){
-						this.alerttext=text
-						this.alertboo=!this.alertboo
+				methods: {
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
 					},
-					inputblur:function(){
-						var that=this
-						 var myreg=/^[1][0-9]{10}$/;
-			            if (!myreg.test(that.usCpPhone)) {
-			                that.phoboo=false
-			            } else {
-			                that.phoboo=true
-			            }
+					inputblur: function() {
+						var that = this
+						var myreg = /^[1][0-9]{10}$/;
+						if(!myreg.test(that.usCpPhone)) {
+							that.phoboo = false
+						} else {
+							that.phoboo = true
+						}
 					},
-					login:function(){
-						var that=this
-						function plusReady(){
+					login: function() {
+						var that = this
+
+						function plusReady() {
 							// 弹出系统等待对话框
-							var w = plus.nativeUI.showWaiting( "登陆中..." );
+							var w = plus.nativeUI.showWaiting("登陆中...");
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
-//						15805204773//  123456//
-						if(that.phoboo==false){
+						//						15805204773//  123456//
+						if(that.phoboo == false) {
 							that.alertshow('手机号格式不正确！')
 							return false;
 						}
-						if(that.usCpPassword==''||that.code==''||that.code!=that.mycode){
+						if(that.usCpPassword == '' || that.code == '' || that.code != that.mycode) {
 							that.alertshow('账号或验证码不正确！')
 							return false;
 						}
 						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/user/registerUser",
-							dataType:'json',
-							data:{
-								index:1,
-								code:that.usCpPhone
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/registerUser",
+							dataType: 'json',
+							data: {
+								index: 1,
+								code: that.usCpPhone
 							},
-							success:function(res){
+							success: function(res) {
 								console.log(res)
-								if(res.status==200){
-									if(res.data.usStatus==1){
-										localStorage.setItem('usPhone',res.data.usPhone)
-										localStorage.setItem('usShareCode',res.data.usShareCode)
-										localStorage.setItem('usUserId',res.data.usUserId)
-										localStorage.setItem('usHeadImg',res.data.usHeadImg)
-										localStorage.setItem('usNickName',res.data.usNickName)
-										localStorage.setItem('usCardId',res.data.usCardId)
+								if(res.status == 200) {
+									if(res.data.usStatus == 1) {
+										localStorage.setItem('usPhone', res.data.usPhone)
+										localStorage.setItem('usShareCode', res.data.usShareCode)
+										localStorage.setItem('usUserId', res.data.usUserId)
+										localStorage.setItem('usHeadImg', res.data.usHeadImg)
+										localStorage.setItem('usNickName', res.data.usNickName)
+										localStorage.setItem('usCardId', res.data.usCardId)
 										localStorage.setItem('usPayPassword', that.usPayPassword)
 										mui.openWindow({
 											url: './index.html',
 											id: 'index',
-											createNew:true
+											createNew: true
 										})
-									}else{
+									} else {
 										that.alertshow('您的账户已被冻结！')
 									}
-									
-								}else{
+
+								} else {
 									that.alertshow(res.msg)
 								}
 							}
 						});
-						function plusReady(){
+
+						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.closeWaiting()
 						}
-						if(window.plus){
+						if(window.plus) {
 							plusReady();
-						}else{
-							document.addEventListener("plusready",plusReady,false);
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 					},
-					addcode:function(){
+					addcode: function() {
 						var set
-							that=this;
-						if(this.num=='获取验证码'){
-							var that=this
+						that = this
+						if(this.num == '获取验证码') {
+							that.num = 60
+							set = setInterval(function() {
+								if(that.num != 1) {
+									that.num--
+								} else {
+									clearInterval(set)
+									that.num = '获取验证码'
+								}
+							}, 1000)
+							var that = this
 							$.ajax({
-								type:"post",
-								url:localStorage.getItem('myurl')+"/usCityPartner/usCityGetShortCode",
-								dataType:'json',
-								data:{
-									usCpPhone:that.usCpPhone
+								type: "post",
+								url: localStorage.getItem('myurl') + "/usCityPartner/usCityGetShortCode",
+								dataType: 'json',
+								data: {
+									usCpPhone: that.usCpPhone
 								},
-								success:function(res){
-									that.mycode=res.data
-									that.num=60
-									set=setInterval(function(){
-										if(that.num!=1){
-											that.num--
-										}else{
-											clearInterval(set)
-											that.num='获取验证码'
-										}
-									},1000)
+								success: function(res) {
+									console.log(res)
+									that.mycode = res.data
+
 								}
 							});
-							
 						}
 					},
-					opennew:function(target,id){
+					opennew: function(target, id) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target,
+							createNew:true
 						})
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+
 				}
 			})
 		</script>
 	</body>
+
 </html>

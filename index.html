@@ -77,6 +77,8 @@
 					gid:0,
 					mydata: '',
 					adress: '',
+//					lng: 117.2717240000,
+//					lat: 34.2691060000,
 					lng: 118.774048,
 					lat: 31.827822,
 					juli: 0
@@ -101,10 +103,10 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
-					localStorage.setItem('lng', that.lng)
-					localStorage.setItem('lat', that.lat)
+//					localStorage.setItem('lng', that.lng)
+//					localStorage.setItem('lat', that.lat)
 					localStorage.setItem('pbCoName','')
-					that.mapinit(that.lat, that.lng)
+//					that.mapinit(that.lat, that.lng)
 				},
 				methods: {
 					gocenter: function() {
@@ -120,7 +122,6 @@
 						})
 					},
 					informshow: function() {
-						console.log(this.mydata)
 						this.informbooo = !this.informbooo
 					},
 					mapinit: function(lng,lat) {
@@ -158,7 +159,6 @@
 							})
 						});
 //						获取最近的柜子
-						console.log(that.lng + ',' + that.lat)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getDevices",

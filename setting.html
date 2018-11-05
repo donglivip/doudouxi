@@ -14,7 +14,7 @@
 		<div class="wrapper help setting">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab mui-action-back">
+				<div class="head-tab" @click="opennew('usercenter')">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
@@ -35,17 +35,17 @@
 					<div>{{usNickName=='undefined'?'您还没设置昵称':usNickName}}</div>
 				</div>
 				<div class="help-item" @click="opennew('mchange')">
-					<div>登录密码</div>
+					<div>修改密码</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
 				</div>
 				<!--<div class="help-item" @click="opennew('pchange')">
 					<div>支付密码</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
 				</div>-->
-				<div class="help-item" @click="opennew('pphone')">
+				<!--<div class="help-item" @click="opennew('pphone')">
 					<div>修改绑定手机号</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
-				</div>
+				</div>-->
 				<div class="help-item" @click="backlogin">
 					<div>退出登录</div>
 					<img src="img/Arrow_simple_rightt Copy 3@2x.png" />
@@ -204,10 +204,9 @@
 										},
 										success: function(res) {
 											if(res.status == 200) {
-												that.alertshow('修改完成!')
+												plus.nativeUI.toast('修改完成!')
 												localStorage.setItem('usHeadImg', json.data)
-												plus.webview.getWebviewById('usercenter').reload()
-												plus.webview.getWebviewById('setting').reload()
+												that.opennew('setting')
 											} else {
 												that.alertshow('信息提交失败')
 											}
@@ -237,7 +236,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: './' + target + '.html',
-							id: target
+							id: target,
+							createNew:true
 						})
 					},
 				},

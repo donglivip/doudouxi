@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,34 +10,38 @@
 		<title></title>
 	</head>
 	<style type="text/css">
-		.grenn{border: 1px solid #096148!important;color: #096148!important;}
+		.grenn {
+			border: 1px solid #096148!important;
+			color: #096148!important;
+		}
 	</style>
+
 	<body>
 		<div class="wrapper plogin">
 			<!--头部-->
 			<div class="header">
 				<a class="head-tab" href="javascript:history.back()">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</a>
 				<div class="head-main">
 					找回密码
 				</div>
 				<a class="head-tab" href="javascript:void(0)">
-					
+
 				</a>
 			</div>
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="main-inner">
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur"/>
+						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur" />
 						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入短信验证码" v-model="code"/>
+						<input type="number" placeholder="请输入短信验证码" v-model="code" />
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入新密码" v-model="pwd"/>
+						<input type="number" placeholder="请输入新密码" v-model="pwd" />
 					</div>
 					<div class="login-type">
 						<a href="mlogin.html">密码账户登录</a>
@@ -55,108 +60,111 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					num:'获取验证码',
-					usCpPhone:'',
-					code:'',
-					mycode:'',
-					pwd:'',
-					alertboo:false,
-					alerttext:'',
-					phoboo:false
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					num: '获取验证码',
+					usCpPhone: '',
+					code: '',
+					mycode: '',
+					pwd: '',
+					alertboo: false,
+					alerttext: '',
+					phoboo: false
 				},
-				methods:{
-					inputblur:function(){
-						var that=this
-						 var myreg=/^[1][0-9]{10}$/;
-			            if (!myreg.test(that.usCpPhone)) {
-			                that.phoboo=false
-			            } else {
-			                that.phoboo=true
-			            }
+				methods: {
+					inputblur: function() {
+						var that = this
+						var myreg = /^[1][0-9]{10}$/;
+						if(!myreg.test(that.usCpPhone)) {
+							that.phoboo = false
+						} else {
+							that.phoboo = true
+						}
 					},
-					alertshow:function(text){
-						this.alerttext=text
-						this.alertboo=!this.alertboo
+					alertshow: function(text) {
+						this.alerttext = text
+						this.alertboo = !this.alertboo
 					},
-					login:function(){
-						var that=this
-						if(that.usCpPhone==''||that.code==''||that.code!=that.mycode||that.pwd==''){
+					login: function() {
+						var that = this
+						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode || that.pwd == '') {
 							that.alertshow('账号或验证码不正确！')
 							return false;
 						}
 						$.ajax({
-							type:"post",
-							url:localStorage.getItem('myurl')+"/user/updateUserPwd",
-							dataType:'json',
-							data:{
-								usPassword:that.pwd,
-								usPhone:that.usCpPhone
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/updateUserPwd",
+							dataType: 'json',
+							data: {
+								usPassword: that.pwd,
+								usPhone: that.usCpPhone
 							},
-							success:function(res){
+							success: function(res) {
 								console.log(JSON.stringify(res))
-								if(res.status==200){
-									window.location.href='./mlogin.html'
-								}else{
+								if(res.status == 200) {
+									window.location.href = './mlogin.html'
+								} else {
 									that.alertshow(res.msg)
 								}
 							},
-							error:function(err){
+							error: function(err) {
 								console.log(JSON.stringify(err))
 							}
 						});
 					},
-					addcode:function(){
+					addcode: function() {
 						var set
-							that=this;
-						if(this.num=='获取验证码'){
-							var that=this
+						that = this
+						if(this.num == '获取验证码') {
+							var that = this
+							that.num = 60
+							set = setInterval(function() {
+								if(that.num != 1) {
+									that.num--
+								} else {
+									clearInterval(set)
+									that.num = '获取验证码'
+								}
+							}, 1000)
 							$.ajax({
-								type:"post",
-								url:localStorage.getItem('myurl')+"/usCityPartner/usCityGetShortCode",
-								dataType:'json',
-								data:{
-									usCpPhone:that.usCpPhone
+								type: "post",
+								url: localStorage.getItem('myurl') + "/usCityPartner/usCityGetShortCode",
+								dataType: 'json',
+								data: {
+									usCpPhone: that.usCpPhone
 								},
-								success:function(res){
+								success: function(res) {
 									console.log(res)
-									function plusReady(){
+
+									function plusReady() {
 										// 显示自动消失的提示消息
-										plus.nativeUI.toast( "验证码已发送！");
+										plus.nativeUI.toast("验证码已发送！");
 									}
-									if(window.plus){
+									if(window.plus) {
 										plusReady();
-									}else{
-										document.addEventListener("plusready",plusReady,false);
+									} else {
+										document.addEventListener("plusready", plusReady, false);
 									}
-									that.mycode=res.data
-									that.num=60
-									set=setInterval(function(){
-										if(that.num!=1){
-											that.num--
-										}else{
-											clearInterval(set)
-											that.num='获取验证码'
-										}
-									},1000)
+									that.mycode = res.data
+
 								}
 							});
-							
+
 						}
 					},
-					opennew:function(target,id){
+					opennew: function(target, id) {
 						mui.openWindow({
-							url:'./'+target+'.html',
-							id:target
+							url: './' + target + '.html',
+							id: target
 						})
 					}
 				},
-				mounted:function(){
-					
+				mounted: function() {
+
 				}
 			})
 		</script>
 	</body>
+
 </html>

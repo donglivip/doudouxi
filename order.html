@@ -37,8 +37,8 @@
 						<img src="img/Check@2x.png" v-show="navid==val.id" />
 					</div>
 				</div>
-				<div class="order-main" @scroll="myscroll">
-					<div class="main-inner">
+				<div class="order-main scrolmain" @scroll="myscroll">
+					<div class="main-inner" style="position: absolute;">
 						<div class="order-box" v-for="val in mydata" @click="opendetail(val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus,val.pbOrAssessStatus)">
 							<div class="img-box">
 								<img :src="val.pbOrComplainImg | myimg" />
@@ -97,6 +97,7 @@
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/scroll.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '.wrapper',
@@ -150,10 +151,10 @@
 								userId: localStorage.getItem('usUserId')
 							},
 							success: function(res) {
-								if(res.status==200){
+								if(res.status == 200) {
 									plus.webview.getWebviewById('order').reload()
 									mui.back()
-								}else{
+								} else {
 									$.ajax({
 										type: "post",
 										url: localStorage.getItem('myurl') + "/user/onlinePayTrimOrder",
@@ -170,7 +171,7 @@
 													mui.back()
 												});
 											}, function(error) {
-			
+
 											});
 										}
 									});
@@ -234,6 +235,7 @@
 						this.typetext = text
 						this.navid = id
 						this.mydata = []
+						this.pageNum=0
 						this.navboo = !this.navboo
 						this.myajax()
 					},
@@ -275,7 +277,7 @@
 							data: ajaxjson,
 							async: true,
 							success: function(res) {
-								console.log(JSON.stringify(res))
+								console.log(res)
 								if(res.data.list != null) {
 									that.pages = res.data.pages
 									for(var i = 0; i < res.data.list.length; i++) {
@@ -327,13 +329,13 @@
 							}
 						} else if(value.pbOrStatus == 2) {
 							return '待存衣'
-						}else if(value.pbOrStatus == 3||value.pbOrStatus == 18) {
+						} else if(value.pbOrStatus == 3 || value.pbOrStatus == 18) {
 							return '配送中'
-						}else if(value.pbOrStatus == 4) {
+						} else if(value.pbOrStatus == 4) {
 							return '已到店'
-						}else if(value.pbOrStatus == 5||value.pbOrStatus == 17) {
+						} else if(value.pbOrStatus == 5 || value.pbOrStatus == 17) {
 							return '待收取'
-						} else if(value.pbOrStatus == 6||value.pbOrStatus == 19) {
+						} else if(value.pbOrStatus == 6 || value.pbOrStatus == 19) {
 							return '已送达'
 						} else if(value.pbOrStatus == 7) {
 							if(value.pbOrProblemStatus == 3) {
@@ -346,13 +348,13 @@
 								return '已完成'
 							}
 
-						}else if(value.pbOrStatus == 8) {
+						} else if(value.pbOrStatus == 8) {
 							return '清洗中'
-						}else if(value.pbOrStatus == 9) {
+						} else if(value.pbOrStatus == 9) {
 							return '待分配'
-						}else if(value.pbOrStatus == 10) {
+						} else if(value.pbOrStatus == 10) {
 							return '待送店'
-						}else if(value.pbOrStatus == 11|| value.pbOrStatus == 12) {
+						} else if(value.pbOrStatus == 11 || value.pbOrStatus == 12) {
 							return '配送中'
 						} else if(value.pbOrStatus == 13 || value.pbOrStatus == 14 || value.pbOrStatus == 15 || value.pbOrStatus == 16) {
 							return '滞留中'
