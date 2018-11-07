@@ -42,7 +42,26 @@
 .index .join{background: #096148;color: #FFFFFF;padding: .15rem .3rem;border-radius: .5rem;}
 .index .star{margin-right: 3rem;width: 1.7rem;}
 .index .inform-inner{width: 100%;height: 100%;background: rgba(0,0,0,.5);position: absolute;bottom: 1rem;left: 0;}
-
+/*订单*/
+.order {background: #F4F4F4;}
+.order .order-nav{height: .8rem;display: flex;align-items: center;background: #FFFFFF;}
+.order .order-nav img{width: .3rem;height: .3rem;}
+.order .nav-text{margin: 0 .1rem 0 .2rem;font-size: .28rem;line-height: .3rem;height: .3rem;}
+.order .order-main{margin-top: .2rem;height: calc(100% - 1rem);overflow-y: scroll;position: relative;}
+.order .order-box{display: flex;padding: .2rem 0;border-bottom: 1px solid #F4F4F4;}
+.order .order-box .img-box{width: 1.4rem;height: 1.4rem;display: flex;align-items: center;justify-content: center;}
+.order .order-box img{height: 1.4rem;margin: 0 .2rem;}
+.order .order-title{display: flex;margin-bottom: .3rem;align-items: center;justify-content: space-between;}
+.order .order-h1{font-size: .3rem;white-space: nowrap;overflow: hidden;width: 4rem;}
+.order .order-right{flex: 1;margin-right: .2rem;display: flex;flex-direction: column;justify-content: space-between;}
+.order .order-bottom{display: flex;align-items: flex-end;}
+.order .bottom-right{background: #096148;color: #FFFFFF;border-radius:.4rem ;line-height: .5rem;font-size: .2rem;width: 1.5rem;height: .5rem;text-align: center;}
+.order .order-state{color: #096148;}
+.order .bottom-left{flex: 1;}
+.order .order-price,.order .order-time{font-size: .24rem;color: #666666;}
+.order .order-alert{position: absolute;width: 100%;height: calc(100% - 2.6rem);top:1.6rem;left: 0;background: rgba(0,0,0,.5);z-index: 999;}
+.order .nav-tab{width: 100%;background: #FFFFFF;height: .8rem;border-bottom: 1px solid #F4F4F4;text-indent: .2rem;line-height: .8rem;display: flex;align-items: center;justify-content: space-between;}
+.order .nav-tab img{width: .34rem;height: .22rem;margin-right: .2rem;}
 /*个人中心*/
 .usercenter{background: #F4F4F4;}
 .usercenter .header{background: none;border: 0;color: #FFFFFF;z-index: 99;}

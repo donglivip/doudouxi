@@ -14,11 +14,9 @@
 			flex: 1;
 			text-align: center;
 		}
-		
 		.button span {
 			border-right: 1px solid #FFFFFF;
 		}
-		
 		.button span:last-of-type {
 			border: 0;
 		}
@@ -46,7 +44,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata">
-						<img :src="val.pbCdImg | myimg" />
+						<!--<img :src="val.pbCdImg | myimg" />-->
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
@@ -75,7 +73,7 @@
 				<div class="help-item">
 					<div></div>
 					<div class="hji">
-						<span class="line">已优惠:￥{{pbCoPrice==null?'0':pbCoPrice}}</span> 合计: <span class="red"> ￥{{allnum - pbCoPrice}}</span>
+						<span class="line">已优惠:￥{{pbCoPrice==null?'0':pbCoPrice}}</span> 合计: <span class="red"> ￥{{allnum - pbCoPrice>=0?allnum - pbCoPrice:0}}</span>
 					</div>
 				</div>
 				<div class="help-item detailtop">
@@ -102,7 +100,7 @@
 			<div class="bottom">
 				<div class="nav-left">
 					<img src="img/Basket@2x.png" />
-					<div class="bprice">合计:￥{{allnum - pbCoPrice}}</div>
+					<div class="bprice">合计:￥{{allnum - pbCoPrice>=0?allnum - pbCoPrice:0}}</div>
 				</div>
 				<div class="nav-right" @click="alertshow()">
 					去结算
@@ -181,12 +179,13 @@
 						}
 						var pbOrIsCoupon = ((that.pbCoName == '' || that.pbCoName == null) ? 2 : 1)
 						var pbOrRemarks = (that.pbOrRemarks == '' ? '暂无备注！' : that.pbOrRemarks)
+						var allprice=allnum - pbCoPrice>=0?(allnum - pbCoPrice):0
 						var ajaxjson = {
 							"usUserId": localStorage.getItem('usUserId'),
 							"usCommunityPartnerId": localStorage.getItem('pbCommunityPartnerId'),
 							"pbPartnerDeviceId": localStorage.getItem('pbPartnerDeviceId'),
 							"pbOrCountNum": that.pbOrCountNum,
-							"pbOrCountPrice": that.allnum - that.pbCoPrice,
+							"pbOrCountPrice":allprice,
 							"pbOrIsCoupon": pbOrIsCoupon,
 							"pbCouponUserId": localStorage.getItem('pbCouponUserId'),
 							"pbOrderDetailes": mydata,
@@ -267,7 +266,6 @@
 								data: ajaxjson
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								if(index == 1) {
 									plus.payment.request(that.channel[0], res.data[0], function(result) {
 										//清空购物车
@@ -289,8 +287,8 @@
 										});
 									}, function(error) {});
 								} else {
+									
 									plus.payment.request(that.channel[1], res, function(result) {
-										alert('成功')
 										//清空购物车
 										$.ajax({
 											type: "post",
