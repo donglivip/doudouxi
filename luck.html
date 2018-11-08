@@ -20,7 +20,7 @@
 				<div class="head-main">
 					挖宝
 				</div>
-				<div class="head-tab" @click="opennew('luck-my')">
+				<div class="head-tab" @click="opennew('discount')">
 					我的奖品
 				</div>
 			</div>
@@ -93,11 +93,12 @@
 					jname: '',
 					alertboo: false,
 					mydata: {
-						pbLdrIntegral:0,
-						pbLdrShareNum:0,
-						pbLdrTime:0
+						pbLdrIntegral: 0,
+						pbLdrShareNum: 0,
+						pbLdrTime: 0
 					},
-					usUwIntegral: localStorage.getItem('usUwIntegral')
+					usUwIntegral: '',
+					status: true
 				},
 				methods: {
 					myajax: function() {
@@ -112,11 +113,12 @@
 							},
 							success: function(res) {
 								console.log(res)
-								if(res.data!=null){
+								if(res.data != null) {
 									that.mydata = res.data
 								}
 							}
 						});
+						//						获取所有的优惠卷
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/share/getDiscounts",
@@ -137,7 +139,23 @@
 										})
 									}
 								}
-								console.log(that.jdata)
+							}
+						});
+
+					},
+					findIntegral:function(){
+						var that=this
+						//						获取积分
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/user/findIntegral",
+							dataType: 'json',
+							data: {
+								userId: localStorage.getItem('usUserId'),
+								status: 2
+							},
+							success: function(res) {
+								that.usUwIntegral=res.data.usUwIntegral
 							}
 						});
 					},
@@ -149,55 +167,62 @@
 						}
 					},
 					go: function() {
-						var that = this
-						if(localStorage.getItem('usUwIntegral') < that.mydata.pbLdrIntegral) {
-							this.jname = '您的积分不足！'
-							this.alertshow()
-							return false;
-						}
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/user/useIntegral",
-							dataType: 'json',
-							data: {
-								status: 2,
-								userId: localStorage.getItem('usUserId'),
-								integral: that.mydata.pbLdrIntegral
-							},
-							success: function(res) {
-								localStorage.setItem('usUwIntegral', localStorage.getItem('usUwIntegral') - that.mydata.pbLdrIntegral)
+						if(this.status == true) {
+							this.status = false
+							var that = this
+							if(localStorage.getItem('usUwIntegral') < that.mydata.pbLdrIntegral) {
+								this.jname = '您的积分不足！'
+								this.alertshow()
+								return false;
 							}
-						});
-						var myset = setInterval(function() {
-							if(that.time < 30) {
-								that.myindex = that.jdata[Math.floor(Math.random() * 25)].pbCouponId
-								that.time++
-							} else {
-								that.time = 0
-								clearInterval(myset)
-								if(that.jdata[Math.floor(Math.random() * 25)].pbCoName == undefined || that.jdata[Math.floor(Math.random() * 25)].pbCoName == 'undefined') {
-									that.jname = '很遗憾,您未中奖！'
-								} else {
-									that.jname = '恭喜您，抽到' + that.jdata[Math.floor(Math.random() * 25)].pbCoName
-									var ajaxjson = {
-										userId: localStorage.getItem('usUserId'),
-										couponId: that.jdata[Math.floor(Math.random() * 25)].pbCouponId
-									}
-									console.log(ajaxjson)
-									$.ajax({
-										type: "post",
-										url: localStorage.getItem('myurl') + "/user/setUserCoupon",
-										dataType: 'json',
-										data: ajaxjson,
-										success: function(res) {
-											console.log(res)
-										}
-									});
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/useIntegral",
+								dataType: 'json',
+								data: {
+									status: 2,
+									userId: localStorage.getItem('usUserId'),
+									integral: that.mydata.pbLdrIntegral
+								},
+								success: function(res) {
+									localStorage.setItem('usUwIntegral', localStorage.getItem('usUwIntegral') - that.mydata.pbLdrIntegral)
 								}
-								that.myindex = 26
-								that.alertshow()
-							}
-						}, 150)
+							});
+							var myset = setInterval(function() {
+								if(that.time < 30) {
+									that.myindex = that.jdata[Math.floor(Math.random() * 25)].pbCouponId
+									that.time++
+								} else {
+									that.time = 0
+									clearInterval(myset)
+									that.findIntegral()
+									var index=Math.floor(Math.random() * 25)
+									if(that.jdata[index].pbCoName == undefined || that.jdata[index].pbCoName == 'undefined') {
+										that.jname = '很遗憾,您未中奖！'
+									} else {
+										that.jname = '恭喜您，抽到' + that.jdata[index].pbCoName
+										var ajaxjson = {
+											userId: localStorage.getItem('usUserId'),
+											couponId: that.jdata[index].pbCouponId
+										}
+										console.log(ajaxjson)
+										$.ajax({
+											type: "post",
+											url: localStorage.getItem('myurl') + "/user/setUserCoupon",
+											dataType: 'json',
+											data: ajaxjson,
+											success: function(res) {
+												console.log(res)
+											}
+										});
+									}
+									that.myindex = 26
+									that.status = true
+									that.alertshow()
+								}
+							}, 150)
+						}
+
 					},
 					alertshow: function() {
 						this.alertboo = !this.alertboo
@@ -211,6 +236,7 @@
 				},
 				mounted: function() {
 					this.myajax()
+					this.findIntegral()
 				}
 			})
 		</script>

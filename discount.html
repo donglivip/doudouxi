@@ -23,8 +23,8 @@
 				</div>
 			</div>
 			<!--中间主体-->
-			<div class="main big-main" @scroll="myscroll">
-				<div class="main-inner">
+			<div class="main big-main scrolmain" @scroll="myscroll" style="position: relative;">
+				<div class="main-inner" style="position: absolute;">
 					<div class="discount-tab" v-for="val in mydata">
 						<div class="discount-left">
 							<div class="price">
@@ -39,10 +39,7 @@
 								{{val.pbCoName}}
 							</div>
 							<div class="middle-sub">满{{val.pbCoLimitPrice}}元可用,线上用户专享</div>
-							<div class="middle-sub">有效期到:{{val.changeEndTime}}</div>
-						</div>
-						<div class="discount-right">
-							立即使用
+							<div class="middle-sub">有效期限:{{val.changeEndTime}}日</div>
 						</div>
 					</div>
 				</div>
@@ -50,6 +47,7 @@
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/scroll.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue=new Vue({
 				el:'.wrapper',

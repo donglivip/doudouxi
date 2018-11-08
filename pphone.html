@@ -18,7 +18,7 @@
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
-					修改绑定手机号
+					绑定手机号
 				</div>
 				<div class="head-tab">
 
@@ -81,7 +81,7 @@
 								if(res.status == 200) {
 									localStorage.setItem('usPhone', that.usPayPassword)
 									plus.nativeUI.toast('修改完成!')
-									window.history.back()
+									mui.back()
 								} else {
 									that.alertshow('信息提交失败')
 								}

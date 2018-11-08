@@ -37,7 +37,7 @@
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="profit-top">
-					<div class="subtitile" style="color: #096148;">提现金额</div>
+					<!--<div class="subtitile" style="color: #096148;">提现金额</div>-->
 					<input type="price" placeholder="请输入提现金额" v-model="price" />
 					<div class="subtitile">可提现额￥{{mydata[1]}}</div>
 					<div class="profit-type" @click="alertshow02">
@@ -49,10 +49,11 @@
 				<div class="alert" v-show="alertboo02" @click="alertshow02">
 					<div class="alert-inner">
 						<img src="img/Group 10@2x.png" />
-						<div class="text">支付方式</div>
+						<div class="text">提现渠道</div>
 						<div class="button">
-							<span v-if="usAliPayCode!=undefined" @click="paytype(1)">支付宝</span>
-							<span v-if="usWeChatPayCode!=undefined" @click="paytype(2)">微信</span>
+							<span v-if="usAliPayCode!='undefined'" @click="paytype(1)">{{usAliPayCode}}</span>
+							<span v-if="usWeChatPayCode!='undefined'" @click="paytype(2)">微信</span>
+							<span v-if="usAliPayCode=='undefined'&&usWeChatPayCode=='undefined'" @click="opennew('rname')" style="border: 0;">您还未绑定支付宝或微信</span>
 						</div>
 					</div>
 				</div>
@@ -84,6 +85,13 @@
 					style: ''
 				},
 				methods: {
+					opennew: function(target) {
+						mui.openWindow({
+							url: './' + target + '.html',
+							id: target,
+							createNew:true
+						})
+					},
 					paytype: function(type) {
 						this.style = type
 					},
@@ -98,7 +106,7 @@
 						if(this.price == '' || this.price == 0 || this.price > this.mydata[1]) {
 							this.alertshow('金额为空或余额不足！')
 							return false;
-						}
+						} 	
 						if(this.style == '') {
 							this.alertshow('请选择提现方式！')
 							return false;
@@ -167,7 +175,7 @@
 					mytype: function(value) {
 						switch(value) {
 							case '':
-								return '请选择支付方式'
+								return '请选择提现渠道'
 								break;
 							case 1:
 								return '支付宝'

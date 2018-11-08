@@ -14,7 +14,7 @@
 		<div class="wrapper nav shopdetail">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab mui-action-back" v-if="!detailboo">
+				<div class="head-tab" v-if="!detailboo"  @click="opennew('index')">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-tab" v-if="detailboo" @click="back">
@@ -145,8 +145,13 @@
 						this.luckboo = !this.luckboo
 					},
 					pay: function() {
-						if(this.cartdata.length == 0) {
+						if(this.cartdata[1][0]==null) {
 							plus.nativeUI.toast('您还没有选择衣物呢!')
+							return false;
+						}
+						if(localStorage.getItem('usPhone')=='微信用户'){
+							plus.nativeUI.toast('您还没有绑定手机号!')
+							this.opennew('pphone')
 							return false;
 						}
 						localStorage.setItem('cartdata', JSON.stringify(this.cartdata))
@@ -336,19 +341,20 @@
 					},
 					//					详情中加减
 					addnum: function(type, index) {
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting("等待中...");
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
+
 						var that = this
 						var boo = false
 						var num = that.threedata[index].countNum
 						if(num != 0) {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.showWaiting("等待中...");
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
 							//							修改购物车
 							if(type == 'j') {
 								num--
@@ -372,7 +378,16 @@
 									that.havethree(that.threeid)
 								}
 							});
-						} else {
+						} else if(type == 'z') {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.showWaiting("等待中...");
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
 							//							加入购物车
 							var ajaxjson = {
 								usLaundryBasketId: that.cartdata[0].usLaundryBasketId,
@@ -420,6 +435,9 @@
 					var that = this
 					that.myajax()
 					that.havecart()
+					localStorage.setItem('pbCoPrice', '')
+					localStorage.setItem('pbCoName', '')
+					localStorage.setItem('cartdata', '')
 				},
 				filters: {
 					myimg: function(value) {

@@ -26,7 +26,7 @@
 		<div class="wrapper help orderdetail nav">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab mui-action-back">
+				<div class="head-tab" @click="opennew('nav')">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
@@ -44,7 +44,7 @@
 				</div>
 				<div class="shop-main" :class="more==true?'active':''" :style="mydata.length<3?'height:auto':''">
 					<div class="shop-item" v-for="val in mydata">
-						<!--<img :src="val.pbCdImg | myimg" />-->
+						<img :src="val.pbCdImg | myimg" />
 						<div class="name-box">
 							<div class="num-box">
 								<div class="name">{{val.pbCdName}}</div>
@@ -179,7 +179,7 @@
 						}
 						var pbOrIsCoupon = ((that.pbCoName == '' || that.pbCoName == null) ? 2 : 1)
 						var pbOrRemarks = (that.pbOrRemarks == '' ? '暂无备注！' : that.pbOrRemarks)
-						var allprice=allnum - pbCoPrice>=0?(allnum - pbCoPrice):0
+						var allprice=that.allnum - that.pbCoPrice>=0?(that.allnum - that.pbCoPrice):0
 						var ajaxjson = {
 							"usUserId": localStorage.getItem('usUserId'),
 							"usCommunityPartnerId": localStorage.getItem('pbCommunityPartnerId'),
@@ -191,7 +191,7 @@
 							"pbOrderDetailes": mydata,
 							"pbOrRemarks": pbOrRemarks
 						}
-
+						
 						ajaxjson = JSON.stringify(ajaxjson)
 						$.ajax({
 							type: "post",

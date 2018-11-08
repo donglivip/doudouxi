@@ -85,7 +85,6 @@
 							status: that.zndex,
 							price: that.cartdata[that.priceindex].maLcPrice,
 							//								price: 0.01,
-							code: localStorage.getItem('usAliPayCode'),
 							note:that.maLaundryCardId
 						}
 						console.log(JSON.stringify(ajaxjson))
@@ -95,7 +94,6 @@
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(res)
 								if(that.zndex == 1) {
 									plus.payment.request(that.channel[0], res.data[0], function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
@@ -113,7 +111,6 @@
 										});
 									}, function(error) {
 										alert('支付失败!')
-										console.log(JSON.stringify(error))
 									});
 								}
 							}
@@ -182,6 +179,7 @@
 							success: function(res) {
 								console.log(res)
 								that.cartdata = res.data
+								that.maLaundryCardId=res.data[0].maLaundryCardId
 							}
 						});
 						// H5 plus事件处理

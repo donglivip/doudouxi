@@ -298,6 +298,7 @@
 								status: that.navid,
 								pageNum: that.pageNum
 							}
+							console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrders",
@@ -305,6 +306,7 @@
 							data: ajaxjson,
 							async: true,
 							success: function(res) {
+								console.log(res.data.list)
 								if(res.data.list != null) {
 									that.pages = res.data.pages
 									for(var i = 0; i < res.data.list.length; i++) {
@@ -349,9 +351,9 @@
 				filters: {
 					status: function(value) {
 						if(value.pbOrStatus == 1) {
-							if(value.pbOrProblemStatus = 3) {
+							if(value.pbOrProblemStatus == 3) {
 								return '退款中'
-							} else if(value.pbOrProblemStatus = 6) {
+							} else if(value.pbOrProblemStatus == 6) {
 								return '退款成功'
 							} else {
 								if(value.pbOrAssessStatus == 1) {

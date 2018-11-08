@@ -64,12 +64,13 @@
 						localStorage.setItem('pbCouponUserId',id)
 						localStorage.setItem('pbCoName',pbCoName)
 						localStorage.setItem('pbCoPrice',price)
-						mui.back()
+						this.opennew('pay')
 					},
 					opennew:function(target,id){
 						mui.openWindow({
 							url:'./'+target+'.html',
-							id:target
+							id:target,
+							createNew:true
 						})
 					},
 					myajax:function(){

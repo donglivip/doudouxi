@@ -366,7 +366,9 @@
 				"resources": [],
 				"refer": [
 					"share.html",
-					"pay.html"
+					"pay.html",
+					"pphone.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -375,7 +377,9 @@
 				"refer": [
 					"choiceorde.html",
 					"userdiscount.html",
-					"order.html"
+					"order.html",
+					"index.html",
+					"nav.html"
 				],
 				"priority": 0
 			},
@@ -424,6 +428,13 @@
 				"resources": [],
 				"refer": [
 					"order.html"
+				],
+				"priority": 0
+			},
+			"userdiscount.html": {
+				"resources": [],
+				"refer": [
+					"pay.html"
 				],
 				"priority": 0
 			}

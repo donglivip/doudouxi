@@ -14,7 +14,7 @@
 		<div class="wrapper discount">
 			<!--头部-->
 			<div class="header">
-				<div class="head-tab mui-action-back">
+				<div class="head-tab" @click="opennew('integral')">
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
@@ -41,7 +41,7 @@
 								{{val.pbCoName}}
 							</div>
 							<div class="middle-sub">满{{val.pbCoLimitPrice}}元可用,不与其他优惠共享</div>
-							<div class="middle-sub">有效期到:{{val.pbCoEndTime}}</div>
+							<div class="middle-sub">有效期限:{{val.pbCoEndTime}}日</div>
 							<div class="middle-sub">兑换价格:{{val.pbCoExchange}}积分</div>
 						</div>
 						<div class="discount-right" @click="pay(val.pbCouponId,val.pbCoExchange,val.pbCoEndTime)">
@@ -70,6 +70,13 @@
 					mydata: []
 				},
 				methods: {
+					opennew: function(target) {
+						mui.openWindow({
+							url: './' + target + '.html',
+							id: target,
+							createNew:true
+						})
+					},
 					myscroll: function() {
 						var that = this
 						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
@@ -89,6 +96,7 @@
 					},
 					myajax: function() {
 						var that = this
+						that.pageNum++
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/share/getDiscounts",

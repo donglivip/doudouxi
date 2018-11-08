@@ -182,7 +182,11 @@
 										console.log(JSON.stringify(res))
 										if(res.status==200){
 											if(res.data.usStatus==1){
-												localStorage.setItem('usPhone','微信用户')
+												if(res.data.usPhone!=null||res.data.usPhone!=undefined){
+													localStorage.setItem('usPhone',res.data.usPhone)
+												}else{
+													localStorage.setItem('usPhone','微信用户')
+												}
 												localStorage.setItem('usShareCode',res.data.usShareCode)
 												localStorage.setItem('usUserId',res.data.usUserId)
 												localStorage.setItem('usHeadImg',res.data.usHeadImg)
