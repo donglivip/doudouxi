@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,18 +9,19 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper profit backorder">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					投诉
 				</div>
 				<div class="head-tab">
-					
+
 				</div>
 			</div>
 			<!--中间主体-->
@@ -37,11 +39,11 @@
 					<div class="backorder-top bbottom">
 						上传图片
 					</div>
-					<div class="img-big">
+					<div class="img-big" style="display: flex;align-items: center;flex-wrap: wrap;">
 						<div class="img-box">
-							<img src="img/upload.png" @click="imgclick"/>
+							<img src="img/upload.png" @click="imgclick" />
 						</div>
-						<img :src="val" v-for="val in imglist"/>
+						<img :src="val | myimg" v-for="val in imglist" style="width: 1.2rem;height: 1.2rem;border-radius: .2rem;" />
 					</div>
 					<textarea v-model="content" placeholder="请输入投诉内容"></textarea>
 				</div>
@@ -51,20 +53,20 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					myindex:0,
-					mynav:[],
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					myindex: 0,
+					mynav: [],
 					orderId: localStorage.getItem('orderId'),
-					files:[],
-					server:localStorage.getItem('myurl')+'/user/uploadComplaintImg',
-					imglist:[],
-					content:''
+					files: [],
+					server: localStorage.getItem('myurl') + '/user/uploadComplaintImg',
+					imglist: [],
+					content: ''
 				},
-				methods:{
-					typechange:function(index){
-						this.myindex=index
+				methods: {
+					typechange: function(index) {
+						this.myindex = index
 					},
 					myajax: function() {
 						var that = this
@@ -83,8 +85,8 @@
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId'),
 							complainIds: [that.mynav[that.myindex].pbOrderComplainId],
-							img:that.imglist,
-							content:that.content
+							img: that.imglist,
+							content: that.content
 						}
 						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
@@ -92,14 +94,15 @@
 							url: localStorage.getItem('myurl') + "/user/complainOrder",
 							dataType: 'json',
 							data: {
-								data:JSON.stringify(ajaxjson)
+								data: JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
 								console.log(JSON.stringify(res))
-//								mui.openWindow({
-//									url: './order.html',
-//									id: 'order'
-//								})
+								mui.openWindow({
+									url: './order.html',
+									id: 'order',
+									createNew: true
+								})
 							}
 						});
 					},
@@ -188,9 +191,8 @@
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
 									var files = json.data;
-									console.log(responseText)
+									alert(files)
 									that.imglist.push(files)
-									console.log(JSON.stringify(that.imglist))
 									wt.close();
 								} else {
 									alert("上传失败：" + status);
@@ -211,10 +213,25 @@
 						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
-				mounted:function(){
+				mounted: function() {
 					this.myajax()
+					localStorage.setItem('myurl','http://27.54.248.14:8080')
+				},
+				filters:{
+					myimg: function(value) {
+						if(value != null) {
+							if(value.indexOf(',') != -1) {
+								return localStorage.getItem('myurl') + value.substring(0, value.indexOf(','))
+							} else {
+								return localStorage.getItem('myurl') + value
+							}
+	
+						}
+					}
 				}
+				
 			})
 		</script>
 	</body>
+
 </html>

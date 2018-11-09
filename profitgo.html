@@ -38,7 +38,7 @@
 			<div class="main big-main">
 				<div class="profit-top">
 					<!--<div class="subtitile" style="color: #096148;">提现金额</div>-->
-					<input type="price" placeholder="请输入提现金额" v-model="price" />
+					<input type="price" placeholder="请输入提现金额" v-model="price"/>
 					<div class="subtitile">可提现额￥{{mydata[1]}}</div>
 					<div class="profit-type" @click="alertshow02">
 						<div>提现到</div>
@@ -109,6 +109,10 @@
 						} 	
 						if(this.style == '') {
 							this.alertshow('请选择提现方式！')
+							return false;
+						}
+						if(this.price<=this.mydata01.pbPfInitialAmount||this.price>=this.mydata01.pbPfMaxAmount){
+							plus.nativeUI.toast('提现金额在'+this.mydata01.pbPfInitialAmount+' ~ '+this.mydata01.pbPfMaxAmount+'之间！')
 							return false;
 						}
 						var that = this

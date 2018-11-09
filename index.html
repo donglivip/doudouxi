@@ -40,7 +40,7 @@
 							</div>
 							<div class="join" @click="opennew('nav',mydata[gid].pbPartnerDeviceId,mydata[gid].pbCommunityPartnerId)">立即进入</div>
 						</div>
-					</div>
+					</div>f
 				</div>
 				<img src="img/go.png" @click="gocenter" class="gocenter" />
 			</div>
@@ -79,8 +79,10 @@
 					adress: '',
 //					lng: 117.2717240000,
 //					lat: 34.2691060000,
-					lng: 118.774048,
-					lat: 31.827822,
+					lng: 121.3524400000,
+					lat: 31.2207200000,
+//					lng: 118.774048,
+//					lat: 31.827822,
 					juli: 0
 				},
 				mounted: function() {
@@ -103,10 +105,10 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
-//					localStorage.setItem('lng', that.lng)
-//					localStorage.setItem('lat', that.lat)
+					localStorage.setItem('lng', that.lng)
+					localStorage.setItem('lat', that.lat)
 					localStorage.setItem('pbCoName','')
-//					that.mapinit(that.lat, that.lng)
+					that.mapinit(that.lat, that.lng)
 				},
 				methods: {
 					gocenter: function() {

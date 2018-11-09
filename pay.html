@@ -177,6 +177,10 @@
 							obj.usCommunityPartnerSaleId = that.mydata[i].usCommunityPartnerSaleId
 							mydata.push(obj)
 						}
+						if(localStorage.getItem('pbCoLimitPrice')>that.allnum){
+							plus.nativeUI.toast('不满足优惠卷使用条件')
+							return false;
+						}
 						var pbOrIsCoupon = ((that.pbCoName == '' || that.pbCoName == null) ? 2 : 1)
 						var pbOrRemarks = (that.pbOrRemarks == '' ? '暂无备注！' : that.pbOrRemarks)
 						var allprice=that.allnum - that.pbCoPrice>=0?(that.allnum - that.pbCoPrice):0
@@ -285,7 +289,7 @@
 										plus.nativeUI.alert("支付成功！", function() {
 
 										});
-									}, function(error) {});
+									}, function(error) {plus.nativeUI.toast('支付失败！')});
 								} else {
 									
 									plus.payment.request(that.channel[1], res, function(result) {
@@ -307,7 +311,7 @@
 
 										});
 									}, function(error) {
-										alert(JSON.stringify(error))
+										plus.nativeUI.toast('支付失败！')
 									});
 								}
 							},

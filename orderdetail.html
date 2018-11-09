@@ -99,7 +99,7 @@
 					<div class="btn" @click="payzhi()" v-if="pbOrStatus==7&&pbOrProblemStatus==2">支付差价</div>
 				</div>
 				<div class="bright">
-					<div class="btn" @click="opennew('rating')" v-if="pbOrStatus==1&&pbOrProblemStatus==1||pbOrStatus==1&&pbOrProblemStatus==6&&pbOrAssessStatus!=1">进行评价</div>
+					<div class="btn" @click="opennew('rating')" v-if="pbOrStatus==1&&pbOrProblemStatus==1||pbOrStatus==1&&pbOrProblemStatus==6&&pbOrAssessStatus!=1||pbOrStatus==1&&pbOrProblemStatus=='null'">进行评价</div>
 					<div class="btn" @click="orderOK()" v-if="pbOrStatus==7&&pbOrProblemStatus==4">撤回投诉</div>
 
 					<div class="btn" @click="opennew('backorder',2)" v-if="pbOrStatus==7&&pbOrProblemStatus==2">退单</div>

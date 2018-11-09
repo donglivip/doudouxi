@@ -42,7 +42,7 @@
 							<div class="middle-sub">满{{val.pbCoLimitPrice}}元可用,线上用户专享</div>
 							<div class="middle-sub">有效期到:{{val.changeEndTime}}</div>
 						</div>
-						<div class="discount-right" @click="change(val.pbCouponId,val.pbCoName,val.pbCoPrice)">
+						<div class="discount-right" @click="change(val.pbCouponId,val.pbCoName,val.pbCoPrice,val.pbCoLimitPrice)">
 							立即使用
 						</div>
 					</div>
@@ -60,10 +60,11 @@
 					pages:0
 				},
 				methods:{
-					change:function(id,pbCoName,price){
+					change:function(id,pbCoName,price,pbCoLimitPrice){
 						localStorage.setItem('pbCouponUserId',id)
 						localStorage.setItem('pbCoName',pbCoName)
 						localStorage.setItem('pbCoPrice',price)
+						localStorage.setItem('pbCoLimitPrice',pbCoLimitPrice)
 						this.opennew('pay')
 					},
 					opennew:function(target,id){

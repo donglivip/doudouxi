@@ -67,19 +67,26 @@
 						});
 					},
 					submit: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting();
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId'),
 							refundIds: [that.mynav[that.myindex].pbOrderRefundId]
 						}
-						console.log({
-								data:JSON.stringify(ajaxjson)
-							})
 						if(localStorage.getItem('ttype')==1){
 							$.ajax({
 								type: "post",
 								url: localStorage.getItem('myurl') + "/user/refundOrder",
 								dataType: 'json',
+								async:false,
 								data: {
 									data:JSON.stringify(ajaxjson)
 								},
@@ -97,6 +104,7 @@
 								type: "post",
 								url: localStorage.getItem('myurl') + "/user/refundTrimOrder",
 								dataType: 'json',
+								async:false,
 								data: {
 									data:JSON.stringify(ajaxjson)
 								},
@@ -110,7 +118,15 @@
 								}
 							});
 						}
-						
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
