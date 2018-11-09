@@ -134,6 +134,15 @@
 								for(var i = 0; i < res.data.list.length; i++) {
 									that.mydata.push(res.data.list[i])
 								}
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						});
 					},

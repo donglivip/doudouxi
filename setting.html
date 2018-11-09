@@ -32,7 +32,7 @@
 				</div>
 				<div class="help-item" @click="opennew('namechange')">
 					<div>昵称</div>
-					<div>{{usNickName=='undefined'?'您还没设置昵称':usNickName}}</div>
+					<div>{{(usNickName=='undefined'||usNickName=='null')?'您还没设置昵称':usNickName}}</div>
 				</div>
 				<div class="help-item" @click="opennew('mchange')">
 					<div>修改密码</div>
@@ -246,7 +246,7 @@
 					},
 				},
 				mounted: function() {
-					if(localStorage.getItem('usHeadImg') == 'undefined') {
+					if(localStorage.getItem('usHeadImg') == 'undefined'||localStorage.getItem('usHeadImg') == 'null') {
 						this.avatar = 'img/Group 10@2x.png'
 					} else {
 						this.avatar = localStorage.getItem('usHeadImg')
