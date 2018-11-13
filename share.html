@@ -110,6 +110,7 @@
 				});
 			}
 			function shareWeixinMessage() {
+				alert(localStorage.getItem('myurl')  + "/share?shareCode="+localStorage.getItem('usShareCode')+"&flag=1")
 				sharewx.send({
 					title:'最好用的洗衣软件 豆豆洗！',
 					content: "懒得洗 就用豆豆洗！",
