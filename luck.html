@@ -20,7 +20,7 @@
 				<div class="head-main">
 					挖宝
 				</div>
-				<div class="head-tab" @click="opennew('discount')">
+				<div class="head-tab" @click="opennew('discount02')">
 					我的奖品
 				</div>
 			</div>
@@ -163,7 +163,7 @@
 						if(this.jname == '很遗憾,您未中奖！' || this.jname == '您的积分不足！') {
 							this.alertshow()
 						} else {
-							this.opennew('discount')
+							this.opennew('discount02')
 						}
 					},
 					go: function() {

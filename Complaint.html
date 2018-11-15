@@ -88,7 +88,6 @@
 							img: that.imglist,
 							content: that.content
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/complainOrder",
@@ -97,7 +96,6 @@
 								data: JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								mui.openWindow({
 									url: './order.html',
 									id: 'order',

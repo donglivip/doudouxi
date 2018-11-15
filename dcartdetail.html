@@ -16,7 +16,7 @@
 					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
 				</div>
 				<div class="head-main">
-					豆豆卡明细
+					{{localStorage.getItem('style')==1?'豆豆卡明细':'收益明细'}}
 				</div>
 				<div class="head-tab">
 					
@@ -47,7 +47,7 @@
 								</div>
 								<div class="order-bottom">
 									<div class="order-price">余额:￥{{val.usUfdBalance}}</div>
-									<div class="order-time">{{val.usUfdCreateTime}}</div>
+									<div class="order-time">{{val.changeCreateTime}}</div>
 								</div>
 							</div>
 						</div>
@@ -126,7 +126,8 @@
 							data:{
 								userId:localStorage.getItem('usUserId'),
 								status:that.navid,
-								pageNum:that.pageNum
+								pageNum:that.pageNum,
+								style:localStorage.getItem('style')
 							},
 							success:function(res){
 								console.log(res)

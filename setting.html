@@ -77,7 +77,7 @@
 				methods: {
 					backlogin: function() {
 						var phone=localStorage.getItem('usPhone')
-						var usPassword=localStorage.getItem('usPassword')
+						var usPassword=localStorage.getItem('usPassword')||''
 						localStorage.clear()
 						localStorage.setItem('usPhone',phone)
 						localStorage.setItem('usPassword',usPassword)

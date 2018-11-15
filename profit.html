@@ -64,6 +64,7 @@
 						this.alertboo = !this.alertboo
 					},
 					opennew: function(target) {
+						localStorage.setItem('style',2)
 						if(this.mydata[1] <= this.mydata01.pbPfInitialAmount&&target=='profitgo') {
 							this.alertshow('余额不足')
 							return false;

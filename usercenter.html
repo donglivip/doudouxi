@@ -29,10 +29,10 @@
 					<img :src="avatar | myimg" class="backimg" />
 					<img :src="avatar | myimg" class="avatar" @click="imgclick" />
 					<div class="name-box">
-						<div class="name">{{(usNickName=='undefined'||usNickName=='null')?'豆豆洗':usNickName}}</div>
+						<div class="name">{{(usNickName=='undefined'||usNickName=='null'||usNickName==null)?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
 							<div class="phone">手机号：{{usPhone}}</div>
-							<div class="state" @click="opennew('rname')">{{usCardId=='undefined'?'未认证':'已认证'}}</div>
+							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId==null)?'未认证':'已认证'}}</div>
 						</div>
 					</div>
 				</div>
@@ -136,6 +136,11 @@
 					mydata:''
 				},
 				methods: {
+					gousCardId:function(){
+						if(this.usCardId=='undefined'||this.usCardId==null){
+							this.opennew('rname')
+						}
+					},
 					myajax:function(){
 						var that=this
 						$.ajax({
@@ -296,7 +301,7 @@
 				},
 				mounted: function() {
 					this.myajax()
-					if(localStorage.getItem('usHeadImg') == 'undefined'||localStorage.getItem('usHeadImg') == 'null') {
+					if(localStorage.getItem('usHeadImg') == 'undefined'||localStorage.getItem('usHeadImg') == 'null'||localStorage.getItem('usHeadImg') == null) {
 						this.avatar = 'img/Group 10@2x.png'
 					} else {
 						this.avatar = localStorage.getItem('usHeadImg')
