@@ -3,7 +3,7 @@
     "id": "H5301349A",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "豆豆洗",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "1.0",/*应用版本名称*/
+        "name": "2.0",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -134,7 +134,9 @@
 	"dependencies": {
 		"pages": {
 			"index.html": {
-				"resources": [],
+				"resources": [
+					"img/Group.png"
+				],
 				"refer": [
 					"order.html",
 					"choiceorde.html",
@@ -441,7 +443,6 @@
 		},
 		"idle": {
 			"resources": [
-				"img/Group.png",
 				"img/index02.png",
 				"img/bottom03.png",
 				"img/bottom01-active.png",

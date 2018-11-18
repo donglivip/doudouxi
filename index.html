@@ -70,6 +70,7 @@
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: ".wrapper",
@@ -88,24 +89,54 @@
 					juli: 0
 				},
 				mounted: function() {
-										localStorage.setItem('myurl','http://47.100.104.251:8081')
-//					localStorage.setItem('myurl', 'http://192.168.2.116')
 					var that = this
-					if(localStorage.getItem('usUserId') == null) {
-						window.location.href = './mlogin.html'
-						return false;
-					}
 					function plusReady() {
-						// 弹出系统等待对话框
-						plus.nativeUI.showWaiting("地图生成中...");
-						plus.geolocation.getCurrentPosition(function(p) {
-							that.lng = p.coords.longitude
-							that.lat = p.coords.latitude
-							localStorage.setItem('lng', p.coords.longitude)
-							localStorage.setItem('lat', p.coords.latitude)
-							that.mapinit(that.lat, that.lng)
-						}, function(e) {
-							alert('Geolocation error: ' + e.message);
+						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/backstageCommunity/selectPbAppVersion",
+								dataType: 'json',
+								success: function(res) {
+									if(res.data.pbAvUserCode!=inf.version){
+										plus.nativeUI.showWaiting("版本更新，下载资源中！");
+									    plus.downloader.createDownload(localStorage.getItem('myurl') + res.data.pbAvUserUrl, {filename:"_doc/update/"}, function(d,status){
+									        if ( status == 200 ) { 
+											    plus.runtime.install(d.filename,{},function(){
+											    	plus.nativeUI.closeWaiting();
+											        plus.nativeUI.alert("应用资源更新完成！点击重启！",function(){
+											            plus.runtime.restart();
+											        });
+											    },function(e){
+											        plus.nativeUI.closeWaiting();
+											        plus.nativeUI.alert("安装wgt文件失败["+e.code+"]："+e.message);
+											    });
+									        } else {
+									            plus.nativeUI.alert("下载wgt失败！");
+									        }
+									    }).start();
+									}else{
+										if(localStorage.getItem('usUserId') == null) {
+											window.location.href = './mlogin.html'
+											return false;
+										}else{
+											// 弹出系统等待对话框
+											plus.nativeUI.showWaiting("地图生成中...");
+											plus.geolocation.getCurrentPosition(function(p) {
+												that.lng = p.coords.longitude
+												that.lat = p.coords.latitude
+												localStorage.setItem('lng', p.coords.longitude)
+												localStorage.setItem('lat', p.coords.latitude)
+												that.mapinit(that.lat, that.lng)
+											}, function(e) {
+												alert('Geolocation error: ' + e.message);
+											});
+										}
+									}
+								},
+								error:function(err){
+									alert(JSON.stringify(err))
+								}
+							});
 						});
 					}
 					if(window.plus) {
@@ -167,12 +198,10 @@
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getDevices",
 							dataType: 'json',
-							async:false,
 							data: {
 								coordinate: that.lng + ',' + that.lat
 							},
 							success: function(res) {
-								alert('请求')
 								if(res.data != null) {
 									that.mydata = res.data
 									for(var i = 0; i < res.data.length; i++) {

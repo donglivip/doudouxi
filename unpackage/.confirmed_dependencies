@@ -8,7 +8,9 @@
       "newcenter.html",
       "mlogin.html"
     ],
-    "resources": []
+    "resources": [
+      "img/Group.png"
+    ]
   },
   "order.html": {
     "refer": [
@@ -256,16 +258,19 @@
     "refer": [
       "saoyisao.html",
       "order.html"
-    ]
+    ],
+    "resources": []
   },
   "backorder.html": {
     "refer": [
       "order.html"
-    ]
+    ],
+    "resources": []
   },
   "userdiscount.html": {
     "refer": [
       "pay.html"
-    ]
+    ],
+    "resources": []
   }
 }
