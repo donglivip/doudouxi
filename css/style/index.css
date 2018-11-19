@@ -1,5 +1,6 @@
 @import url("../reset.css");
 /*主页*/
+
 .gocenter{position: absolute;top: 1rem;right: .2rem;width: .5rem;height: .5rem;}
 .index #container{width: 100%;height: calc(100% + .4rem);}
 .index .lately{background: #096148;color: #fff;font-size: .32rem;padding: .2rem .3rem;border-radius: .4rem;position: absolute;bottom: 1.3rem;left: calc(50% - .95rem);}
@@ -11,3 +12,8 @@
 .index .join{background: #096148;color: #FFFFFF;padding: .15rem .3rem;border-radius: .5rem;}
 .index .star{margin-right: 3rem;width: 1.7rem;}
 .index .inform-inner{width: 100%;height: 100%;background: rgba(0,0,0,.5);position: absolute;bottom: 1rem;left: 0;}
+/*首页活动*/
+.activity{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: rgba(0,0,0,.7);display: flex;align-items: center;justify-content: center;flex-direction: column;z-index: 999;}
+.activity-img{height: 5rem;}
+.activity-hr{width: 1px;background: #FFFFFF;height: .45rem;}
+.activity-close{height: .5rem;}

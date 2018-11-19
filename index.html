@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -12,7 +11,6 @@
 		<script>testinSDK.enable('data','2651500bcca2788527aa9a395cb38e67');testinSDK.enable('bug');</script>-->
 		<title></title>
 	</head>
-
 	<body>
 		<div class="wrapper index">
 			<!--头部-->
@@ -29,6 +27,11 @@
 			</div>
 			<!--中间主体-->
 			<div class="main">
+				<div class="activity" v-if="activityboo">
+					<img src="img/1.png" class="activity-img"/>
+					<div class="activity-hr"></div>
+					<img src="img/closewhite.png" class="activity-close" @click="activityclose"/>
+				</div>
 				<div id="container"></div>
 				<div class="lately" v-show='!informbooo' @click="informshow(1)">最近云柜</div>
 				<div class="inform-inner" v-if='informbooo' @click="informshow">
@@ -86,7 +89,8 @@
 					//					lat: 31.2207200000,
 					//					lng: 118.774048,
 					//					lat: 31.827822,
-					juli: 0
+					juli: 0,
+					activityboo:true
 				},
 				mounted: function() {
 					var that = this
@@ -97,9 +101,10 @@
 								url: localStorage.getItem('myurl') + "/backstageCommunity/selectPbAppVersion",
 								dataType: 'json',
 								success: function(res) {
+									console.log(JSON.stringify(res))
 									if(res.data.pbAvUserCode!=inf.version){
-										plus.nativeUI.showWaiting("版本更新，下载资源中！");
-									    plus.downloader.createDownload(localStorage.getItem('myurl') + res.data.pbAvUserUrl, {filename:"_doc/update/"}, function(d,status){
+										plus.nativeUI.showWaiting("下载更新资源包,请勿关闭页面！");
+									    plus.downloader.createDownload('http://console.pingfanren.com.cn:8081' + res.data.pbAvUserUrl, {filename:"_doc/update/"}, function(d,status){
 									        if ( status == 200 ) { 
 											    plus.runtime.install(d.filename,{},function(){
 											    	plus.nativeUI.closeWaiting();
@@ -108,10 +113,11 @@
 											        });
 											    },function(e){
 											        plus.nativeUI.closeWaiting();
-											        plus.nativeUI.alert("安装wgt文件失败["+e.code+"]："+e.message);
+											        plus.nativeUI.alert("安装更新包失败["+e.code+"]："+e.message);
 											    });
 									        } else {
-									            plus.nativeUI.alert("下载wgt失败！");
+									        	plus.nativeUI.closeWaiting();
+									            plus.nativeUI.alert("下载更新包失败！");
 									        }
 									    }).start();
 									}else{
@@ -147,6 +153,9 @@
 					localStorage.setItem('pbCoName', '')
 				},
 				methods: {
+					activityclose:function(){
+						this.activityboo=!this.activityboo
+					},
 					gocenter: function() {
 						this.map.setZoomAndCenter(17, [this.lng, this.lat]);
 					},
