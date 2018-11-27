@@ -41,7 +41,7 @@
 						<input type="number" placeholder="请输入短信验证码" v-model="code" />
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入新密码" v-model="pwd" />
+						<input type="text" placeholder="请输入新密码" v-model="pwd" />
 					</div>
 					<div class="login-type">
 						<a href="mlogin.html">密码账户登录</a>
@@ -88,7 +88,11 @@
 					},
 					login: function() {
 						var that = this
-						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode || that.pwd == '') {
+						if(that.pwd == ''){
+							that.alertshow('密码不能为空！！')
+							return false;
+						}
+						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode ) {
 							that.alertshow('账号或验证码不正确！')
 							return false;
 						}
@@ -108,8 +112,8 @@
 									that.alertshow(res.msg)
 								}
 							},
-							error: function(err) {
-								console.log(JSON.stringify(err))
+							error:function(err){
+								alert('连接失败，请检查网络后再试！')
 							}
 						});
 					},
@@ -117,6 +121,10 @@
 						var set
 						that = this
 						if(this.num == '获取验证码') {
+							if(!(/^1[3|4|5|8|9][0-9]\d{4,8}$/.test(that.usCpPhone))) {
+								that.alertshow("手机号格式不正确!");
+								return false;
+							}
 							var that = this
 							that.num = 60
 							set = setInterval(function() {
@@ -148,6 +156,9 @@
 									}
 									that.mycode = res.data
 
+								},
+								error:function(err){
+									alert('连接失败，请检查网络后再试！')
 								}
 							});
 

@@ -31,10 +31,10 @@
 						<input type="number" placeholder="请输旧密码"/>
 					</div>-->
 					<div class="input-box">
-						<input type="text" placeholder="请输入密码" v-model="usPayPassword" />
+						<input type="password" placeholder="请输入密码" v-model="usPayPassword" />
 					</div>
 					<div class="input-box">
-						<input type="text" placeholder="请再次输入新密码" v-model="usPayPassword01" />
+						<input type="password" placeholder="请再次输入新密码" v-model="usPayPassword01" />
 					</div>
 					<div class="login" @click="login">立即修改</div>
 				</div>
@@ -81,7 +81,7 @@
 								console.log(res)
 								if(res.status == 200) {
 									plus.nativeUI.toast('修改完成!')
-									window.history.back()
+									mui.back()
 								} else {
 									that.alertshow('信息提交失败')
 								}

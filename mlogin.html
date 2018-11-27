@@ -25,9 +25,9 @@
 			<!--中间主体-->
 			<div class="main big-main">
 				<div class="main-inner">
-					<div class="titile">账号密码登录  <small style="font-size: .2rem;">(首次注册请使用快捷登陆)</small></div>
+					<div class="titile">账号密码登录  <small style="font-size: .2rem;">(首次注册请使用快捷登录)</small></div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号" v-model="usCpPhone"/>
+						<input type="tel" placeholder="请输入手机号" v-model="usCpPhone" @input="inputchange" pattern="[0-9]*"/>
 					</div>
 					<div class="input-box">
 						<input :type="ptype" placeholder="请输入密码" v-model="usCpPassword"/>
@@ -47,13 +47,13 @@
 					</div>
 					<div class="login" @click="login" style="margin: 0;">登录</div>
 					<div class="login-type">
-						<div @click="opennew('Agreement','')">登陆即视为同意 	<strong>《豆豆洗注册协议》</strong></div>
+						<div >登陆即视为同意 	<strong @click="opennew('Agreement','')">《豆豆洗注册协议》</strong></div>
 					</div>
 					
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<a href="javascript:void(0)" @click="qqlogin"><img src="img/QQ@2x.png"/></a>
+							<!--<a href="javascript:void(0)" @click="qqlogin"><img src="img/QQ@2x.png"/></a>-->
 							<a href="javascript:void(0)" @click="authorize"><img src="img/wxin.png"/></a>
 						</div>
 					</div>
@@ -84,6 +84,10 @@
 					pwdboo:true
 				},
 				methods:{
+					inputchange:function(){
+						this.usCpPhone=this.usCpPhone.replace(/[^\d\.]/g,'')
+						this.usCpPhone=this.usCpPhone.replace(/\./g,"")
+					},
 					alertshow:function(text){
 						this.alerttext=text
 						this.alertboo=!this.alertboo
@@ -142,6 +146,9 @@
 								}else{
 									that.alertshow(res.msg)
 								}
+							},
+							error:function(err){
+								alert('连接失败，请检查网络后再试！')
 							}
 						});
 						function plusReady(){

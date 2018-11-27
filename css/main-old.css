@@ -49,8 +49,8 @@
 .order .nav-text{margin: 0 .1rem 0 .2rem;font-size: .28rem;line-height: .3rem;height: .3rem;}
 .order .order-main{margin-top: .2rem;height: calc(100% - 1rem);overflow-y: scroll;position: relative;}
 .order .order-box{display: flex;padding: .2rem 0;border-bottom: 1px solid #F4F4F4;}
-.order .order-box .img-box{width: 1.4rem;height: 1.4rem;display: flex;align-items: center;justify-content: center;}
-.order .order-box img{height: 1.4rem;margin: 0 .2rem;}
+.order .order-box .img-box{width: 1.4rem;height: 1.4rem;display: flex;align-items: center;justify-content: center;overflow: hidden;}
+.order .order-box img{max-width: 100%;max-height: 100%;}
 .order .order-title{display: flex;margin-bottom: .3rem;align-items: center;justify-content: space-between;}
 .order .order-h1{font-size: .3rem;white-space: nowrap;overflow: hidden;width: 4rem;}
 .order .order-right{flex: 1;margin-right: .2rem;display: flex;flex-direction: column;justify-content: space-between;}

@@ -236,7 +236,7 @@
 									alert('操作失败！')
 								}
 							},
-							error:function(res){
+							error: function(res) {
 								console.log(JSON.stringify(res))
 							}
 						});
@@ -298,7 +298,6 @@
 								status: that.navid,
 								pageNum: that.pageNum
 							}
-							console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/getOrders",
@@ -332,7 +331,7 @@
 					localStorage.setItem('pbCoPrice', '')
 					localStorage.setItem('pbCoName', '')
 					localStorage.setItem('cartdata', '')
-					localStorage.setItem('pbCoLimitPrice','')
+					localStorage.setItem('pbCoLimitPrice', '')
 					var that = this
 					// 1. 获取支付通道
 					function plusReady() {
@@ -394,7 +393,7 @@
 							return '配送中'
 						} else if(value.pbOrStatus == 13 || value.pbOrStatus == 14 || value.pbOrStatus == 15) {
 							return '滞留中'
-						} else if( value.pbOrStatus == 16) {
+						} else if(value.pbOrStatus == 16) {
 							return '正在暂存点'
 						} else {
 							return '洗涤中'

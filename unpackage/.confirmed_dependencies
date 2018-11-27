@@ -150,7 +150,8 @@
       "pchange.html",
       "wlogin.html",
       "namechange.html",
-      "mlogin.html"
+      "mlogin.html",
+      "mchange.html"
     ],
     "resources": []
   },
@@ -200,7 +201,8 @@
       "index.html",
       "plogin.html",
       "wlogin.html",
-      "setting.html"
+      "setting.html",
+      "Agreement.html"
     ],
     "resources": [
       "css/main.css"
@@ -237,7 +239,8 @@
     ],
     "refer": [
       "index.html",
-      "mlogin.html"
+      "mlogin.html",
+      "Agreement.html"
     ]
   },
   "orderdetail.html": {

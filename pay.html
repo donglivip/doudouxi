@@ -179,6 +179,7 @@
 						}
 						if(localStorage.getItem('pbCoLimitPrice')>that.allnum){
 							plus.nativeUI.toast('不满足优惠卷使用条件')
+							plus.nativeUI.closeWaiting()
 							return false;
 						}
 						var pbOrIsCoupon = ((that.pbCoName == '' || that.pbCoName == null) ? 2 : 1)
@@ -270,7 +271,6 @@
 								data: ajaxjson
 							},
 							success: function(res) {
-								console.log(res.data[0])
 								if(index == 1) {
 									plus.payment.request(that.channel[0], res.data[0], function(result) {
 										//清空购物车

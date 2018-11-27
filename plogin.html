@@ -21,7 +21,7 @@
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
+					
 				</div>
 				<div class="head-main">
 					登录
@@ -36,24 +36,24 @@
 					<div class="titile">手机快捷登录 </div>
 					<div class="subtitle">未注册的手机号将自动创建豆豆洗账号 </div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur" />
+						<input type="tel" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur" />
 						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
 					</div>
 					<div class="input-box">
 						<input type="number" placeholder="请输入短信验证码" v-model="code" />
 					</div>
 					<div class="login-type">
-						<a href="mlogin.html">密码账户登录</a>
+						<a href="mlogin.html">密码账号登录</a>
 					</div>
 					<div class="login" @click="login()">登录</div>
 					<div class="login-type">
-						<div @click="opennew('Agreement','')">登陆即视为同意 <strong>《豆豆洗注册协议》</strong></div>
+						<div>登陆即视为同意 <strong @click="opennew('Agreement','')">《豆豆洗注册协议》</strong></div>
 					</div>
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<a href=""><img src="img/QQ@2x.png" /></a>
-							<a href=""><img src="img/wxin.png" /></a>
+							<!--<a href=""><img src="img/QQ@2x.png" /></a>-->
+							<a href="javascript:void(0)" @click="authorize"><img src="img/wxin.png"/></a>
 						</div>
 					</div>
 					<div class="alert" v-if="alertboo" @click="alertshow('')">
@@ -78,7 +78,9 @@
 					mycode: '',
 					phoboo: false,
 					alertboo: false,
-					alerttext: ''
+					alerttext: '',
+					auths:'',
+					aweixin:''
 				},
 				methods: {
 					alertshow: function(text) {
@@ -86,17 +88,26 @@
 						this.alertboo = !this.alertboo
 					},
 					inputblur: function() {
+						this.usCpPhone=this.usCpPhone.replace(/[^\d\.]/g,'')
+						this.usCpPhone=this.usCpPhone.replace(/\./g,"")
 						var that = this
-						var myreg = /^[1][0-9]{10}$/;
-						if(!myreg.test(that.usCpPhone)) {
-							that.phoboo = false
-						} else {
-							that.phoboo = true
+						if(that.mycode==''){
+							var myreg = /^[1][0-9]{10}$/;
+							if(!myreg.test(that.usCpPhone)) {
+								that.phoboo = false
+							} else {
+								that.phoboo = true
+							}
+						}else if(that.usCpPhone.length!=11){
+							plus.nativeUI.toast('手机号发生变化，验证码失效！')
+							that.mycode=''
+							that.num = '获取验证码'
+							that.code=''
 						}
+						
 					},
 					login: function() {
 						var that = this
-
 						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.showWaiting("登陆中...");
@@ -124,7 +135,6 @@
 								code: that.usCpPhone
 							},
 							success: function(res) {
-								console.log(res)
 								if(res.status == 200) {
 									if(res.data.usStatus == 1) {
 										localStorage.setItem('usPhone', res.data.usPhone)
@@ -163,10 +173,18 @@
 						var set
 						that = this
 						if(this.num == '获取验证码') {
+							if(!(/^1[3|4|5|8|9][0-9]\d{4,8}$/.test(that.usCpPhone))) {
+								that.alertshow("手机号格式不正确!");
+								return false;
+							}
 							that.num = 60
 							set = setInterval(function() {
 								if(that.num != 1) {
-									that.num--
+									if(that.num=='获取验证码'){
+										clearInterval(set)
+									}else{
+										that.num--
+									}
 								} else {
 									clearInterval(set)
 									that.num = '获取验证码'
@@ -183,7 +201,9 @@
 								success: function(res) {
 									console.log(res)
 									that.mycode = res.data
-
+								},
+								error:function(err){
+									that.alertshow('请求失败，请检查网络再试!')
 								}
 							});
 						}
@@ -192,12 +212,68 @@
 						mui.openWindow({
 							url: './' + target + '.html',
 							id: target,
-							createNew:true
+							createNew: true
 						})
+					},
+					authorize:function(){
+						var that=this
+						var s = that.auths[0];
+//						if ( s.authResult!=undefined ) {
+							s.login( function(e){
+								// 获取登录操作结果
+								console.log( "登录认证成功："+JSON.stringify(e.target.userInfo) );
+								$.ajax({
+									type:"post",
+									url:localStorage.getItem('myurl')+"/user/registerUser",
+									dataType:'json',
+									data:{
+										index:3,
+										code:e.target.userInfo.openid
+									},
+									success:function(res){
+										console.log(JSON.stringify(res))
+										if(res.status==200){
+											if(res.data.usStatus==1){
+												if(res.data.usPhone!=null||res.data.usPhone!=undefined){
+													localStorage.setItem('usPhone',res.data.usPhone)
+												}else{
+													localStorage.setItem('usPhone','微信用户')
+												}
+												localStorage.setItem('usShareCode',res.data.usShareCode)
+												localStorage.setItem('usUserId',res.data.usUserId)
+												localStorage.setItem('usHeadImg',res.data.usHeadImg)
+												localStorage.setItem('usNickName',e.target.userInfo.nickname)
+												window.location.href='./index.html'
+											}else{
+												that.alertshow('您的账户已被冻结！')
+											}
+										}else{
+											that.alertshow(res.msg)
+										}
+									},error:function(err){
+										console.log(JSON.stringify(err))
+									}
+								});
+							}, function(e){
+								console.log( "登录认证失败！" );
+							}, {} );
+//						}else{
+//							console.log('wsb')
+//						}
 					}
 				},
 				mounted: function() {
-
+					var that=this
+					// 监听plusready事件  
+					document.addEventListener('plusready', function(){
+						// 扩展API加载完毕，现在可以正常调用扩展API
+						plus.oauth.getServices( function(services){
+							that.auths = services;
+							that.aweixin = services['weixin'];
+						}, function(e){
+							alert("获取分享服务列表失败："+e.message+" - "+e.code);
+						} );
+					}, false );
 				}
 			})
 		</script>

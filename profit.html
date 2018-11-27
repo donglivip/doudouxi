@@ -33,7 +33,7 @@
 				<div class="proce">提现扣除{{mydata01.pbPfPercentage}}％的手续费</div>
 				<div class="withdraw" @click="opennew('profitgo')">提现</div>
 				<div class="proce proce02">点击提现，即代表您已同意
-					<a href="javascript:void(0)">《提现说明》</a>
+					<a href="javascript:void(0)" @click="opennew('Agreement')">《提现说明》</a>
 				</div>
 			</div>
 			<div class="alert" v-if="alertboo" @click="alertshow('')">
@@ -84,7 +84,6 @@
 								userId: localStorage.getItem('usUserId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 							}
 						});
@@ -98,7 +97,7 @@
 							success: function(res) {
 								console.log(res)
 								if(res.data != null) {
-									that.mydata = res.data
+									that.mydata01 = res.data
 								}
 							}
 						});

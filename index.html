@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -7,10 +8,9 @@
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://webapi.amap.com/maps?v=1.4.8&key=68aa6ce0aa3da10b36c6baed4fb2bc7a"></script>
-		<!--<script type="text/javascript" crossorigin="anonymous" src="https://mirror.testin.cn/testin-sdk-latest.min.js"></script>
-		<script>testinSDK.enable('data','2651500bcca2788527aa9a395cb38e67');testinSDK.enable('bug');</script>-->
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper index">
 			<!--头部-->
@@ -28,9 +28,9 @@
 			<!--中间主体-->
 			<div class="main">
 				<div class="activity" v-if="activityboo">
-					<img src="img/1.png" class="activity-img"/>
+					<img src="img/1.png" class="activity-img" />
 					<div class="activity-hr"></div>
-					<img src="img/closewhite.png" class="activity-close" @click="activityclose"/>
+					<img src="img/closewhite.png" class="activity-close" @click="activityclose" />
 				</div>
 				<div id="container"></div>
 				<div class="lately" v-show='!informbooo' @click="informshow(1)">最近云柜</div>
@@ -45,7 +45,7 @@
 							</div>
 							<div class="join" @click="opennew('nav',mydata[gid].pbPartnerDeviceId,mydata[gid].pbCommunityPartnerId)">立即进入</div>
 						</div>
-					</div>f
+					</div>
 				</div>
 				<img src="img/go.png" @click="gocenter" class="gocenter" />
 			</div>
@@ -83,14 +83,14 @@
 					gid: 0,
 					mydata: '',
 					adress: '',
-					lng: 117.2717240000,
-					lat: 34.2691060000,
+					//					lng: 117.2717240000,
+					//					lat: 34.2691060000,
 					//					lng: 121.3524400000,
 					//					lat: 31.2207200000,
-					//					lng: 118.774048,
-					//					lat: 31.827822,
+					lng: 118.774048,
+					lat: 31.827822,
 					juli: 0,
-					activityboo:true
+					activityboo: false
 				},
 				mounted: function() {
 					var that = this
@@ -101,30 +101,31 @@
 								url: localStorage.getItem('myurl') + "/backstageCommunity/selectPbAppVersion",
 								dataType: 'json',
 								success: function(res) {
-									console.log(JSON.stringify(res))
-									if(res.data.pbAvUserCode!=inf.version){
+									if(res.data.pbAvUserCode != inf.version) {
 										plus.nativeUI.showWaiting("下载更新资源包,请勿关闭页面！");
-									    plus.downloader.createDownload('http://console.pingfanren.com.cn:8081' + res.data.pbAvUserUrl, {filename:"_doc/update/"}, function(d,status){
-									        if ( status == 200 ) { 
-											    plus.runtime.install(d.filename,{},function(){
-											    	plus.nativeUI.closeWaiting();
-											        plus.nativeUI.alert("应用资源更新完成！点击重启！",function(){
-											            plus.runtime.restart();
-											        });
-											    },function(e){
-											        plus.nativeUI.closeWaiting();
-											        plus.nativeUI.alert("安装更新包失败["+e.code+"]："+e.message);
-											    });
-									        } else {
-									        	plus.nativeUI.closeWaiting();
-									            plus.nativeUI.alert("下载更新包失败！");
-									        }
-									    }).start();
-									}else{
+										plus.downloader.createDownload(localStorage.getItem('myurl') + res.data.pbAvUserUrl, {
+											filename: "_doc/update/"
+										}, function(d, status) {
+											if(status == 200) {
+												plus.runtime.install(d.filename, {}, function() {
+													plus.nativeUI.closeWaiting();
+													plus.nativeUI.alert("应用资源更新完成！点击重启！", function() {
+														plus.runtime.restart();
+													});
+												}, function(e) {
+													plus.nativeUI.closeWaiting();
+													plus.nativeUI.alert("安装更新包失败[" + e.code + "]：" + e.message);
+												});
+											} else {
+												plus.nativeUI.closeWaiting();
+												plus.nativeUI.alert("下载更新包失败！");
+											}
+										}).start();
+									} else {
 										if(localStorage.getItem('usUserId') == null) {
 											window.location.href = './mlogin.html'
 											return false;
-										}else{
+										} else {
 											// 弹出系统等待对话框
 											plus.nativeUI.showWaiting("地图生成中...");
 											plus.geolocation.getCurrentPosition(function(p) {
@@ -134,12 +135,14 @@
 												localStorage.setItem('lat', p.coords.latitude)
 												that.mapinit(that.lat, that.lng)
 											}, function(e) {
-												alert('Geolocation error: ' + e.message);
+												plus.nativeUI.alert('请检查手机网络或者位置服务开关是否打开后！',function(){
+													plusReady()
+												},'定位失败','点击重试')
 											});
 										}
 									}
 								},
-								error:function(err){
+								error: function(err) {
 									alert(JSON.stringify(err))
 								}
 							});
@@ -153,8 +156,8 @@
 					localStorage.setItem('pbCoName', '')
 				},
 				methods: {
-					activityclose:function(){
-						this.activityboo=!this.activityboo
+					activityclose: function() {
+						this.activityboo = !this.activityboo
 					},
 					gocenter: function() {
 						this.map.setZoomAndCenter(17, [this.lng, this.lat]);
@@ -169,7 +172,12 @@
 						})
 					},
 					informshow: function() {
-						this.informbooo = !this.informbooo
+						if(this.mydata != '') {
+							this.informbooo = !this.informbooo
+						} else {
+							plus.nativeUI.toast('您附近暂无云柜！')
+						}
+
 					},
 					mapinit: function(lng, lat) {
 						var that = this

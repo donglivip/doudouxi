@@ -82,7 +82,6 @@
 							evaluateIds:[that.mynav[that.windex].pbLaundryEvaluateContentId],
 							content:that.content
 						}
-						console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/evaluateOrder",
@@ -91,7 +90,7 @@
 								data:JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
-								console.log(res)
+								plus.nativeUI.toast('评价成功！')
 								mui.openWindow({
 									url: './order.html',
 									id: 'order',

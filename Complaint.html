@@ -40,7 +40,7 @@
 						上传图片
 					</div>
 					<div class="img-big" style="display: flex;align-items: center;flex-wrap: wrap;">
-						<div class="img-box">
+						<div class="img-box" v-if='imglist.length<5'>
 							<img src="img/upload.png" @click="imgclick" />
 						</div>
 						<img :src="val | myimg" v-for="val in imglist" style="width: 1.2rem;height: 1.2rem;border-radius: .2rem;" />
@@ -75,7 +75,6 @@
 							url: localStorage.getItem('myurl') + "/share/getOrderComplain",
 							dataType: 'json',
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								that.mynav = res.data
 							}
 						});
@@ -96,6 +95,7 @@
 								data: JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
+								plus.nativeUI.toast('投诉完成')
 								mui.openWindow({
 									url: './order.html',
 									id: 'order',
@@ -189,7 +189,6 @@
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
 									var files = json.data;
-									alert(files)
 									that.imglist.push(files)
 									wt.close();
 								} else {
@@ -213,7 +212,6 @@
 				},
 				mounted: function() {
 					this.myajax()
-					localStorage.setItem('myurl','http://27.54.248.14:8080')
 				},
 				filters:{
 					myimg: function(value) {
