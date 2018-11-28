@@ -32,7 +32,7 @@
 						<div class="name">{{(usNickName=='undefined'||usNickName=='null'||usNickName==null)?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
 							<div class="phone">手机号：{{usPhone}}</div>
-							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId==null)?'未认证':'已认证'}}</div>
+							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId==null||usCardId=='')?'未认证':'已认证'}}</div>
 						</div>
 					</div>
 				</div>
@@ -137,9 +137,9 @@
 				},
 				methods: {
 					gousCardId:function(){
-						if(this.usCardId=='undefined'||this.usCardId==null){
+//						if(this.usCardId=='undefined'||this.usCardId==null){
 							this.opennew('rname')
-						}
+//						}
 					},
 					myajax:function(){
 						var that=this

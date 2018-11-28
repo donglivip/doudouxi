@@ -18,8 +18,8 @@
 				<div class="head-main">
 					选择优惠券
 				</div>
-				<div class="head-tab">
-					
+				<div class="head-tab" @click="clear">
+					放弃优惠
 				</div>
 			</div>
 			<!--中间主体-->
@@ -60,6 +60,13 @@
 					pages:0
 				},
 				methods:{
+					clear:function(){
+						localStorage.setItem('pbCoPrice', '')
+						localStorage.setItem('pbCoName', '')
+						localStorage.setItem('pbCoLimitPrice', '')
+						localStorage.setItem('pbCouponUserId','')
+						this.opennew('pay')
+					},
 					change:function(id,pbCoName,price,pbCoLimitPrice){
 						localStorage.setItem('pbCouponUserId',id)
 						localStorage.setItem('pbCoName',pbCoName)

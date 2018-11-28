@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,18 +9,19 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+
 	<body>
 		<div class="wrapper profit backorder">
 			<!--头部-->
 			<div class="header">
 				<div class="head-tab mui-action-back">
-					<img src="img/Arrow_Simple_left Copy@2x.png" class="back"/>
+					<img src="img/Arrow_Simple_left Copy@2x.png" class="back" />
 				</div>
 				<div class="head-main">
 					评价
 				</div>
 				<div class="head-tab">
-					
+
 				</div>
 			</div>
 			<!--中间主体-->
@@ -32,8 +34,8 @@
 						<div :class="windex==index?'active':''" v-for="(val,index) in mynav" @click="typechange(index)">{{val.pbLecContent}}</div>
 					</div>
 					<div class="star-box">
-						<img src="img/Group 5@2x.png" v-for="(val,index) in star" @click="starchange(index)"/>
-						<img src="img/Group 6@2x.png" v-for="(val,index) in (5-star)" @click="starchange(star+index+1)"/>
+						<img src="img/Group 5@2x.png" v-for="(val,index) in star" @click="starchange(index)" />
+						<img src="img/Group 6@2x.png" v-for="(val,index) in (5-star)" @click="starchange(star+index+1)" />
 					</div>
 					<textarea v-model="content" placeholder="请输入评价内容"></textarea>
 				</div>
@@ -43,24 +45,24 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			var myvue=new Vue({
-				el:'.wrapper',
-				data:{
-					star:3,
-					mynav:[],
+			var myvue = new Vue({
+				el: '.wrapper',
+				data: {
+					star: 3,
+					mynav: [],
 					orderId: localStorage.getItem('orderId'),
-					server:localStorage.getItem('myurl')+'/user/uploadComplaintImg',
-					imglist:[],
-					files:[],
-					windex:0,
-					content:''
+					server: localStorage.getItem('myurl') + '/user/uploadComplaintImg',
+					imglist: [],
+					files: [],
+					windex: 0,
+					content: ''
 				},
-				methods:{
-					typechange:function(index){
-						this.windex=index
+				methods: {
+					typechange: function(index) {
+						this.windex = index
 					},
-					starchange:function(index){
-						this.star=index
+					starchange: function(index) {
+						this.star = index
 					},
 					myajax: function() {
 						var that = this
@@ -79,15 +81,15 @@
 						var ajaxjson = {
 							orderId: localStorage.getItem('orderId'),
 							level: that.star,
-							evaluateIds:[that.mynav[that.windex].pbLaundryEvaluateContentId],
-							content:that.content
+							evaluateIds: [that.mynav[that.windex].pbLaundryEvaluateContentId],
+							content: that.content
 						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/evaluateOrder",
 							dataType: 'json',
 							data: {
-								data:JSON.stringify(ajaxjson)
+								data: JSON.stringify(ajaxjson)
 							},
 							success: function(res) {
 								plus.nativeUI.toast('评价成功！')
@@ -186,7 +188,6 @@
 									//上传文件的信息
 									var files = json.data;
 									that.imglist.push(files)
-									console.log(JSON.stringify(that.imglist))
 									wt.close();
 								} else {
 									alert("上传失败：" + status);
@@ -207,10 +208,11 @@
 						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
-				mounted:function(){
+				mounted: function() {
 					this.myajax()
 				}
 			})
 		</script>
 	</body>
+
 </html>

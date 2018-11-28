@@ -41,7 +41,6 @@
 	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		$(function() {
 			var barcode = null;
 			$('.alert').hide()
 
@@ -58,7 +57,7 @@
 				}
 			}
 
-			function create() {
+			function plusReady() {
 				if(!barcode) {
 					barcode = plus.barcode.create('barcode', [plus.barcode.QR], {
 						top: '0',
@@ -132,10 +131,11 @@
 			$('#true').click(function() {
 				alertboo('')
 			})
-			document.addEventListener("plusready", function() {
-				create()
-			}, false);
-		})
+			if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 	</script>
 
 </html>

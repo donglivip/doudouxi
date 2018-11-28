@@ -41,16 +41,16 @@
 					</div>
 				</div>
 				<!--名单筛选-->
-				<div class="order-nav" @click="navshow(typetext)">
+				<!--<div class="order-nav" @click="navshow(typetext)">
 					<div class="nav-text">{{typetext}}</div>
 					<img src="img/Arrow_right@2x.png" />
-				</div>
-				<div class="order-alert" v-show="navboo" @click.stop="navshow(typetext,navid)">
+				</div>-->
+				<!--<div class="order-alert" v-show="navboo" @click.stop="navshow(typetext,navid)">
 					<div class="nav-tab" @click.stop="navshow(val.text,val.id)" v-for="val in navbox">
 						<div>{{val.text}}</div>
 						<img src="img/Check@2x.png" v-show="navid==val.id" />
 					</div>
-				</div>
+				</div>-->
 				<div class="order-main">
 					<div class="main-inner">
 						<div class="order-box" v-for="val in mydata01">

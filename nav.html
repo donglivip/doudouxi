@@ -149,7 +149,7 @@
 							plus.nativeUI.toast('您还没有选择衣物呢!')
 							return false;
 						}
-						if(localStorage.getItem('usPhone')=='微信用户'){
+						if(localStorage.getItem('usPhone')=='微信用户'||localStorage.getItem('usPhone')==''||localStorage.getItem('usPhone')==null){
 							plus.nativeUI.toast('您还没有绑定手机号!')
 							this.opennew('pphone')
 							return false;

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/style/order.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
@@ -27,7 +27,9 @@
 				<div class="order-main" style="height: calc(100% - .2rem);" @scroll="myscroll">
 					<div class="main-inner">
 						<div class="order-box" @click="opennew('orderdetail',val.pbOrderId,val.pbOrProblemStatus,val.pbOrStatus)" v-for="val in mydata">
-							<img :src="val.pbOrComplainImg | myimg" />
+							<div class="img-box">
+								<img :src="val.pbOrComplainImg | myimg" />
+							</div>
 							<div class="order-right">
 								<div class="order-title">
 									<div class="order-h1">

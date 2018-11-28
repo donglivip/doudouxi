@@ -3,7 +3,7 @@
     "id": "H5301349A",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "豆豆洗",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "2.4",/*应用版本名称*/
+        "name": "2.5.2",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -273,7 +273,8 @@
 				"resources": [],
 				"refer": [
 					"usercenter.html",
-					"luck-my.html"
+					"luck-my.html",
+					"discount02.html"
 				],
 				"priority": 0
 			},

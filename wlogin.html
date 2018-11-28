@@ -70,16 +70,27 @@
 					pwd: '',
 					alertboo: false,
 					alerttext: '',
-					phoboo: false
+					phoboo: false,
+					set:''
 				},
 				methods: {
 					inputblur: function() {
+						this.usCpPhone = this.usCpPhone.replace(/[^\d\.]/g, '')
+						this.usCpPhone = this.usCpPhone.replace(/\./g, "")
 						var that = this
-						var myreg = /^[1][0-9]{10}$/;
-						if(!myreg.test(that.usCpPhone)) {
-							that.phoboo = false
-						} else {
-							that.phoboo = true
+						if(that.mycode == '') {
+							var myreg = /^[1][0-9]{10}$/;
+							if(!myreg.test(that.usCpPhone)) {
+								that.phoboo = false
+							} else {
+								that.phoboo = true
+							}
+						} else if(that.usCpPhone.length != 11) {
+							clearInterval(that.set)
+							plus.nativeUI.toast('手机号发生变化，验证码失效！')
+							that.code = ''
+							that.num = '获取验证码'
+							that.code = ''
 						}
 					},
 					alertshow: function(text) {
@@ -88,11 +99,11 @@
 					},
 					login: function() {
 						var that = this
-						if(that.pwd == ''){
+						if(that.pwd == '') {
 							that.alertshow('密码不能为空！！')
 							return false;
 						}
-						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode ) {
+						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode) {
 							that.alertshow('账号或验证码不正确！')
 							return false;
 						}
@@ -105,33 +116,30 @@
 								usPhone: that.usCpPhone
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								if(res.status == 200) {
 									window.location.href = './mlogin.html'
 								} else {
 									that.alertshow(res.msg)
 								}
 							},
-							error:function(err){
+							error: function(err) {
 								alert('连接失败，请检查网络后再试！')
 							}
 						});
 					},
 					addcode: function() {
-						var set
 						that = this
 						if(this.num == '获取验证码') {
 							if(!(/^1[3|4|5|8|9][0-9]\d{4,8}$/.test(that.usCpPhone))) {
 								that.alertshow("手机号格式不正确!");
 								return false;
 							}
-							var that = this
 							that.num = 60
-							set = setInterval(function() {
+							that.set = setInterval(function() {
 								if(that.num != 1) {
 									that.num--
 								} else {
-									clearInterval(set)
+									clearInterval(that.set)
 									that.num = '获取验证码'
 								}
 							}, 1000)
@@ -143,11 +151,15 @@
 									usCpPhone: that.usCpPhone
 								},
 								success: function(res) {
-									console.log(res)
-
+									that.mycode = res.data
 									function plusReady() {
 										// 显示自动消失的提示消息
-										plus.nativeUI.toast("验证码已发送！");
+										if(res.status==200){
+											plus.nativeUI.toast("验证码已发送！");
+										}else{
+											plus.nativeUI.toast("请求过于频繁，请稍后再试！");
+										}
+										
 									}
 									if(window.plus) {
 										plusReady();
@@ -157,7 +169,7 @@
 									that.mycode = res.data
 
 								},
-								error:function(err){
+								error: function(err) {
 									alert('连接失败，请检查网络后再试！')
 								}
 							});

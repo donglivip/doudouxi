@@ -82,6 +82,8 @@
 									localStorage.setItem('usPhone', that.usPayPassword)
 									plus.nativeUI.toast('修改完成!')
 									mui.back()
+								}else if(res.status == 400){
+									that.alertshow('手机号已被注册！')
 								} else {
 									that.alertshow('信息提交失败')
 								}

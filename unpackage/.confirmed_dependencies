@@ -127,7 +127,8 @@
   "luck.html": {
     "refer": [
       "usercenter.html",
-      "luck-my.html"
+      "luck-my.html",
+      "discount02.html"
     ],
     "resources": []
   },

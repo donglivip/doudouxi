@@ -40,7 +40,7 @@
 						上传图片
 					</div>
 					<div class="img-big" style="display: flex;align-items: center;flex-wrap: wrap;">
-						<div class="img-box" v-if='imglist.length<5'>
+						<div class="img-box" v-if='imglist.length<4'>
 							<img src="img/upload.png" @click="imgclick" />
 						</div>
 						<img :src="val | myimg" v-for="val in imglist" style="width: 1.2rem;height: 1.2rem;border-radius: .2rem;" />
