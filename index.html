@@ -122,7 +122,7 @@
 											}
 										}).start();
 									} else {
-										if(localStorage.getItem('usUserId') == null) {
+										if(localStorage.getItem('usUserId') == null||localStorage.getItem('usUserId') == undefined||localStorage.getItem('usUserId') == 'null') {
 											window.location.href = './mlogin.html'
 											return false;
 										} else {

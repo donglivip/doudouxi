@@ -32,7 +32,7 @@
 						<div class="name">{{(usNickName=='undefined'||usNickName=='null'||usNickName==null)?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
 							<div class="phone">手机号：{{usPhone}}</div>
-							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId==null||usCardId=='')?'未认证':'已认证'}}</div>
+							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId=='null'||usCardId=='')?'未认证':'已认证'}}</div>
 						</div>
 					</div>
 				</div>
@@ -153,11 +153,10 @@
 								userId:localStorage.getItem('usUserId')
 							},
 							success:function(res){
-								console.log(JSON.stringify(res))
 								that.mydata=res.data
 							},
 							error:function(err){
-								console.log(localStorage.getItem('usUserId'))
+								alert('钱包获取失败')
 							}
 						});
 					},

@@ -103,10 +103,10 @@
 							that.alertshow('密码不能为空！！')
 							return false;
 						}
-						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode) {
-							that.alertshow('账号或验证码不正确！')
-							return false;
-						}
+//						if(that.usCpPhone == '' || that.code == '' || that.code != that.mycode) {
+//							that.alertshow('账号或验证码不正确！')
+//							return false;
+//						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/updateUserPwd",

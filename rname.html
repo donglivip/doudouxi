@@ -53,8 +53,6 @@
 				el:'.wrapper',
 				data:{
 					alertboo:false,
-					usName:'',
-					usCardId:'',
 					usWeChatPayCode:'',
 					usAliPayCode:'',
 					alerttext:'',
@@ -76,14 +74,12 @@
 							url:localStorage.getItem('myurl')+"/user/updateUser",
 							dataType:'json',
 							data:{
-								usName:that.usName,
-								usCardId:that.usCardId,
 								usWeChatPayCode:that.usWeChatPayCode,
 								usAliPayCode:that.usAliPayCode,
 								usUserId:localStorage.getItem('usUserId')
 							},
 							success:function(res){
-								console.log(res)
+								console.log(JSON.stringify(res))
 								if(res.status==200){
 									plus.webview.getWebviewById('usercenter').reload(true)
 									plus.nativeUI.toast('信息提交成功')
@@ -94,6 +90,15 @@
 								}else{
 									that.alertshow('信息提交失败')
 								}
+							},
+							error:function(err){
+								console.log(JSON.stringify({
+								usName:that.usName,
+								usCardId:that.usCardId,
+								usWeChatPayCode:that.usWeChatPayCode,
+								usAliPayCode:that.usAliPayCode,
+								usUserId:localStorage.getItem('usUserId')
+							}))
 							}
 						});
 					}
