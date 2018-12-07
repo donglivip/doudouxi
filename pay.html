@@ -206,7 +206,6 @@
 								data: ajaxjson
 							},
 							success: function(res) {
-								console.log(res)
 								if(res.status == 200) {
 									//清空购物车
 									$.ajax({
@@ -283,7 +282,6 @@
 												usLaundryBasketId: JSON.parse(localStorage.getItem('cartdata'))[0].usLaundryBasketId
 											},
 											success: function(res) {
-												console.log(res.data[0])
 												plus.nativeUI.closeWaiting()
 												that.opennew('order')
 											}
@@ -313,7 +311,7 @@
 
 										});
 									}, function(error) {
-										plus.nativeUI.toast('支付失败！')
+										plus.nativeUI.toast('支付失败请检查网络或者是否安装微信！')
 									});
 								}
 							},

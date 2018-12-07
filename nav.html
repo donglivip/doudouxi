@@ -64,13 +64,15 @@
 						<img src="img/Trash@2x.png" @click.stop="clear" />
 						<div class="text" @click.stop="clear">清空购物车</div>
 					</div>
-					<div class="cart" v-for="(val,index) in cartdata[1]" v-if='cartdata[1][0]!=null'>
-						<div class="cart-name">{{val.pbCdName}}</div>
-						<div class="cart-num">￥{{val.usLbcPrice}}</div>
-						<div class="cart-setting">
-							<img src="img/Close-2 Copy 9@2x.png" @click.stop="changenum('j',index)" />
-							<div>x{{val.usLbcNum}}</div>
-							<img src="img/Close-2 Copy 6@2x.png" @click.stop="changenum('z',index)" />
+					<div style="height: 4rem;overflow-y: scroll;">
+						<div class="cart" v-for="(val,index) in cartdata[1]" v-if='cartdata[1][0]!=null'>
+							<div class="cart-name">{{val.pbCdName}}</div>
+							<div class="cart-num">￥{{val.usLbcPrice}}</div>
+							<div class="cart-setting">
+								<img src="img/Close-2 Copy 9@2x.png" @click.stop="changenum('j',index)" />
+								<div>x{{val.usLbcNum}}</div>
+								<img src="img/Close-2 Copy 6@2x.png" @click.stop="changenum('z',index)" />
+							</div>
 						</div>
 					</div>
 				</div>

@@ -14,6 +14,9 @@
 			border: 1px solid #096148!important;
 			color: #096148!important;
 		}
+		.wrapper, body, html{
+			height: auto;
+		}
 	</style>
 
 	<body>
@@ -40,10 +43,10 @@
 						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
 					</div>
 					<div class="input-box">
-						<input type="number" placeholder="请输入短信验证码" v-model="code" />
+						<input type="tel" placeholder="请输入短信验证码" v-model="code" @input="inputblur02" />
 					</div>
 					<div class="login-type">
-						<a href="mlogin.html">密码账号登录</a>
+						<a @click="opennew('mlogin')" href="javascript:void(0)">密码账号登录</a>
 					</div>
 					<div class="login" @click="login()">登录</div>
 					<div class="login-type">
@@ -52,7 +55,7 @@
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<!--<a href=""><img src="img/QQ@2x.png" /></a>-->
+							<a href="javascript:void(0)" @click="qqlogin"><img src="img/weibo.png"/></a>
 							<a href="javascript:void(0)" @click="authorize"><img src="img/wxin.png" /></a>
 						</div>
 					</div>
@@ -106,6 +109,10 @@
 						}
 
 					},
+					inputblur02: function() {
+						this.code = this.code.replace(/[^\d\.]/g, '')
+						this.code = this.code.replace(/\./g, "")
+					},
 					login: function() {
 						var that = this
 
@@ -123,10 +130,10 @@
 							that.alertshow('手机号格式不正确！')
 							return false;
 						}
-						if(that.usCpPassword == '' || that.code == '' || that.code != that.mycode) {
-							that.alertshow('账号或验证码不正确！')
-							return false;
-						}
+//						if(that.usCpPassword == '' || that.code == '' || that.code != that.mycode) {
+//							that.alertshow('账号或验证码不正确！')
+//							return false;
+//						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/registerUser",
@@ -220,6 +227,50 @@
 							createNew: true
 						})
 					},
+					qqlogin:function(){
+						var that = this
+						var s = that.auths[0];
+						//						if ( s.authResult!=undefined ) {
+						s.login(function(e) {
+							// 获取登录操作结果
+							console.log("登录认证成功：" + JSON.stringify(e.target.userInfo));
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/user/registerUser",
+								dataType: 'json',
+								data: {
+									index: 3,
+									code: e.target.userInfo.unionid
+								},
+								success: function(res) {
+									console.log(JSON.stringify(res))
+									if(res.status == 200) {
+										if(res.data.usStatus == 1) {
+											if(res.data.usPhone != null || res.data.usPhone != undefined) {
+												localStorage.setItem('usPhone', res.data.usPhone)
+											} else {
+												localStorage.setItem('usPhone', '微信用户')
+											}
+											localStorage.setItem('usShareCode', res.data.usShareCode)
+											localStorage.setItem('usUserId', res.data.usUserId)
+											localStorage.setItem('usHeadImg', res.data.usHeadImg)
+											localStorage.setItem('usNickName', e.target.userInfo.nickname)
+											window.location.href = './index.html'
+										} else {
+											that.alertshow('您的账户已被冻结！')
+										}
+									} else {
+										that.alertshow(res.msg)
+									}
+								},
+								error: function(err) {
+									console.log(JSON.stringify(err))
+								}
+							});
+						}, function(e) {
+							alert( "登录认证失败！" );
+						}, {});
+					},
 					authorize: function() {
 						var that = this
 						var s = that.auths[0];
@@ -261,7 +312,7 @@
 								}
 							});
 						}, function(e) {
-							console.log("登录认证失败！");
+							alert( "登录认证失败！" );
 						}, {});
 						//						}else{
 						//							console.log('wsb')

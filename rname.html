@@ -53,8 +53,8 @@
 				el:'.wrapper',
 				data:{
 					alertboo:false,
-					usWeChatPayCode:'',
-					usAliPayCode:'',
+					usWeChatPayCode:localStorage.getItem('usWeChatPayCode'),
+					usAliPayCode:localStorage.getItem('usAliPayCode'),
 					alerttext:'',
 					channel:''
 				},
@@ -81,11 +81,10 @@
 							success:function(res){
 								console.log(JSON.stringify(res))
 								if(res.status==200){
-									plus.webview.getWebviewById('usercenter').reload(true)
-									plus.nativeUI.toast('信息提交成功')
-									localStorage.setItem('usCardId',that.usCardId)
 									localStorage.setItem('usAliPayCode',that.usAliPayCode)
 									localStorage.setItem('usWeChatPayCode',that.usWeChatPayCode)
+									plus.webview.getWebviewById('usercenter').reload(true)
+									plus.nativeUI.toast('信息提交成功')
 									mui.back()
 								}else{
 									that.alertshow('信息提交失败')

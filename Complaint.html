@@ -144,7 +144,7 @@
 							});
 
 						}, function(e) {
-							alert("失败：" + e.message);
+							plus.nativeUI.toast("取消选择图片");
 						}, {
 							filename: '_doc/camera/',
 							index: 1
@@ -155,7 +155,7 @@
 						plus.gallery.pick(function(path) {
 							that.upload_img(path);
 						}, function(e) {
-							alert("取消选择图片");
+							plus.nativeUI.toast("取消选择图片");
 						}, {
 							filter: "image"
 						});

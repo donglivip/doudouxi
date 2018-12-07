@@ -19,7 +19,7 @@ $(function() {
 		var top = outerScroller.offsetTop;
 		if(top > 70) {
 			myvue.mydata = [];
-			myvue.pagenum = 0;
+			myvue.pageNum = 0;
 			myvue.myajax()
 		};
 		if(top > 0) {

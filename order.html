@@ -164,7 +164,8 @@
 					pages: 0,
 					pageNum: 0,
 					id:'',
-					price:''
+					price:'',
+					channel:''
 				},
 				methods: {
 					ggpay:function(id, price){
@@ -189,6 +190,8 @@
 							success: function(res) {
 								if(res.status == 200) {
 									plus.webview.getWebviewById('order').reload()
+								}else{
+									alert(res.msg)
 								}
 							}
 						});
@@ -360,7 +363,6 @@
 							data: ajaxjson,
 							async: true,
 							success: function(res) {
-								console.log(res.data.list)
 								if(res.data.list != null) {
 									that.pages = res.data.pages
 									for(var i = 0; i < res.data.list.length; i++) {

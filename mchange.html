@@ -66,7 +66,11 @@
 					login: function() {
 						var that = this
 						if(this.usPayPassword != this.usPayPassword01||this.usPayPassword=='') {
-							that.alertshow('信息输入错误！')
+							that.alertshow('两次密码不一致！')
+							return false;
+						}
+						if(this.usPayPassword == localStorage.getItem('usPassword')) {
+							that.alertshow('新密码与旧密码不能一致！')
 							return false;
 						}
 						$.ajax({

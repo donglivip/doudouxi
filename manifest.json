@@ -3,7 +3,7 @@
     "id": "H5301349A",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "豆豆洗",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "2.5.2",/*应用版本名称*/
+        "name": "2.5.6",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -40,7 +40,7 @@
         "popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"share":{"weixin":{"appid":"wx7721ac7e6c7a3b70","appsecret":"757cc881e5a900d38b31a896683dfe02","description":"可选，微信分享"}},"oauth":{"weixin":{"appid":"wx7721ac7e6c7a3b70","appsecret":"757cc881e5a900d38b31a896683dfe02"},"sina":{"appkey":"2062422331","appsecret":"a43a15b9e7c481c77b05d9fa71a90e60","redirect_uri":"ads"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"weixin":{"description":"微信支付","appid":"wx7721ac7e6c7a3b70"},"appleiap":{"description":"Apple应用内支付"}},"maps":{"amap":{"appkey_ios":"097e493cf7685448fe997a9f34c2b102","appkey_android":"410e4fdba02bfd560410a23adc4a31e7","description":""}}},
+        "distribute": {"plugins":{"share":{"weixin":{"appid":"wx7721ac7e6c7a3b70","appsecret":"757cc881e5a900d38b31a896683dfe02","description":"可选，微信分享"},"sina":{"appkey":"2062422331","appsecret":"a43a15b9e7c481c77b05d9fa71a90e60","redirect_uri":"ads","description":"可选，新浪微博分享"}},"oauth":{"weixin":{"appid":"wx7721ac7e6c7a3b70","appsecret":"757cc881e5a900d38b31a896683dfe02"},"sina":{"appkey":"2062422331","appsecret":"a43a15b9e7c481c77b05d9fa71a90e60","redirect_uri":"ads"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"weixin":{"description":"微信支付","appid":"wx7721ac7e6c7a3b70"},"appleiap":{"description":"Apple应用内支付"}},"maps":{"amap":{"appkey_ios":"097e493cf7685448fe997a9f34c2b102","appkey_android":"410e4fdba02bfd560410a23adc4a31e7","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/

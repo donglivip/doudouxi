@@ -63,7 +63,8 @@
 							url:localStorage.getItem('myurl')+"/user/findIntegralDetails",
 							dataType:'json',
 							data:{
-								userId:localStorage.getItem('usUserId')
+								userId:localStorage.getItem('usUserId'),
+								pageNum:that.pageNum
 							},
 							success:function(res){
 								that.pages=res.data.pages
@@ -84,7 +85,7 @@
 					},
 					myscroll: function() {
 						var that = this
-						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 100 >= $('.main-inner').height()) {
 							if(that.pages>that.pageNum){
 								function plusReady() {
 									// 弹出系统等待对话框

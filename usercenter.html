@@ -32,7 +32,7 @@
 						<div class="name">{{(usNickName=='undefined'||usNickName=='null'||usNickName==null)?'豆豆洗':usNickName}}</div>
 						<div class="state-box">
 							<div class="phone">手机号：{{usPhone}}</div>
-							<div class="state" @click="gousCardId('rname')">{{(usCardId=='undefined'||usCardId=='null'||usCardId=='')?'未认证':'已认证'}}</div>
+							<div class="state" @click="gousCardId('rname')">{{(usAliPayCode=='undefined'||usAliPayCode=='null'||usAliPayCode=='')?'未认证':'已认证'}}</div>
 						</div>
 					</div>
 				</div>
@@ -129,7 +129,7 @@
 					files: [],
 					usPhone: localStorage.getItem('usPhone'),
 					usNickName: localStorage.getItem('usNickName'),
-					usCardId: localStorage.getItem('usCardId'),
+					usAliPayCode: localStorage.getItem('usAliPayCode'),
 					server: localStorage.getItem('myurl') + '/user/uploadUserImg',
 					alerttext: '',
 					alertboo: false,

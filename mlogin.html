@@ -8,6 +8,11 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 	</head>
+	<style type="text/css">
+		.wrapper, body, html{
+			height: auto;
+		}
+	</style>
 	<body>
 		<div class="wrapper plogin">
 			<!--头部-->
@@ -36,8 +41,8 @@
 					</div>
 					
 					<div class="login-type" style="justify-content: space-between;">
-						<a href="wlogin.html">忘记密码?</a>
-						<a href="plogin.html">手机快捷登录</a>
+						<a @click="opennew('wlogin')" href="javascript:void(0)">忘记密码?</a>
+						<a @click="opennew('plogin')" href="javascript:void(0)">手机快捷登录</a>
 					</div>
 					<div class="login-type" style="justify-content: space-between;margin: 1.3rem .2rem 0  0;">
 						<a href="javascript:void(0)"></a>
@@ -53,7 +58,7 @@
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
 						<div class="three-box">
-							<!--<a href="javascript:void(0)" @click="qqlogin"><img src="img/QQ@2x.png"/></a>-->
+							<a href="javascript:void(0)" @click="qqlogin"><img src="img/weibo.png"/></a>
 							<a href="javascript:void(0)" @click="authorize"><img src="img/wxin.png"/></a>
 						</div>
 					</div>
@@ -118,7 +123,6 @@
 								password:that.usCpPassword
 							},
 							success:function(res){
-								console.log(res)
 								if(res.status==200){
 									if(res.data.usStatus==1){
 										localStorage.setItem('usPhone',res.data.usPhone)
@@ -179,7 +183,6 @@
 //						if ( s.authResult!=undefined ) {
 							s.login( function(e){
 								// 获取登录操作结果
-								console.log( "登录认证成功："+JSON.stringify(e.target.userInfo) );
 								$.ajax({
 									type:"post",
 									url:localStorage.getItem('myurl')+"/user/registerUser",
@@ -213,7 +216,7 @@
 									}
 								});
 							}, function(e){
-								console.log( "登录认证失败！" );
+								alert( "登录认证失败！" );
 							}, {} );
 //						}else{
 //							console.log('wsb')

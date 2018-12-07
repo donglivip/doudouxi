@@ -147,11 +147,11 @@
 								that.avatar = img_path
 								that.upload_img(img_path);
 							}, function(e) {
-								alert("读取拍照文件错误：" + e.message);
+								plus.nativeUI.toast("取消选择图片");
 							});
 
 						}, function(e) {
-							alert("失败：" + e.message);
+							plus.nativeUI.toast("取消选择图片");
 						}, {
 							filename: '_doc/camera/',
 							index: 1
@@ -163,7 +163,7 @@
 							that.upload_img(path);
 							that.avatar = path
 						}, function(e) {
-							alert("取消选择图片");
+							plus.nativeUI.toast("取消选择图片");
 						}, {
 							filter: "image"
 						});

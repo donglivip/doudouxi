@@ -9,7 +9,7 @@
 .order .order-box .img-box{width: 1.4rem;height: 1.4rem;display: flex;align-items: center;justify-content: center;overflow: hidden;}
 .order .order-box img{max-height: 100%;max-width: 100%;}
 .order .order-title{display: flex;margin-bottom: .3rem;align-items: center;justify-content: space-between;}
-.order .order-h1{font-size: .3rem;white-space: nowrap;overflow: hidden;width: 4rem;}
+.order .order-h1{font-size: .28rem;white-space: nowrap;overflow: hidden;width: 4.4rem;}
 .order .order-right{flex: 1;margin-right: .2rem;display: flex;flex-direction: column;justify-content: space-between;}
 .order .order-bottom{display: flex;align-items: flex-end;}
 .order .bottom-right{background: #096148;color: #FFFFFF;border-radius:.4rem ;line-height: .5rem;font-size: .2rem;width: 1.5rem;height: .5rem;text-align: center;}
