@@ -37,7 +37,7 @@
 			<div class="main big-main">
 				<div class="main-inner">
 					<div class="titile">手机快捷登录 </div>
-					<div class="subtitle">未注册的手机号将自动创建豆豆洗账号 </div>
+					<div class="subtitle">未注册的手机号将自动创建待定账号 </div>
 					<div class="input-box">
 						<input type="tel" placeholder="请输入手机号" v-model="usCpPhone" @input="inputblur" />
 						<div class="addcode" @click="addcode" :class="phoboo==true?'grenn':''">{{num}}</div>
@@ -50,7 +50,7 @@
 					</div>
 					<div class="login" @click="login()">登录</div>
 					<div class="login-type">
-						<div>登录即视为同意 <strong @click="opennew('Agreement','')">《豆豆洗注册协议》</strong></div>
+						<div>登录即视为同意 <strong @click="opennew('Agreement','')">《待定注册协议》</strong></div>
 					</div>
 					<div class="three">
 						<div class="thre-title">第三方登录 </div>
@@ -61,7 +61,7 @@
 					</div>
 					<div class="alert" v-if="alertboo" @click="alertshow('')">
 						<div class="alert-inner">
-							<div class="alert-top">豆豆洗</div>
+							<div class="alert-top">待定</div>
 							<div class="text alert-text">{{alerttext}}</div>
 							<div class="button">确定</div>
 						</div>
