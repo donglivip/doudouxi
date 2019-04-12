@@ -87,7 +87,6 @@
 							//								price: 0.01,
 							note:that.maLaundryCardId
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/user/aliPayBeanCard",
@@ -178,7 +177,6 @@
 							dataType: 'json',
 							async: true,
 							success: function(res) {
-								console.log(res)
 								that.cartdata = res.data
 								that.maLaundryCardId=res.data[0].maLaundryCardId
 							}
